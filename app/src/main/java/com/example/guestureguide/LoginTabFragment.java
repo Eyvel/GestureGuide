@@ -1,0 +1,116 @@
+package com.example.guestureguide;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.fragment.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
+
+public class LoginTabFragment extends Fragment {
+
+    TextInputEditText txt_email, txt_password;
+    MaterialTextView tv_error;
+    MaterialButton btn_login;
+
+    String url_login = "http://192.168.100.40/capstone_test/login.php"; // corrected the URL
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_login_tab, container, false);
+
+        txt_email = view.findViewById(R.id.login_email);
+        txt_password = view.findViewById(R.id.login_password);
+        btn_login = view.findViewById(R.id.login_btn);
+        tv_error = view.findViewById(R.id.tv_error);
+
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
+
+        return view;
+    }
+
+    private void login() {
+        String email = txt_email.getText().toString().trim();
+        String password = txt_password.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            tv_error.setText("Enter Email");
+        } else if (password.isEmpty()) {
+            tv_error.setText("Enter Password");
+        } else {
+            ProgressDialog progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Logging in...");
+            progressDialog.show();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url_login,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String success = jsonObject.getString("success");
+                                if (success.equals("1")) {
+                                    JSONArray jsonArray = jsonObject.getJSONArray("login");
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        String userId = object.getString("id");
+                                        String userEmail = object.getString("email");
+                                        Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
+
+                                        // Start the main activity
+                                        Intent intent = new Intent(getActivity(), NavigationActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+
+                                    }
+                                } else {
+                                    tv_error.setText("Login failed. Please try again.");
+                                }
+                            } catch (Exception e) {
+                                tv_error.setText("Error: " + e.getMessage());
+                            }
+                            progressDialog.dismiss();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getActivity(), "Error: " + error.toString(), Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("email", email);
+                    params.put("password", password);
+                    return params;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            requestQueue.add(stringRequest);
+        }
+    }
+}
