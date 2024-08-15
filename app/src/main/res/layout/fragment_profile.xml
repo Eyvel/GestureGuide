@@ -7,11 +7,11 @@
     android:id="@+id/drawer_layout"
     android:background="@color/FakeGray"
     tools:context=".ProfileFragment"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
+    <!--tools:openDrawer="start"-->
 
 
-    <!-- Side navigation drawer -->
+    <!-- Side navigation drawer-->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
