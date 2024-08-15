@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/change_pass"
-            android:title="Change Password"
-            android:icon="@drawable/password"/>
-        <item
-            android:id="@+id/logout"
-            android:title="Logout"
-            android:icon="@drawable/logout"/>
-        <item
-            android:id="@+id/rating"
-            android:title="Rate Us"
-            android:icon="@drawable/rate_fake"/>
+        <item android:title="@string/account">
+
+            <menu>
+
+                <item
+                    android:id="@+id/stud_info"
+                    android:icon="@drawable/student_info"
+                    android:title="@string/stud_info" />
+                <item
+                    android:id="@+id/educ_info"
+                    android:icon="@drawable/educational_info"
+                    android:title="@string/educ_info" />
+                <item
+                    android:id="@+id/nav_rate"
+                    android:icon="@drawable/rate_us"
+                    android:title="@string/rate_us"/>
+                <item
+                    android:id="@+id/nav_message"
+                    android:icon="@drawable/message_profile"
+                    android:title="@string/message" />
+                <item
+                    android:id="@+id/nav_logout"
+                    android:icon="@drawable/logout_profile"
+                    android:title="@string/nav_logout" />
+            </menu>
+
+        </item>
     </group>
 </menu>
