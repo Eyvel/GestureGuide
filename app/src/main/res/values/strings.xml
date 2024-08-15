@@ -4,12 +4,25 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="remember_me">Remember me</string>
     <string name="agree">Agree</string>
+    <string name="stud_info">Student Information</string>
+    <string name="educ_info">Educational Information</string>
+    <string name="account">Account Settings</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="message">Message Us</string>
+    <string name="nav_login">Login</string>
+    <string name="nav_logout">Logout</string>
     <string name="alphabet">Alphabet</string>
     <string name="pic">Pic</string>
     <string name="categories">Categories</string>
+    <string name="first">First Name</string>
+    <string name="last">Last Name</string>
+    <string name="middle">Middle Name</string>
+    <string name="m.i">M.I</string>
+    <string name="ext">Jr.</string>
+    <string name="birthday">Birthday</string>
+    <string name="contact">Number</string>
     <string name="profile_settings">Profile Settings</string>
     <string name="logout">Logout</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
-    <string name="login">test</string>
 </resources>

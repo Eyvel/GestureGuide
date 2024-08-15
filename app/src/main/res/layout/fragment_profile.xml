@@ -59,14 +59,25 @@
                 android:src="@drawable/profile" />
 
             <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+
+                android:id="@+id/profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+
                 android:text="E D. Wardo"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:textAlignment="center"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/profile_LRN"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="1048370580151"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textAlignment="center"/>
 
             <View
                 android:layout_width="match_parent"
@@ -75,54 +86,6 @@
                 android:background="@color/black" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/profile_logo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="Full Name:"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:text="E D. wardo"
-                android:textColor="@color/Gray"
-                android:textSize="15sp" />
-
-            <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="130dp"
-                android:contentDescription="edit_name"
-                android:src="@drawable/edit_pencil" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="15dp"
-            android:background="@color/Gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -148,20 +111,15 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/email"
+
+                android:id="@+id/profile_email"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:text="ed.wardo@gmail.com"
                 android:textColor="@color/Gray"
                 android:textSize="15sp" />
-
-            <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="75dp"
-                android:contentDescription="edit_email"
-                android:src="@drawable/edit_pencil" />
 
         </LinearLayout>
 
@@ -197,19 +155,13 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:text="0912-345-6789"
                 android:textColor="@color/Gray"
                 android:textSize="15sp" />
-
-            <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="110dp"
-                android:contentDescription="edit_number"
-                android:src="@drawable/edit_pencil" />
 
         </LinearLayout>
 
@@ -245,19 +197,13 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:text="2/29/2001"
                 android:textColor="@color/Gray"
                 android:textSize="15sp" />
-
-            <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="110dp"
-                android:contentDescription="edit_bday"
-                android:src="@drawable/edit_pencil" />
 
         </LinearLayout>
 
@@ -293,19 +239,13 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
                 android:text="Addis Ababa, Ethiopia"
                 android:textColor="@color/Gray"
                 android:textSize="15sp" />
-
-            <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="60dp"
-                android:contentDescription="edit_address"
-                android:src="@drawable/edit_pencil" />
 
         </LinearLayout>
 
