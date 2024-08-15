@@ -7,11 +7,11 @@
     android:id="@+id/drawer_layout"
     android:background="@color/FakeGray"
     tools:context=".ProfileFragment"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
+    <!--tools:openDrawer="start"-->
 
 
-    <!-- Side navigation drawer -->
+    <!-- Side navigation drawer-->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -59,9 +59,11 @@
                 android:src="@drawable/profile" />
 
             <TextView
+
                 android:id="@+id/profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+
                 android:text="E D. Wardo"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -109,7 +111,9 @@
                 android:textStyle="bold" />
 
             <TextView
+
                 android:id="@+id/profile_email"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
