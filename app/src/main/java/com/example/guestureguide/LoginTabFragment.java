@@ -29,7 +29,7 @@ public class LoginTabFragment extends Fragment {
     MaterialTextView tv_error;
     MaterialButton btn_login;
 
-    String url_login = "http://192.168.100.40/capstone_test/login.php"; // corrected the URL
+    String url_login = "http://192.168.8.6/capstone_test/login.php"; // corrected the URL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
