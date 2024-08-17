@@ -117,4 +117,33 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/street"
+            android:layout_width="370dp"
+            android:layout_height="48dp"
+            android:background="@drawable/edittext_bkg"
+            android:hint="@string/address"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:id="@+id/form_btn"
+        android:textSize="15sp"
+        android:text="Next"
+        app:cornerRadius="50dp"/>
+
 </LinearLayout>

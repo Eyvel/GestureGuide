@@ -7,8 +7,8 @@
     android:id="@+id/drawer_layout"
     android:background="@color/FakeGray"
     tools:context=".ProfileFragment"
-    android:fitsSystemWindows="true">
-    <!--tools:openDrawer="start"-->
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
 
     <!-- Side navigation drawer-->
@@ -191,7 +191,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Date of Birth:"
+                android:text="@string/birthday"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
