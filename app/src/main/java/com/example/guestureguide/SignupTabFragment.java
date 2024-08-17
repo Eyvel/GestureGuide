@@ -27,7 +27,7 @@ public class SignupTabFragment extends Fragment {
     EditText txt_username, txt_email, txt_password, txt_confirm;
     Button btn_register;
 
-    String url_signup = "http://192.168.8.6/capstone_test/signup.php"; // corrected the URL
+    String url_signup = "http://192.168.8.4/capstone_test/signup.php"; // corrected the URL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

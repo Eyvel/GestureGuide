@@ -35,7 +35,7 @@ public class LoginTabFragment extends Fragment {
     SharedPreferences sharedPreferences;
 
 
-    String url_login = "http://192.168.8.6/capstone_test/login.php"; // corrected the URL
+    String url_login = "http://192.168.8.4/capstone_test/login.php"; // corrected the URL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,11 +86,13 @@ public class LoginTabFragment extends Fragment {
                                     JSONArray jsonArray = jsonObject.getJSONArray("login");
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject object = jsonArray.getJSONObject(i);
+                                        String username = object.getString("username");
                                         String userId = object.getString("id");
                                         String userEmail = object.getString("email");
                                         String apiKey = object.getString("apiKey");
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putString("logged", "true");
+                                        editor.putString("username", username);
                                         editor.putString("name", userId);
                                         editor.putString("email", userEmail);
                                         editor.putString("apiKey", apiKey);

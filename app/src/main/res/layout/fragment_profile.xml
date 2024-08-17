@@ -7,8 +7,9 @@
     android:id="@+id/drawer_layout"
     android:background="@color/FakeGray"
     tools:context=".ProfileFragment"
-    android:fitsSystemWindows="true">
-    <!--tools:openDrawer="start"-->
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
 
 
     <!-- Side navigation drawer-->
