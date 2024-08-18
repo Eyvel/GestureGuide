@@ -25,4 +25,8 @@
     <string name="logout">Logout</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
+
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
 </resources>
