@@ -17,6 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
 import com.google.android.material.navigation.NavigationView;
 
 public class ProfileFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,10 +31,17 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
     NavigationView navigationView;
     Toolbar toolbar;
 
+    TextView textViewName, textViewEmail;
+    SharedPreferences sharedPreferences;
+    Button logoutBtn;
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
 
         drawerLayout = view.findViewById(R.id.drawer_layout);
         navigationView = view.findViewById(R.id.nav_view);
@@ -51,6 +64,7 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
@@ -60,6 +74,7 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
