@@ -25,7 +25,7 @@ public class SignupForm extends AppCompatActivity {
     EditText txt_first_name, txt_last_name, txt_middle, txt_initial, txt_ext, txt_birthday, txt_number, txt_street;
     Button btn_form;
     String username, email, password;
-    String url_signup = "http://192.168.100.40/capstone_test/signup.php";
+    String url_signup = "http://192.168.8.4/capstone_test/signup.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +61,14 @@ public class SignupForm extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
-        String first_name = txt_first_name.getText().toString().trim();
-        String last_name = txt_last_name.getText().toString().trim();
-        String middle = txt_middle.getText().toString().trim();
-        String initial = txt_initial.getText().toString().trim();
-        String ext = txt_ext.getText().toString().trim();
+        String firstName = txt_first_name.getText().toString().trim();
+        String lastName = txt_last_name.getText().toString().trim();
+        String middleName = txt_middle.getText().toString().trim();
+        String middleInitial = txt_initial.getText().toString().trim();
+        String suffix = txt_ext.getText().toString().trim();
         String birthday = txt_birthday.getText().toString().trim();
-        String number = txt_number.getText().toString().trim();
-        String street = txt_street.getText().toString().trim();
+       String number = txt_number.getText().toString().trim();
+        String address = txt_street.getText().toString().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_signup,
                 new Response.Listener<String>() {
@@ -106,14 +106,14 @@ public class SignupForm extends AppCompatActivity {
                 params.put("username", username);
                 params.put("email", email);
                 params.put("password", password);
-                params.put("first_name", first_name);
-                params.put("last_name", last_name);
-                params.put("middle", middle);
-                params.put("initial", initial);
-                params.put("ext", ext);
+                params.put("firstName", firstName);
+                params.put("lastName", lastName);
+                params.put("middleName", middleName);
+                params.put("middleInitial", middleInitial);
+                params.put("suffix", suffix);
                 params.put("birthday", birthday);
                 params.put("number", number);
-                params.put("street", street);
+                params.put("address", address);
                 return params;
             }
         };
