@@ -67,10 +67,7 @@ public class SignupForm extends AppCompatActivity {
         String initial = txt_initial.getText().toString().trim();
         String ext = txt_ext.getText().toString().trim();
         String birthday = txt_birthday.getText().toString().trim();
-<<<<<<< HEAD
-       String number = txt_number.getText().toString().trim();
-        String address = txt_street.getText().toString().trim();
-=======
+
         String numberStr = txt_number.getText().toString().trim();
         String street = txt_street.getText().toString().trim();
 
@@ -83,7 +80,6 @@ public class SignupForm extends AppCompatActivity {
             progressDialog.dismiss();
             return;
         }
->>>>>>> parent of 28eb2f9 (Merge branch 'new-ip' into master)
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_signup,
                 new Response.Listener<String>() {
@@ -127,13 +123,10 @@ public class SignupForm extends AppCompatActivity {
                 params.put("initial", initial);
                 params.put("ext", ext);
                 params.put("birthday", birthday);
-<<<<<<< HEAD
-                params.put("number", number);
-                params.put("address", address);
-=======
+
                 params.put("number", Integer.toString(number)); // Convert number to string
                 params.put("street", street);
->>>>>>> parent of 28eb2f9 (Merge branch 'new-ip' into master)
+
                 return params;
             }
         };
