@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="SignupTabFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <EditText
+                android:id="@+id/first_name"
+                android:layout_width="180dp"
+                android:layout_height="48dp"
+                android:background="@drawable/edittext_bkg"
+                android:hint="@string/first"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/last_name"
+                android:layout_width="180dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/edittext_bkg"
+                android:hint="@string/last"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <EditText
+                android:id="@+id/middle"
+                android:layout_width="180dp"
+                android:layout_height="48dp"
+                android:background="@drawable/edittext_bkg"
+                android:hint="@string/middle"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/initial"
+                android:layout_width="70dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="23dp"
+                android:background="@drawable/edittext_bkg"
+                android:hint="@string/m.i"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/ext"
+                android:layout_width="70dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="23dp"
+                android:background="@drawable/edittext_bkg"
+                android:hint="@string/ext"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <EditText
+                android:id="@+id/birthday"
+                android:layout_width="180dp"
+                android:layout_height="48dp"
+                android:background="@drawable/edittext_bkg"
+                android:hint="@string/birthday"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/number"
+                android:layout_width="180dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/edittext_bkg"
+                android:hint="@string/contact"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/street"
+            android:layout_width="370dp"
+            android:layout_height="48dp"
+            android:background="@drawable/edittext_bkg"
+            android:hint="@string/address"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:id="@+id/form_btn"
+        android:textSize="15sp"
+        android:text="register"
+        app:cornerRadius="50dp"/>
+
+</LinearLayout>
