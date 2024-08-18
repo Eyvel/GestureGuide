@@ -82,7 +82,7 @@ public class SignupForm extends AppCompatActivity {
                                 Toast.makeText(SignupForm.this, "Register Successful", Toast.LENGTH_LONG).show();
 
                                 // Start the main activity
-                                Intent intent = new Intent(SignupForm.this, LoginTabFragment.class);
+                                Intent intent = new Intent(SignupForm.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
