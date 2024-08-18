@@ -22,7 +22,7 @@
             android:padding="5dp">
 
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/stud_username"
                 android:layout_width="180dp"
                 android:layout_height="48dp"
                 android:background="@drawable/edittext_bkg"
@@ -32,7 +32,7 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/stud_email"
                 android:layout_width="180dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="10dp"
@@ -51,7 +51,7 @@
             android:padding="5dp">
 
             <EditText
-                android:id="@+id/first_name"
+                android:id="@+id/stud_firstname"
                 android:layout_width="180dp"
                 android:layout_height="48dp"
                 android:background="@drawable/edittext_bkg"
@@ -61,7 +61,7 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/last_name"
+                android:id="@+id/stud_lastname"
                 android:layout_width="180dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="10dp"
@@ -81,7 +81,7 @@
             android:padding="5dp">
 
             <EditText
-                android:id="@+id/middle"
+                android:id="@+id/stud_middle"
                 android:layout_width="180dp"
                 android:layout_height="48dp"
                 android:background="@drawable/edittext_bkg"
@@ -91,7 +91,7 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/initial"
+                android:id="@+id/stud_initial"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="23dp"
@@ -102,7 +102,7 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/ext"
+                android:id="@+id/stud_ext"
                 android:layout_width="70dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="23dp"
@@ -122,7 +122,7 @@
             android:padding="5dp">
 
             <EditText
-                android:id="@+id/birthday"
+                android:id="@+id/stud_birthday"
                 android:layout_width="180dp"
                 android:layout_height="48dp"
                 android:background="@drawable/edittext_bkg"
@@ -132,7 +132,7 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/number"
+                android:id="@+id/stud_number"
                 android:layout_width="180dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="10dp"
@@ -152,7 +152,7 @@
             android:padding="5dp">
 
             <EditText
-                android:id="@+id/street"
+                android:id="@+id/stud_address"
                 android:layout_width="370dp"
                 android:layout_height="48dp"
                 android:background="@drawable/edittext_bkg"
