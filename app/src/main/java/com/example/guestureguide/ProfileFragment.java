@@ -18,7 +18,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -29,12 +31,14 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
     Toolbar toolbar;
     TextView textViewName, textViewEmail;
     SharedPreferences sharedPreferences;
+    Button logoutBtn;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
 
         drawerLayout = view.findViewById(R.id.drawer_layout);
         navigationView = view.findViewById(R.id.nav_view);
@@ -69,6 +73,22 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        if (id == R.id.nav_logout) {
+            // Clear shared preferences to log the user out
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+
+            Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
+
+            // Redirect the user to the login screen
+            Intent intent = new Intent(getActivity(), LoginTabFragment.class);
+            startActivity(intent);
+            getActivity().finish(); // Finish the current activity to prevent the user from coming back
+
+            return true; // Return true since the item click is handled
+        }
         return true;
     }
 }
