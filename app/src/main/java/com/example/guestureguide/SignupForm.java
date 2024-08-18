@@ -67,20 +67,8 @@ public class SignupForm extends AppCompatActivity {
         String middleInitial = txt_initial.getText().toString().trim();
         String suffix = txt_ext.getText().toString().trim();
         String birthday = txt_birthday.getText().toString().trim();
-
-        String numberStr = txt_number.getText().toString().trim();
-        String street = txt_street.getText().toString().trim();
-
-
-        // Validate and parse inputs
-        int number;
-        try {
-            number = Integer.parseInt(numberStr);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid number format.", Toast.LENGTH_LONG).show();
-            progressDialog.dismiss();
-            return;
-        }
+       String number = txt_number.getText().toString().trim();
+        String address = txt_street.getText().toString().trim();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_signup,
                 new Response.Listener<String>() {
@@ -124,10 +112,8 @@ public class SignupForm extends AppCompatActivity {
                 params.put("middleInitial", middleInitial);
                 params.put("suffix", suffix);
                 params.put("birthday", birthday);
-
-                params.put("number", Integer.toString(number)); // Convert number to string
-                params.put("street", street);
-
+                params.put("number", number);
+                params.put("address", address);
                 return params;
             }
         };
