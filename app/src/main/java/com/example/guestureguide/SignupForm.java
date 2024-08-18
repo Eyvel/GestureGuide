@@ -25,7 +25,7 @@ public class SignupForm extends AppCompatActivity {
     EditText txt_first_name, txt_last_name, txt_middle, txt_initial, txt_ext, txt_birthday, txt_number, txt_street;
     Button btn_form;
     String username, email, password;
-    String url_signup = "http://192.168.8.4/capstone_test/signup.php";
+    String url_signup = "http://192.168.100.40/capstone_test/signup.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +61,29 @@ public class SignupForm extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
-        String firstName = txt_first_name.getText().toString().trim();
-        String lastName = txt_last_name.getText().toString().trim();
-        String middleName = txt_middle.getText().toString().trim();
-        String middleInitial = txt_initial.getText().toString().trim();
-        String suffix = txt_ext.getText().toString().trim();
+        String first_name = txt_first_name.getText().toString().trim();
+        String last_name = txt_last_name.getText().toString().trim();
+        String middle = txt_middle.getText().toString().trim();
+        String initial = txt_initial.getText().toString().trim();
+        String ext = txt_ext.getText().toString().trim();
         String birthday = txt_birthday.getText().toString().trim();
+<<<<<<< HEAD
        String number = txt_number.getText().toString().trim();
         String address = txt_street.getText().toString().trim();
+=======
+        String numberStr = txt_number.getText().toString().trim();
+        String street = txt_street.getText().toString().trim();
+
+        // Validate and parse inputs
+        int number;
+        try {
+            number = Integer.parseInt(numberStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid number format.", Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
+            return;
+        }
+>>>>>>> parent of 28eb2f9 (Merge branch 'new-ip' into master)
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_signup,
                 new Response.Listener<String>() {
@@ -106,14 +121,19 @@ public class SignupForm extends AppCompatActivity {
                 params.put("username", username);
                 params.put("email", email);
                 params.put("password", password);
-                params.put("firstName", firstName);
-                params.put("lastName", lastName);
-                params.put("middleName", middleName);
-                params.put("middleInitial", middleInitial);
-                params.put("suffix", suffix);
+                params.put("first_name", first_name);
+                params.put("last_name", last_name);
+                params.put("middle", middle);
+                params.put("initial", initial);
+                params.put("ext", ext);
                 params.put("birthday", birthday);
+<<<<<<< HEAD
                 params.put("number", number);
                 params.put("address", address);
+=======
+                params.put("number", Integer.toString(number)); // Convert number to string
+                params.put("street", street);
+>>>>>>> parent of 28eb2f9 (Merge branch 'new-ip' into master)
                 return params;
             }
         };
