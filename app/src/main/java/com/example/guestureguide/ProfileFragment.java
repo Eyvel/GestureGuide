@@ -1,5 +1,8 @@
 package com.example.guestureguide;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -23,6 +27,9 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    TextView textViewName, textViewEmail;
+    SharedPreferences sharedPreferences;
+
 
     @Nullable
     @Override
@@ -32,6 +39,17 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         drawerLayout = view.findViewById(R.id.drawer_layout);
         navigationView = view.findViewById(R.id.nav_view);
         toolbar = view.findViewById(R.id.toolbar);
+        textViewName = view.findViewById(R.id.profile_name);
+        textViewEmail = view.findViewById(R.id.profile_email);
+        sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);//requireContext() to use sharedPreference
+
+        if(sharedPreferences.getString("logged", "false").equals("false")){//if not logged in
+            Intent intent = new Intent(getActivity(), LoginTabFragment.class);//will go to log in fragment
+            startActivity(intent);
+            getActivity().finish();//to not log in again, get save user that logged in
+        };
+        textViewName.setText(sharedPreferences.getString("username", ""));
+        textViewEmail.setText(sharedPreferences.getString("email", ""));
 
         if (getActivity() != null) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
