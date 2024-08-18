@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +82,7 @@ public class LoginTabFragment extends Fragment {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            Log.d("LoginResponse", response);
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 String success = jsonObject.getString("success");
@@ -90,12 +93,23 @@ public class LoginTabFragment extends Fragment {
                                         String username = object.getString("username");
                                         String userId = object.getString("id");
                                         String userEmail = object.getString("email");
+                                        String userNumber = object.getString("number");
+                                        String userBirthday =object.getString("birthday");
+                                        String userAddress = object.getString("street");
+
                                         String apiKey = object.getString("apiKey");
+
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putString("logged", "true");
                                         editor.putString("username", username);
                                         editor.putString("name", userId);
                                         editor.putString("email", userEmail);
+                                        editor.putString("number", userNumber);
+                                        editor.putString("birthday", userBirthday);
+                                        editor.putString("address", userAddress);
+
+
+
                                         editor.putString("apiKey", apiKey);
                                         editor.apply();//to access anywhere sharedprefence
 
@@ -128,6 +142,7 @@ public class LoginTabFragment extends Fragment {
                     Map<String, String> params = new HashMap<>();
                     params.put("email", email);
                     params.put("password", password);
+
                     return params;
                 }
             };
