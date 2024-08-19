@@ -99,9 +99,9 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         int id = item.getItemId();
         if (id == R.id.nav_logout) {
 
-            ProgressDialog progressDialog = new ProgressDialog(getActivity());
+            //  cProgressDialog progressDialog = new ProgressDialog(getActivity());
             
-            String url_logout = "http://192.168.8.4/capstone_test/logout.php";
+            String url_logout = "http://192.168.8.8/capstone_test/logout.php";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url_logout,
                     new Response.Listener<String>() {
                         @Override
@@ -109,24 +109,19 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
                             Log.d("LoginResponse", response);
                             if(response.equals("1")) {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("logged", "");
-                                editor.putString("username", "");
-                                editor.putString("name", "");
-                                editor.putString("email", "");
-                                editor.putString("number", "");
-                                editor.putString("birthday", "");
-                                editor.putString("address", "");
+                                editor.putString("logged", "false");
+                                editor.clear();
 
 
-                                editor.putString("apiKey", "");
+
                                 editor.apply();//to access anywhere sharedprefence
-
-                                Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
-
-                                // Start the main activity
-                                Intent intent = new Intent(getActivity(), LoginTabFragment.class);
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
                                 startActivity(intent);
                                 getActivity().finish();
+                                Toast.makeText(getActivity(), "Logout Successful", Toast.LENGTH_LONG).show();
+
+                                // Start the main activity
+
                             }else{
                                 Toast.makeText(requireContext(),response,Toast.LENGTH_SHORT).show();
                             }
