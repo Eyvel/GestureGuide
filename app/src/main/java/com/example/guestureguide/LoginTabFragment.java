@@ -35,7 +35,7 @@ public class LoginTabFragment extends Fragment {
     SharedPreferences sharedPreferences;
 
 
-    String url_login = "http://192.168.8.4/capstone_test/login.php"; // corrected the URL
+    String url_login = "http://192.168.100.40/capstone_test/login.php"; // corrected the URL
 
 
     @Override

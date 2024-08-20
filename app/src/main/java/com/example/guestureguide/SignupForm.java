@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class SignupForm extends AppCompatActivity {
 
-    EditText txt_first_name, txt_last_name, txt_middle, txt_initial, txt_ext, txt_birthday, txt_number, txt_street;
+    EditText txt_first_name, txt_last_name, txt_middle, txt_initial, txt_ext, txt_birthday, txt_number, txt_street, txt_lrn;
     Button btn_form;
     String username, email, password;
     String url_signup = "http://192.168.100.40/capstone_test/signup.php";
@@ -40,6 +40,7 @@ public class SignupForm extends AppCompatActivity {
         txt_birthday = findViewById(R.id.birthday);
         txt_number = findViewById(R.id.number);
         txt_street = findViewById(R.id.street);
+        txt_lrn = findViewById(R.id.lrn); // Initialize the LRN field
         btn_form = findViewById(R.id.form_btn);
 
         // Get data from previous activity
@@ -69,6 +70,7 @@ public class SignupForm extends AppCompatActivity {
         String birthday = txt_birthday.getText().toString().trim();
         String numberStr = txt_number.getText().toString().trim();
         String street = txt_street.getText().toString().trim();
+        String lrn = txt_lrn.getText().toString().trim(); // Get LRN input
 
         // Validate and parse inputs
         int number;
@@ -122,8 +124,9 @@ public class SignupForm extends AppCompatActivity {
                 params.put("initial", initial);
                 params.put("ext", ext);
                 params.put("birthday", birthday);
-                params.put("number", Integer.toString(number)); // Convert number to string
+                params.put("number", Integer.toString(number));
                 params.put("street", street);
+                params.put("lrn", lrn); // Add LRN to the request params
                 return params;
             }
         };
@@ -132,3 +135,4 @@ public class SignupForm extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 }
+
