@@ -1,5 +1,6 @@
 package com.example.guestureguide;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,14 +24,27 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    TextView textViewName, textViewEmail;
+    TextView textViewName, textViewEmail, textViewNumber, textViewBirthday, textViewAddress;
     SharedPreferences sharedPreferences;
     Button logoutBtn;
 
@@ -45,6 +60,9 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         toolbar = view.findViewById(R.id.toolbar);
         textViewName = view.findViewById(R.id.profile_name);
         textViewEmail = view.findViewById(R.id.profile_email);
+        textViewNumber = view.findViewById(R.id.mobile);
+        textViewBirthday = view.findViewById(R.id.date);
+        textViewAddress = view.findViewById(R.id.address);
         sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);//requireContext() to use sharedPreference
 
         if(sharedPreferences.getString("logged", "false").equals("false")){//if not logged in
@@ -54,6 +72,10 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         };
         textViewName.setText(sharedPreferences.getString("username", ""));
         textViewEmail.setText(sharedPreferences.getString("email", ""));
+        textViewNumber.setText(sharedPreferences.getString("number", ""));
+        textViewBirthday.setText(sharedPreferences.getString("birthday", ""));
+        textViewAddress.setText(sharedPreferences.getString("address", ""));
+
 
         if (getActivity() != null) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -65,6 +87,7 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+
         navigationView.setNavigationItemSelectedListener(this);
 
         return view;
@@ -75,20 +98,58 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_logout) {
-            // Clear shared preferences to log the user out
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
 
-            Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
+            //  cProgressDialog progressDialog = new ProgressDialog(getActivity());
+            
+            String url_logout = "http://192.168.8.8/capstone_test/logout.php";
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url_logout,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("LoginResponse", response);
+                            if(response.equals("1")) {
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("logged", "false");
+                                editor.clear();
 
-            // Redirect the user to the login screen
-            Intent intent = new Intent(getActivity(), LoginTabFragment.class);
-            startActivity(intent);
-            getActivity().finish(); // Finish the current activity to prevent the user from coming back
 
-            return true; // Return true since the item click is handled
+
+                                editor.apply();//to access anywhere sharedprefence
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                                Toast.makeText(getActivity(), "Logout Successful", Toast.LENGTH_LONG).show();
+
+                                // Start the main activity
+
+                            }else{
+                                Toast.makeText(requireContext(),response,Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("email", sharedPreferences.getString("email", ""));
+                    params.put("apiKey", sharedPreferences.getString("apiKey", ""));
+
+
+                    return params;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            requestQueue.add(stringRequest);
         }
+
         return true;
     }
 }
