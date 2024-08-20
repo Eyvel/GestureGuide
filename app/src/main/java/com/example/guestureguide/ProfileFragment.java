@@ -44,7 +44,7 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    TextView textViewName, textViewEmail, textViewNumber, textViewBirthday, textViewAddress;
+    TextView textViewName, textViewEmail, textViewNumber, textViewBirthday, textViewAddress, textViewLrn;
     SharedPreferences sharedPreferences;
     Button logoutBtn;
 
@@ -60,9 +60,10 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         toolbar = view.findViewById(R.id.toolbar);
         textViewName = view.findViewById(R.id.profile_name);
         textViewEmail = view.findViewById(R.id.profile_email);
-        textViewNumber = view.findViewById(R.id.mobile);
-        textViewBirthday = view.findViewById(R.id.date);
-        textViewAddress = view.findViewById(R.id.address);
+        textViewNumber = view.findViewById(R.id.profile_mobile);
+        textViewBirthday = view.findViewById(R.id.profile_date);
+        textViewAddress = view.findViewById(R.id.profile_address);
+        textViewLrn =view.findViewById(R.id.profile_LRN);
         sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);//requireContext() to use sharedPreference
 
         if(sharedPreferences.getString("logged", "false").equals("false")){//if not logged in
@@ -75,6 +76,8 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         textViewNumber.setText(sharedPreferences.getString("number", ""));
         textViewBirthday.setText(sharedPreferences.getString("birthday", ""));
         textViewAddress.setText(sharedPreferences.getString("address", ""));
+        textViewLrn.setText(sharedPreferences.getString("lrn", ""));
+
 
 
         if (getActivity() != null) {

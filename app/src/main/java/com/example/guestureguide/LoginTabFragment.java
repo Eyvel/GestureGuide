@@ -98,6 +98,7 @@ public class LoginTabFragment extends Fragment {
                                         String userNumber = object.getString("number");
                                         String userBirthday =object.getString("birthday");
                                         String userAddress = object.getString("street");
+                                        String userLRN = object.getString("lrn");
 
                                         String apiKey = object.getString("apiKey");
 
@@ -109,6 +110,7 @@ public class LoginTabFragment extends Fragment {
                                         editor.putString("number", userNumber);
                                         editor.putString("birthday", userBirthday);
                                         editor.putString("address", userAddress);
+                                        editor.putString("lrn", userLRN);
 
 
 
