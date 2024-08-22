@@ -152,6 +152,12 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             requestQueue.add(stringRequest);
         }
+        else if(id == R.id.stud_info){
+            Intent intent = new Intent(getActivity(), StudentInformation.class);
+            startActivity(intent);
+            getActivity().finish();
+
+        }
 
         return true;
     }

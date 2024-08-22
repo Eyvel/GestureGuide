@@ -49,6 +49,8 @@ public class SignupForm extends AppCompatActivity {
         email = intent.getStringExtra("email");
         password = intent.getStringExtra("password");
 
+
+
         btn_form.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
