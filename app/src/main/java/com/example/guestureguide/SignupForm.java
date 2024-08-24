@@ -64,11 +64,11 @@ public class SignupForm extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
-        String first_name = txt_first_name.getText().toString().trim();
-        String last_name = txt_last_name.getText().toString().trim();
-        String middle = txt_middle.getText().toString().trim();
-        String initial = txt_initial.getText().toString().trim();
-        String ext = txt_ext.getText().toString().trim();
+        String firstName = txt_first_name.getText().toString().trim();
+        String lastName = txt_last_name.getText().toString().trim();
+        String middleName = txt_middle.getText().toString().trim();
+        String middleInitial = txt_initial.getText().toString().trim();
+        String suffix = txt_ext.getText().toString().trim();
         String birthday = txt_birthday.getText().toString().trim();
         String numberStr = txt_number.getText().toString().trim();
         String street = txt_street.getText().toString().trim();
@@ -120,11 +120,11 @@ public class SignupForm extends AppCompatActivity {
                 params.put("username", username);
                 params.put("email", email);
                 params.put("password", password);
-                params.put("first_name", first_name);
-                params.put("last_name", last_name);
-                params.put("middle", middle);
-                params.put("initial", initial);
-                params.put("ext", ext);
+                params.put("firstName", firstName);
+                params.put("lastName", lastName);
+                params.put("middleName", middleName);
+                params.put("middleInitial", middleInitial);
+                params.put("suffix", suffix);
                 params.put("birthday", birthday);
                 params.put("number", Integer.toString(number));
                 params.put("street", street);

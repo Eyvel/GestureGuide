@@ -52,6 +52,8 @@ public class LoginTabFragment extends Fragment {
         tv_error = view.findViewById(R.id.tv_error);
         sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);//requireContext() to use sharedPreference
 
+
+        logSharedPreferences();
         if(sharedPreferences.getString("logged", "false").equals("true")){
             Intent intent = new Intent(getActivity(), NavigationActivity.class);
             startActivity(intent);
@@ -92,6 +94,7 @@ public class LoginTabFragment extends Fragment {
                                     JSONArray jsonArray = jsonObject.getJSONArray("login");
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject object = jsonArray.getJSONObject(i);
+
                                         String username = object.getString("username");
                                         String userId = object.getString("id");
                                         String userEmail = object.getString("email");
@@ -99,11 +102,18 @@ public class LoginTabFragment extends Fragment {
                                         String userBirthday =object.getString("birthday");
                                         String userAddress = object.getString("street");
                                         String userLRN = object.getString("lrn");
+                                        String firstName = object.getString("firstName");
+                                        String lastName = object.getString("lastName");
+                                        String middleName = object.getString("middleName");
+                                        String middleInitial = object.getString("middleInitial");
+                                        String suffix = object.getString("suffix");
 
                                         String apiKey = object.getString("apiKey");
 
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("logged", "true");
+
+
+
                                         editor.putString("username", username);
                                         editor.putString("name", userId);
                                         editor.putString("email", userEmail);
@@ -111,6 +121,12 @@ public class LoginTabFragment extends Fragment {
                                         editor.putString("birthday", userBirthday);
                                         editor.putString("address", userAddress);
                                         editor.putString("lrn", userLRN);
+                                        editor.putString("logged", "true");
+                                        editor.putString("firstName", firstName);
+                                        editor.putString("lastName", lastName);
+                                        editor.putString("middleName", middleName);
+                                        editor.putString("middleInitial", middleInitial);
+                                        editor.putString("suffix", suffix);
 
 
 
@@ -154,5 +170,23 @@ public class LoginTabFragment extends Fragment {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             requestQueue.add(stringRequest);
         }
+    }private void logSharedPreferences() {
+        Map<String, ?> allEntries = sharedPreferences.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+
+        }Log.d("SharedPreferences", "First Name: " + sharedPreferences.getString("firstName", ""));
+        Log.d("SharedPreferences", "Last Name: " + sharedPreferences.getString("lastName", ""));
+        Log.d("SharedPreferences", "Middle Name: " + sharedPreferences.getString("middleName", ""));
+        Log.d("SharedPreferences", "Middle Initial: " + sharedPreferences.getString("middleInitial", ""));
+        Log.d("SharedPreferences", "suffix: " + sharedPreferences.getString("suffix", ""));
+        Log.d("SharedPreferences", "number : " + sharedPreferences.getString("number", ""));
+        Log.d("SharedPreferences", "address: " + sharedPreferences.getString("address", ""));
+        Log.d("SharedPreferences", "birthday: " + sharedPreferences.getString("birthday", ""));
+        Log.d("SharedPreferences", "userName: " + sharedPreferences.getString("username", ""));
+
+        Log.d("SharedPreferences", "id: " + sharedPreferences.getString("id", ""));
+
+
+
     }
 }
