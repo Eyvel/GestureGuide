@@ -38,7 +38,7 @@ public class LoginTabFragment extends Fragment {
 
 
 
-    String url_login = "http://192.168.8.8/capstone_test/login.php"; // corrected the URL
+    String url_login = "http://192.168.8.6/capstone_test/login.php"; // corrected the URL
 
 
 
@@ -115,7 +115,8 @@ public class LoginTabFragment extends Fragment {
 
 
                                         editor.putString("username", username);
-                                        editor.putString("name", userId);
+
+                                        editor.putString("userId", userId);
                                         editor.putString("email", userEmail);
                                         editor.putString("number", userNumber);
                                         editor.putString("birthday", userBirthday);
@@ -183,6 +184,8 @@ public class LoginTabFragment extends Fragment {
         Log.d("SharedPreferences", "address: " + sharedPreferences.getString("address", ""));
         Log.d("SharedPreferences", "birthday: " + sharedPreferences.getString("birthday", ""));
         Log.d("SharedPreferences", "userName: " + sharedPreferences.getString("username", ""));
+        Log.d("SharedPreferences", "api key: " + sharedPreferences.getString("apiKey", ""));
+        Log.d("SharedPreferences", "email : " + sharedPreferences.getString("email", ""));
 
         Log.d("SharedPreferences", "id: " + sharedPreferences.getString("id", ""));
 

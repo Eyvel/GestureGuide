@@ -1,6 +1,7 @@
 package com.example.guestureguide;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,10 +23,10 @@ import java.util.Map;
 public class StudentInformation extends AppCompatActivity {
 
     private EditText etUsername,etFirstName, etLastName, etMiddleName, etMiddleInitial, etSuffix, etBirthday, etNumber, etAddress;
-    private Button btnUpdate;
+    private Button btnUpdate, btnBack;
     private SharedPreferences sharedPreferences;
 
-    private static final String URL_UPDATE = "http://192.168.8.8/capstone_test/studentInfo.php";  // Replace with your server's URL
+    private static final String URL_UPDATE = "http://192.168.8.6/capstone_test/studentInfo.php";  // Replace with your server's URL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class StudentInformation extends AppCompatActivity {
         etNumber = findViewById(R.id.stud_number);
         etAddress = findViewById(R.id.stud_address);
         btnUpdate = findViewById(R.id.stud_update_btn);
+        btnBack = findViewById(R.id.back_btn);
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE);
@@ -58,10 +60,21 @@ public class StudentInformation extends AppCompatActivity {
                 updateStudentInformation();
             }
         });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentInformation.this, NavigationActivity.class);//will go to log in fragment
+                startActivity(intent);
+                finish();
+
+            }
+        });
     }
 
     private void loadStudentInformation() {
         // Populate fields with data from SharedPreferences
+
         etUsername.setText(sharedPreferences.getString("username", ""));
         etFirstName.setText(sharedPreferences.getString("firstName", ""));
         etLastName.setText(sharedPreferences.getString("lastName", ""));
@@ -74,6 +87,8 @@ public class StudentInformation extends AppCompatActivity {
     }
 
     private void updateStudentInformation() {
+        final String email = sharedPreferences.getString("email", "").trim();
+        final String apiKey = sharedPreferences.getString("apiKey", "").trim();
         final String firstName = etFirstName.getText().toString().trim();
         final String lastName = etLastName.getText().toString().trim();
         final String middleName = etMiddleName.getText().toString().trim();
@@ -83,6 +98,19 @@ public class StudentInformation extends AppCompatActivity {
         final String number = etNumber.getText().toString().trim();
         final String address = etAddress.getText().toString().trim();
         final String userId = sharedPreferences.getString("userId", ""); // Assuming userId is saved in SharedPreferences
+
+        Log.d("UpdateData", "firstName: " + firstName);
+        Log.d("UpdateData", "lastName: " + lastName);
+        Log.d("UpdateData", "middleName: " + middleName);
+        Log.d("UpdateData", "middleInitial: " + middleInitial);
+        Log.d("UpdateData", "suffix: " + suffix);
+        Log.d("UpdateData", "birthday: " + birthday);
+        Log.d("UpdateData", "number: " + number);
+        Log.d("UpdateData", "address: " + address);
+        Log.d("UpdateData", "userId: " + userId);
+        Log.d("UpdateData", "email: " + email);
+        Log.d("UpdateData", "api: " + apiKey);
+
 
         if (firstName.isEmpty() || lastName.isEmpty() || birthday.isEmpty() || number.isEmpty() || address.isEmpty()) {
             Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
@@ -97,8 +125,21 @@ public class StudentInformation extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         progressDialog.dismiss();
                         Toast.makeText(StudentInformation.this, "Update Successful", Toast.LENGTH_LONG).show();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("firstName", firstName);
+                        editor.putString("lastName", lastName);
+                        editor.putString("middleName", middleName);
+                        editor.putString("middleInitial", middleInitial);
+                        editor.putString("suffix", suffix);
+                        editor.putString("birthday", birthday);
+                        editor.putString("number", number);
+                        editor.putString("address", address);
+                        editor.apply();
+
+                        loadStudentInformation();//load again to show the updated data on the app
                     }
                 },
                 new Response.ErrorListener() {
@@ -111,7 +152,7 @@ public class StudentInformation extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("userId", userId); // Use the userId for matching the correct user
+                params.put("userId", userId);
                 params.put("firstName", firstName);
                 params.put("lastName", lastName);
                 params.put("middleName", middleName);
@@ -120,6 +161,8 @@ public class StudentInformation extends AppCompatActivity {
                 params.put("birthday", birthday);
                 params.put("number", number);
                 params.put("address", address);
+                params.put("email", email);
+                params.put("apiKey", apiKey);
                 return params;
             }
         };
@@ -137,6 +180,8 @@ public class StudentInformation extends AppCompatActivity {
             Log.d("SharedPreferences", "First Name: " + sharedPreferences.getString("firstName", ""));
             Log.d("SharedPreferences", "Last Name: " + sharedPreferences.getString("lastName", ""));
             Log.d("SharedPreferences", "Middle Name: " + sharedPreferences.getString("middleName", ""));
+            Log.d("SharedPreferences", "email: " + sharedPreferences.getString("email", ""));
+
 
         }
     }
