@@ -129,7 +129,6 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
                                 Toast.makeText(requireContext(),response,Toast.LENGTH_SHORT).show();
                             }
 
-
                         }
                     },
                     new Response.ErrorListener() {

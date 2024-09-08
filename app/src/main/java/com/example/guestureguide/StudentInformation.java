@@ -22,11 +22,11 @@ import java.util.Map;
 
 public class StudentInformation extends AppCompatActivity {
 
-    private EditText etUsername,etFirstName, etLastName, etMiddleName, etMiddleInitial, etSuffix, etBirthday, etNumber, etAddress;
+    private EditText etUsername,etFirstName, etLastName, etMiddleName, etMiddleInitial, etSuffix, etBirthday, etNumber, etAddress, etEmail;
     private Button btnUpdate, btnBack;
     private SharedPreferences sharedPreferences;
 
-    private static final String URL_UPDATE = "http://192.168.8.6/capstone_test/studentInfo.php";  // Replace with your server's URL
+    private static final String URL_UPDATE = "http://192.168.8.6/capstone_test/studentInfo.php";  // update php file
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +45,11 @@ public class StudentInformation extends AppCompatActivity {
         etNumber = findViewById(R.id.stud_number);
         etAddress = findViewById(R.id.stud_address);
         btnUpdate = findViewById(R.id.stud_update_btn);
+        etEmail = findViewById(R.id.stud_email);
         btnBack = findViewById(R.id.back_btn);
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE);
-
         // Load existing data from SharedPreferences
         loadStudentInformation();
         logSharedPreferences();
@@ -84,11 +84,14 @@ public class StudentInformation extends AppCompatActivity {
         etBirthday.setText(sharedPreferences.getString("birthday", ""));
         etNumber.setText(sharedPreferences.getString("number", ""));
         etAddress.setText(sharedPreferences.getString("address", ""));
+        etEmail.setText(sharedPreferences.getString("email",""));
+
     }
 
     private void updateStudentInformation() {
         final String email = sharedPreferences.getString("email", "").trim();
         final String apiKey = sharedPreferences.getString("apiKey", "").trim();
+        final String username = etUsername.getText().toString().trim();
         final String firstName = etFirstName.getText().toString().trim();
         final String lastName = etLastName.getText().toString().trim();
         final String middleName = etMiddleName.getText().toString().trim();
@@ -110,6 +113,8 @@ public class StudentInformation extends AppCompatActivity {
         Log.d("UpdateData", "userId: " + userId);
         Log.d("UpdateData", "email: " + email);
         Log.d("UpdateData", "api: " + apiKey);
+        Log.d("UpdateData", "usernamE: " + username);
+
 
 
         if (firstName.isEmpty() || lastName.isEmpty() || birthday.isEmpty() || number.isEmpty() || address.isEmpty()) {
@@ -137,6 +142,8 @@ public class StudentInformation extends AppCompatActivity {
                         editor.putString("birthday", birthday);
                         editor.putString("number", number);
                         editor.putString("address", address);
+                        editor.putString("email", email);
+                        editor.putString("username", username);
                         editor.apply();
 
                         loadStudentInformation();//load again to show the updated data on the app
@@ -163,6 +170,7 @@ public class StudentInformation extends AppCompatActivity {
                 params.put("address", address);
                 params.put("email", email);
                 params.put("apiKey", apiKey);
+                params.put("username", username);
                 return params;
             }
         };
