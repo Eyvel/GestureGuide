@@ -5,7 +5,7 @@
     <string name="remember_me">Remember me</string>
     <string name="agree">Agree</string>
     <string name="stud_info">Student Information</string>
-    <string name="educ_info">Educational Information</string>
+    <string name="security_info">Security Information</string>
     <string name="account">Account Settings</string>
     <string name="rate_us">Rate Us</string>
     <string name="message">Message Us</string>
@@ -28,6 +28,12 @@
 
     <string name="address">Address</string>
     <string name="email">Email</string>
+    <string name="pass">Password</string>
+    <string name="confirm">Confirm Password</string>
     <string name="username">Username</string>
     <string name="lrn">LRN</string>
+
+    <string name="content">Contents</string>
+
+
 </resources>

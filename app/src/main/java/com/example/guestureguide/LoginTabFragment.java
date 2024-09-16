@@ -38,7 +38,7 @@ public class LoginTabFragment extends Fragment {
 
 
 
-    String url_login = "http://192.168.8.8/capstone_test/login.php"; // corrected the URL
+    String url_login = "http://172.28.48.1/capstone_test/login.php"; // corrected the URL
 
 
 

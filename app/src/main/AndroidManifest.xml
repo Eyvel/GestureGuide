@@ -18,6 +18,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Contents"
+            android:exported="false" />
+        <activity
+            android:name=".Message_Us"
+            android:exported="false" />
+        <activity
+            android:name=".Security_Information"
+            android:exported="false" />
+        <activity
             android:name=".StudentInformation"
             android:exported="false" />
         <activity
