@@ -38,7 +38,9 @@ public class LoginTabFragment extends Fragment {
 
 
 
-    String url_login = "http://172.28.48.1/capstone_test/login.php"; // corrected the URL
+
+    String url_login = "http://192.168.100.72/gesture/login.php"; // corrected the URL
+
 
 
 
@@ -51,6 +53,8 @@ public class LoginTabFragment extends Fragment {
         btn_login = view.findViewById(R.id.login_btn);
         tv_error = view.findViewById(R.id.tv_error);
         sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);//requireContext() to use sharedPreference
+
+
 
         if(sharedPreferences.getString("logged", "false").equals("true")){
             Intent intent = new Intent(getActivity(), NavigationActivity.class);
@@ -92,6 +96,7 @@ public class LoginTabFragment extends Fragment {
                                     JSONArray jsonArray = jsonObject.getJSONArray("login");
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject object = jsonArray.getJSONObject(i);
+
                                         String username = object.getString("username");
                                         String userId = object.getString("id");
                                         String userEmail = object.getString("email");
@@ -99,18 +104,32 @@ public class LoginTabFragment extends Fragment {
                                         String userBirthday =object.getString("birthday");
                                         String userAddress = object.getString("street");
                                         String userLRN = object.getString("lrn");
+                                        String firstName = object.getString("firstName");
+                                        String lastName = object.getString("lastName");
+                                        String middleName = object.getString("middleName");
+                                        String middleInitial = object.getString("middleInitial");
+                                        String suffix = object.getString("suffix");
 
                                         String apiKey = object.getString("apiKey");
 
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("logged", "true");
+
+
+
                                         editor.putString("username", username);
-                                        editor.putString("name", userId);
+
+                                        editor.putString("userId", userId);
                                         editor.putString("email", userEmail);
                                         editor.putString("number", userNumber);
                                         editor.putString("birthday", userBirthday);
                                         editor.putString("address", userAddress);
                                         editor.putString("lrn", userLRN);
+                                        editor.putString("logged", "true");
+                                        editor.putString("firstName", firstName);
+                                        editor.putString("lastName", lastName);
+                                        editor.putString("middleName", middleName);
+                                        editor.putString("middleInitial", middleInitial);
+                                        editor.putString("suffix", suffix);
 
 
 

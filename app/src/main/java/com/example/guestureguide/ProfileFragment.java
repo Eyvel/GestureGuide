@@ -104,7 +104,7 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
             //  cProgressDialog progressDialog = new ProgressDialog(getActivity());
             
-            String url_logout = "http://192.168.8.8/capstone_test/logout.php";
+            String url_logout = "http://192.168.8.7/gesture/logout.php";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url_logout,
                     new Response.Listener<String>() {
                         @Override
@@ -128,7 +128,6 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
                             }else{
                                 Toast.makeText(requireContext(),response,Toast.LENGTH_SHORT).show();
                             }
-
 
                         }
                     },

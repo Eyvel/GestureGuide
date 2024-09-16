@@ -25,7 +25,9 @@ public class SignupForm extends AppCompatActivity {
     EditText txt_first_name, txt_last_name, txt_middle, txt_initial, txt_ext, txt_birthday, txt_number, txt_street, txt_lrn;
     Button btn_form;
     String username, email, password;
-    String url_signup = "http://172.28.48.1/capstone_test/signup.php";
+
+    String url_signup = "http://192.168.100.72/gesture/signup.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +42,11 @@ public class SignupForm extends AppCompatActivity {
         txt_birthday = findViewById(R.id.birthday);
         txt_number = findViewById(R.id.number);
         txt_street = findViewById(R.id.street);
-        txt_lrn = findViewById(R.id.lrn); // Initialize the LRN field
+        txt_lrn = findViewById(R.id.lrn);
         btn_form = findViewById(R.id.form_btn);
 
-        // Get data from previous activity
+        // get data from previous activity which is the signup tab
+
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
@@ -64,11 +67,11 @@ public class SignupForm extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
-        String first_name = txt_first_name.getText().toString().trim();
-        String last_name = txt_last_name.getText().toString().trim();
-        String middle = txt_middle.getText().toString().trim();
-        String initial = txt_initial.getText().toString().trim();
-        String ext = txt_ext.getText().toString().trim();
+        String firstName = txt_first_name.getText().toString().trim();
+        String lastName = txt_last_name.getText().toString().trim();
+        String middleName = txt_middle.getText().toString().trim();
+        String middleInitial = txt_initial.getText().toString().trim();
+        String suffix = txt_ext.getText().toString().trim();
         String birthday = txt_birthday.getText().toString().trim();
         String numberStr = txt_number.getText().toString().trim();
         String street = txt_street.getText().toString().trim();
@@ -120,11 +123,11 @@ public class SignupForm extends AppCompatActivity {
                 params.put("username", username);
                 params.put("email", email);
                 params.put("password", password);
-                params.put("first_name", first_name);
-                params.put("last_name", last_name);
-                params.put("middle", middle);
-                params.put("initial", initial);
-                params.put("ext", ext);
+                params.put("firstName", firstName);
+                params.put("lastName", lastName);
+                params.put("middleName", middleName);
+                params.put("middleInitial", middleInitial);
+                params.put("suffix", suffix);
                 params.put("birthday", birthday);
                 params.put("number", Integer.toString(number));
                 params.put("street", street);

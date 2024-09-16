@@ -3,6 +3,8 @@ package com.example.guestureguide;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,9 @@ public class SignupTabFragment extends Fragment {
     Button btn_register;
 
 
-    String url_signup = "http://172.28.48.1/capstone_test/signup.php"; // corrected the URL
+
+    String url_signup = "http://192.168.8.6/capstone_test/signup.php"; // corrected the URL
+
 
 
     @Override
@@ -55,7 +59,11 @@ public class SignupTabFragment extends Fragment {
             Toast.makeText(getActivity(), "Confirm Password", Toast.LENGTH_LONG).show();
         } else if (!password.equals(confirm)) {
             Toast.makeText(getActivity(), "Passwords do not match", Toast.LENGTH_LONG).show();
-        } else {
+
+        } else if(!email.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            Toast.makeText(getActivity(), "Invalid Email Address!", Toast.LENGTH_SHORT).show();
+        }//matcher to make sure email correct format
+        else {
             // Pass data to next activity
             Intent intent = new Intent(getActivity(), SignupForm.class);
             intent.putExtra("username", username);
