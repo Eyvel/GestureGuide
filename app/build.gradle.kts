@@ -42,9 +42,16 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
+    implementation ("androidx.fragment:fragment:1.5.0")
+
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.29")
 
     implementation ("androidx.drawerlayout:drawerlayout:1.2.0")
 
+    implementation ("com.github.bumptech.glide:glide:4.11.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.11.0")
+
+
+    implementation ("androidx.cardview:cardview:1.0.0")
 }

@@ -38,7 +38,7 @@ public class LoginTabFragment extends Fragment {
 
 
 
-    String url_login = "http://192.168.8.6/capstone_test/login.php"; // corrected the URL
+    String url_login = "http://192.168.100.72/gesture/login.php"; // corrected the URL
 
 
 
@@ -53,7 +53,7 @@ public class LoginTabFragment extends Fragment {
         sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);//requireContext() to use sharedPreference
 
 
-        logSharedPreferences();
+
         if(sharedPreferences.getString("logged", "false").equals("true")){
             Intent intent = new Intent(getActivity(), NavigationActivity.class);
             startActivity(intent);
@@ -171,25 +171,5 @@ public class LoginTabFragment extends Fragment {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             requestQueue.add(stringRequest);
         }
-    }private void logSharedPreferences() {
-        Map<String, ?> allEntries = sharedPreferences.getAll();
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-
-        }Log.d("SharedPreferences", "First Name: " + sharedPreferences.getString("firstName", ""));
-        Log.d("SharedPreferences", "Last Name: " + sharedPreferences.getString("lastName", ""));
-        Log.d("SharedPreferences", "Middle Name: " + sharedPreferences.getString("middleName", ""));
-        Log.d("SharedPreferences", "Middle Initial: " + sharedPreferences.getString("middleInitial", ""));
-        Log.d("SharedPreferences", "suffix: " + sharedPreferences.getString("suffix", ""));
-        Log.d("SharedPreferences", "number : " + sharedPreferences.getString("number", ""));
-        Log.d("SharedPreferences", "address: " + sharedPreferences.getString("address", ""));
-        Log.d("SharedPreferences", "birthday: " + sharedPreferences.getString("birthday", ""));
-        Log.d("SharedPreferences", "userName: " + sharedPreferences.getString("username", ""));
-        Log.d("SharedPreferences", "api key: " + sharedPreferences.getString("apiKey", ""));
-        Log.d("SharedPreferences", "email : " + sharedPreferences.getString("email", ""));
-
-        Log.d("SharedPreferences", "id: " + sharedPreferences.getString("id", ""));
-
-
-
     }
 }

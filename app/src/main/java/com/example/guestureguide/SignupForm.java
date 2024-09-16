@@ -25,7 +25,7 @@ public class SignupForm extends AppCompatActivity {
     EditText txt_first_name, txt_last_name, txt_middle, txt_initial, txt_ext, txt_birthday, txt_number, txt_street, txt_lrn;
     Button btn_form;
     String username, email, password;
-    String url_signup = "http://192.168.8.6/capstone_test/signup.php";
+    String url_signup = "http://192.168.100.72/gesture/signup.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +40,11 @@ public class SignupForm extends AppCompatActivity {
         txt_birthday = findViewById(R.id.birthday);
         txt_number = findViewById(R.id.number);
         txt_street = findViewById(R.id.street);
-        txt_lrn = findViewById(R.id.lrn); // Initialize the LRN field
+        txt_lrn = findViewById(R.id.lrn);
         btn_form = findViewById(R.id.form_btn);
 
-        // Get data from previous activity
+        // get data from previous activity which is the signup tab
+
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
