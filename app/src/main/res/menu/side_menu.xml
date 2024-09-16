@@ -12,7 +12,7 @@
                 <item
                     android:id="@+id/educ_info"
                     android:icon="@drawable/educational_info"
-                    android:title="@string/educ_info" />
+                    android:title="@string/security_info" />
                 <item
                     android:id="@+id/nav_rate"
                     android:icon="@drawable/rate_us"

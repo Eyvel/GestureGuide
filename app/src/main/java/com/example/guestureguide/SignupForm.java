@@ -25,7 +25,9 @@ public class SignupForm extends AppCompatActivity {
     EditText txt_first_name, txt_last_name, txt_middle, txt_initial, txt_ext, txt_birthday, txt_number, txt_street, txt_lrn;
     Button btn_form;
     String username, email, password;
+
     String url_signup = "http://192.168.100.72/gesture/signup.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
