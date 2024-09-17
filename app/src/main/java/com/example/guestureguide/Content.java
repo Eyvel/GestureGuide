@@ -1,20 +1,12 @@
 package com.example.guestureguide;
 
-public class Category {
-
+public class Content {
     private String name;
     private String imageUrl;
-    private String id;
 
-    public Category(String id,String name, String imageUrl) {
-        this.id = id;
-
+    public Content(String name, String imageUrl) {
         this.name = name;
         this.imageUrl = imageUrl;
-    }
-
-    public String getId(){
-        return id;
     }
 
     public String getName() {
@@ -24,5 +16,4 @@ public class Category {
     public String getImageUrl() {
         return imageUrl;
     }
-
 }

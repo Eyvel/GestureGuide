@@ -44,9 +44,7 @@ public class StudentInformation extends AppCompatActivity {
         etBirthday = findViewById(R.id.stud_birthday);
         etNumber = findViewById(R.id.stud_number);
         etAddress = findViewById(R.id.stud_address);
-        btnUpdate = findViewById(R.id.stud_update_btn);
-        etEmail = findViewById(R.id.stud_email);
-        btnBack = findViewById(R.id.back_btn);
+        btnUpdate = findViewById(R.id.stud_update_btn);btnBack = findViewById(R.id.back_btn);
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE);

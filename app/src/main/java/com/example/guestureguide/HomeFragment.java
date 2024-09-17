@@ -1,25 +1,32 @@
 package com.example.guestureguide;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener {
 
     private RecyclerView recyclerView;
     private CategoryAdapter categoryAdapter;
@@ -41,7 +48,9 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categories = new ArrayList<>();
-        categoryAdapter = new CategoryAdapter(getContext(), categories);
+
+        // Pass 'this' as the OnCategoryClickListener
+        categoryAdapter = new CategoryAdapter(getContext(), categories, this);
         recyclerView.setAdapter(categoryAdapter);
 
         // Initialize Handler for periodic updates
@@ -53,7 +62,7 @@ public class HomeFragment extends Fragment {
 
     // Fetch categories from API
     private void fetchCategories() {
-        String url = "http://192.168.100.72/gesture/getCategories.php";  // Your API endpoint
+        String url = "http://192.168.8.7/gesture/getCategories.php";  // Your API endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -67,10 +76,11 @@ public class HomeFragment extends Fragment {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject categoryObject = response.getJSONObject(i);
+                                String id = categoryObject.getString("id");
                                 String name = categoryObject.getString("category_name");
                                 String imageUrl = categoryObject.getString("category_image");
 
-                                categories.add(new Category(name, imageUrl));
+                                categories.add(new Category(id, name, imageUrl));
                             }
                             // Notify adapter about data change
                             categoryAdapter.notifyDataSetChanged();
@@ -89,6 +99,25 @@ public class HomeFragment extends Fragment {
         );
 
         requestQueue.add(jsonArrayRequest);
+    }
+
+    // Handle category click event
+    @Override
+    public void onCategoryClick(Category category) {
+        // Create an intent to start ContentActivity
+        Intent intent = new Intent(getActivity(), ContentActivity.class);
+
+        // Pass the category name as an extra
+        intent.putExtra("category_name", category.getName());
+
+        intent.putExtra("id", category.getId());
+
+        // Start the ContentActivity
+        startActivity(intent);
+        Log.d("ContentActivity", "Starting ContentActivity with category: " + category.getName());
+
+
+        Toast.makeText(getContext(), "Clicked: " + category.getName(), Toast.LENGTH_SHORT).show();
     }
 
     // Start auto-update by calling fetchCategories() every X seconds

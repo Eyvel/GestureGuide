@@ -18,10 +18,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private Context context;
     private ArrayList<Category> categoryList;
+    private OnCategoryClickListener onCategoryClickListener;
 
-    public CategoryAdapter(Context context, ArrayList<Category> categoryList) {
+    // Constructor accepting Context, Category List, and OnCategoryClickListener
+    public CategoryAdapter(Context context, ArrayList<Category> categoryList, OnCategoryClickListener onCategoryClickListener) {
         this.context = context;
         this.categoryList = categoryList;
+        this.onCategoryClickListener = onCategoryClickListener;
     }
 
     @NonNull
@@ -37,10 +40,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.categoryTextView.setText(category.getName());
 
         // Load the category image using Glide
-        String fullImageUrl = "http://192.168.100.72/" + category.getImageUrl();
+        String fullImageUrl = "http://192.168.8.7/" + category.getImageUrl();
         Glide.with(context)
                 .load(fullImageUrl)
                 .into(holder.categoryImageView);
+
+        // Set click listener for the entire item view
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onCategoryClickListener != null) {
+                    onCategoryClickListener.onCategoryClick(category);
+                }
+            }
+        });
     }
 
     @Override
@@ -58,5 +71,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             categoryImageView = itemView.findViewById(R.id.categoryImageView);
             categoryTextView = itemView.findViewById(R.id.categoryTextView);
         }
+    }
+
+    // Interface to handle category clicks
+    public interface OnCategoryClickListener {
+        void onCategoryClick(Category category);
     }
 }
