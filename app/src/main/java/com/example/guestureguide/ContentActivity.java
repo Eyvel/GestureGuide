@@ -71,10 +71,13 @@ public class ContentActivity extends AppCompatActivity {
                                 JSONObject contentObject = response.getJSONObject(i);
                                 String contentName = contentObject.getString("content_name");
                                 String contentImage = contentObject.getString("content_image");
+                                String contentVideo = contentObject.getString("content_video");
+
 
                                 String imageUrl = "http://192.168.8.7/" + contentImage;
+                                String videoUrl = "http://192.168.8.7/" + contentVideo;
 
-                                contentList.add(new Content(contentName, imageUrl));
+                                contentList.add(new Content(contentName, imageUrl, videoUrl));
                             }
                             contentAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {

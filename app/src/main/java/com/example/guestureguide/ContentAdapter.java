@@ -1,11 +1,13 @@
 package com.example.guestureguide;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +42,18 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
         Glide.with(context)
                 .load(content.getImageUrl())
                 .into(holder.contentImageView);
+
+        // Set click listener for each content item
+        holder.itemView.setOnClickListener(v -> {
+            // Show a Toast when an item is clicked
+            Toast.makeText(context, "Clicked on: " + content.getName(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, ContentDescriptionActivity.class);
+            intent.putExtra("content_list", contentList);  // Pass the content list
+            intent.putExtra("current_index", position);    // Pass the current index
+            context.startActivity(intent);
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -57,5 +70,6 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
             contentImageView = itemView.findViewById(R.id.imageViewContent);
             contentTextView = itemView.findViewById(R.id.textViewContentName);
         }
+
     }
 }
