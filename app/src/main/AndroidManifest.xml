@@ -23,7 +23,12 @@
 
         <activity
             android:name=".Content"
-            android:exported="false" />
+            android:exported="false"
+           />
+        <activity
+            android:name=".Category"
+            android:exported="false"
+            />
         <activity
             android:name=".Message_Us"
             android:exported="false" />

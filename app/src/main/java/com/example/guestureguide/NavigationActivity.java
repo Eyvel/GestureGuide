@@ -29,7 +29,9 @@ public class NavigationActivity extends AppCompatActivity {
             int itemId = item.getItemId();
             if (itemId == R.id.home_nav) {
                 replaceFragment(new HomeFragment(), "HomeFragment");
-            } else if (itemId == R.id.quiz_nav) {
+            }else if (itemId == R.id.Activity_nav) {
+                replaceFragment(new ActivityFragment(), "ActivityFragment");
+            }  else if (itemId == R.id.quiz_nav) {
                 replaceFragment(new QuizFragment(), "QuizFragment");
             } else if (itemId == R.id.profile_nav) {
                 replaceFragment(new ProfileFragment(), "ProfileFragment");

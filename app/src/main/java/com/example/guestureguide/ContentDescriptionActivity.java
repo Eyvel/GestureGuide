@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -31,11 +32,27 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_description);
 
+        String categoryId = getIntent().getStringExtra("id");
+
+
+        ImageButton backToContentButton = findViewById(R.id.back_to_content_button);
+        backToContentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to the Category activity
+                // Create an intent to return the category ID
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("id", categoryId);  // Pass the category ID back
+                setResult(RESULT_OK, resultIntent);  // Set the result to OK
+                finish();  // Finish this activity and return to the previous one
+            }
+        });
+
         // Initialize views
         contentImageView = findViewById(R.id.contentImageView);
         contentVideoView = findViewById(R.id.contentVideoView);
         learnButton = findViewById(R.id.learnButton);
-        backButton = findViewById(R.id.backButton);  // Back button initialization
+        backButton = findViewById(R.id.previousContentButton);  // Back button initialization
 
         // Get content list and current index from intent
         contentList = (ArrayList<Content>) getIntent().getSerializableExtra("content_list");

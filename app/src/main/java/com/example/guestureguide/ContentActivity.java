@@ -1,7 +1,10 @@
 package com.example.guestureguide;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,11 +29,24 @@ public class ContentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ContentAdapter contentAdapter;
     private ArrayList<Content> contentList;
+    private String categoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contents);
+
+        categoryId = getIntent().getStringExtra("id");
+
+        ImageButton backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ContentActivity.this, MainActivity.class);
+                intent.putExtra("id", categoryId);  // Pass the category ID
+                startActivityForResult(intent, 1);  // Request code 1
+            }
+        });
 
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerViewContents);
@@ -41,8 +57,7 @@ public class ContentActivity extends AppCompatActivity {
         contentAdapter = new ContentAdapter(this, contentList);
         recyclerView.setAdapter(contentAdapter);
 
-        // Get the category ID from the intent
-        String categoryId = getIntent().getStringExtra("id");
+        Log.d("ContentActivity", "Received Category ID: " + categoryId);
 
         // Fetch and populate content list
         if (categoryId != null) {
@@ -56,7 +71,6 @@ public class ContentActivity extends AppCompatActivity {
         String url = "http://192.168.8.7/gesture/getContent.php?category_id=" + categoryId;  // Adjust URL as needed
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 url,
@@ -67,12 +81,12 @@ public class ContentActivity extends AppCompatActivity {
                         contentList.clear();
                         try {
                             Log.d("ImageURL", "Loading image from URL: " + url);
+
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject contentObject = response.getJSONObject(i);
                                 String contentName = contentObject.getString("content_name");
                                 String contentImage = contentObject.getString("content_image");
                                 String contentVideo = contentObject.getString("content_video");
-
 
                                 String imageUrl = "http://192.168.8.7/" + contentImage;
                                 String videoUrl = "http://192.168.8.7/" + contentVideo;
@@ -94,5 +108,20 @@ public class ContentActivity extends AppCompatActivity {
         );
 
         requestQueue.add(jsonArrayRequest);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            String returnedCategoryId = data.getStringExtra("id");  // Retrieve the returned category ID
+            if (returnedCategoryId != null) {
+                // Use the returned category ID (for example, reload content)
+                fetchContent(returnedCategoryId);
+            } else {
+                Toast.makeText(this, "Category ID is missing", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
