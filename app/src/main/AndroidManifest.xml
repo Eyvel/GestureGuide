@@ -20,6 +20,7 @@
         <activity android:name=".ContentActivity" />
         <activity android:name=".HomeFragment" />
         <activity android:name=".ContentDescriptionActivity" />
+        <activity android:name=".Activity" />
 
         <activity
             android:name=".Content"

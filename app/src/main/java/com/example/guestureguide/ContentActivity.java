@@ -1,5 +1,7 @@
 package com.example.guestureguide;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +39,12 @@ public class ContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contents);
 
+
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewContents);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2); // Use 'this' for Activity context
+        recyclerView.setLayoutManager(gridLayoutManager);
+
         categoryId = getIntent().getStringExtra("id");
 
         ImageButton backButton = findViewById(R.id.back_button);
@@ -48,9 +57,7 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
 
-        // Initialize RecyclerView
-        recyclerView = findViewById(R.id.recyclerViewContents);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         // Initialize content list and adapter
         contentList = new ArrayList<>();

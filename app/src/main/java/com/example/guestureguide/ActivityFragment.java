@@ -101,7 +101,7 @@ public class ActivityFragment extends Fragment implements CategoryAdapter.OnCate
     @Override
     public void onCategoryClick(Category category) {
         // Create an intent to start ContentActivity
-        Intent intent = new Intent(getActivity(), ContentActivity.class);
+        Intent intent = new Intent(getActivity(), Activity.class);
 
         // Pass the category name and id as extras
         intent.putExtra("category_name", category.getName());
