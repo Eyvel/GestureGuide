@@ -1,64 +1,160 @@
 package com.example.guestureguide;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Activity#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Activity extends Fragment {
+import androidx.appcompat.app.AppCompatActivity;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    public Activity() {
-        // Required empty public constructor
-    }
+import java.util.ArrayList;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Activity.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Activity newInstance(String param1, String param2) {
-        Activity fragment = new Activity();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class Activity extends AppCompatActivity {
+
+    private TextView questionTextView;
+    private RadioGroup radioGroup;
+    private RadioButton option1, option2, option3, option4;
+    private Button submitButton;
+    private String categoryId;
+    private ArrayList<Question> questionList;
+    private int currentQuestionIndex = 0;
+    private Question currentQuestion;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        setContentView(R.layout.activity_activity);
+
+        // Get category ID from the intent
+        categoryId = getIntent().getStringExtra("id");
+
+        // Initialize UI components
+        questionTextView = findViewById(R.id.questionTextView);
+        radioGroup = findViewById(R.id.radioGroup);
+        option1 = findViewById(R.id.radioOption1);
+        option2 = findViewById(R.id.radioOption2);
+        option3 = findViewById(R.id.radioOption3);
+        option4 = findViewById(R.id.radioOption4);
+        submitButton = findViewById(R.id.submitButton);
+
+        // Fetch questions for the category
+        if (categoryId != null) {
+            fetchQuestions(categoryId);
+        } else {
+            Toast.makeText(this, "Category ID is missing", Toast.LENGTH_SHORT).show();
+        }
+
+        // Handle button clicks (Next or Submit)
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkAnswer();
+            }
+        });
+    }
+
+    private void fetchQuestions(String categoryId) {
+        String url = "http://192.168.8.7/gesture/getQuestions.php?category_id=" + categoryId;  // Adjust URL as needed
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        questionList = new ArrayList<>();
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject questionObject = response.getJSONObject(i);
+                                String question = questionObject.getString("question");
+                                String optionA = questionObject.getString("option_a");
+                                String optionB = questionObject.getString("option_b");
+                                String optionC = questionObject.getString("option_c");
+                                String optionD = questionObject.getString("option_d");
+                                String correctAnswer = questionObject.getString("correct_answer");
+
+                                questionList.add(new Question(question, optionA, optionB, optionC, optionD, correctAnswer));
+                            }
+                            loadQuestion();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    private void loadQuestion() {
+        if (currentQuestionIndex < questionList.size()) {
+            currentQuestion = questionList.get(currentQuestionIndex);
+            questionTextView.setText(currentQuestion.getQuestionText());
+            option1.setText(currentQuestion.getOptionA());
+            option2.setText(currentQuestion.getOptionB());
+            option3.setText(currentQuestion.getOptionC());
+            option4.setText(currentQuestion.getOptionD());
+            radioGroup.clearCheck();  // Clear previous selection
+
+            // Check if this is the last question
+            if (currentQuestionIndex == questionList.size() - 1) {
+                submitButton.setText("Submit");  // Change text to "Submit"
+            } else {
+                submitButton.setText("Next");  // Change text to "Next"
+            }
+        } else {
+            Toast.makeText(this, "You have completed all questions!", Toast.LENGTH_SHORT).show();
+            // You can navigate back or show results here
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_activity, container, false);
+    private void checkAnswer() {
+        int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+        if (selectedRadioButtonId == -1) {
+            Toast.makeText(this, "Please select an answer", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+        String selectedAnswer = selectedRadioButton.getText().toString();
+
+        if (selectedAnswer.equals(currentQuestion.getCorrectAnswer())) {
+            Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Incorrect. The correct answer is: " + currentQuestion.getCorrectAnswer(), Toast.LENGTH_LONG).show();
+        }
+
+        // Check if it is the last question
+        if (currentQuestionIndex == questionList.size() - 1) {
+            // This is the last question, so handle the final submission
+            Toast.makeText(this, "Activity completed!", Toast.LENGTH_SHORT).show();
+            // You can submit results or navigate to another activity here
+            finish();
+        } else {
+            currentQuestionIndex++;
+            loadQuestion();  // Load the next question
+        }
     }
 }

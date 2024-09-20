@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener {
+public class ActivityFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener {
 
     private RecyclerView recyclerView;
     private CategoryAdapter categoryAdapter;
@@ -36,17 +36,13 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_activity, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));  // Using GridLayoutManager for grid style
+
         categories = new ArrayList<>();
 
         // Pass 'this' as the OnCategoryClickListener
@@ -105,17 +101,15 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
     @Override
     public void onCategoryClick(Category category) {
         // Create an intent to start ContentActivity
-        Intent intent = new Intent(getActivity(), ContentActivity.class);
+        Intent intent = new Intent(getActivity(), Activity.class);
 
-        // Pass the category name as an extra
+        // Pass the category name and id as extras
         intent.putExtra("category_name", category.getName());
-
         intent.putExtra("id", category.getId());
 
         // Start the ContentActivity
         startActivity(intent);
         Log.d("ContentActivity", "Starting ContentActivity with category: " + category.getName());
-
 
         Toast.makeText(getContext(), "Clicked: " + category.getName(), Toast.LENGTH_SHORT).show();
     }
@@ -134,8 +128,8 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
 
     // Stop auto-update when fragment is destroyed
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         stopAutoUpdate();
     }
 

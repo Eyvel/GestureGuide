@@ -39,7 +39,7 @@ public class LoginTabFragment extends Fragment {
 
 
 
-    String url_login = "http://192.168.100.72/gesture/login.php"; // corrected the URL
+    String url_login = "http://192.168.8.7/gesture/studentLogin.php"; // corrected the URL
 
 
 
@@ -91,6 +91,7 @@ public class LoginTabFragment extends Fragment {
                             Log.d("LoginResponse", response);
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
+
                                 String success = jsonObject.getString("success");
                                 if (success.equals("1")) {
                                     JSONArray jsonArray = jsonObject.getJSONArray("login");
@@ -98,7 +99,7 @@ public class LoginTabFragment extends Fragment {
                                         JSONObject object = jsonArray.getJSONObject(i);
 
                                         String username = object.getString("username");
-                                        String userId = object.getString("id");
+                                        String user_id = object.getString("user_id");
                                         String userEmail = object.getString("email");
                                         String userNumber = object.getString("number");
                                         String userBirthday =object.getString("birthday");
@@ -115,10 +116,9 @@ public class LoginTabFragment extends Fragment {
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
 
-
                                         editor.putString("username", username);
 
-                                        editor.putString("userId", userId);
+                                        editor.putString("user_id", user_id);
                                         editor.putString("email", userEmail);
                                         editor.putString("number", userNumber);
                                         editor.putString("birthday", userBirthday);

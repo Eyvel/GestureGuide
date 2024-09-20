@@ -1,20 +1,16 @@
 package com.example.guestureguide;
 
-public class Category {
+import java.io.Serializable;
 
+public class Content implements Serializable {
     private String name;
     private String imageUrl;
-    private String id;
+    private String videoUrl;
 
-    public Category(String id,String name, String imageUrl) {
-        this.id = id;
-
+    public Content(String name, String imageUrl, String videoUrl) {
         this.name = name;
         this.imageUrl = imageUrl;
-    }
-
-    public String getId(){
-        return id;
+        this.videoUrl = videoUrl;
     }
 
     public String getName() {
@@ -25,4 +21,9 @@ public class Category {
         return imageUrl;
     }
 
+    public String getVideoUrl() {
+        return videoUrl;
+    }
 }
+
+
