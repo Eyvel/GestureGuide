@@ -1,7 +1,5 @@
 package com.example.guestureguide;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -39,8 +36,6 @@ public class ContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contents);
 
-
-
         RecyclerView recyclerView = findViewById(R.id.recyclerViewContents);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2); // Use 'this' for Activity context
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -57,11 +52,9 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
 
-
-
         // Initialize content list and adapter
         contentList = new ArrayList<>();
-        contentAdapter = new ContentAdapter(this, contentList);
+        contentAdapter = new ContentAdapter(this, contentList, categoryId);
         recyclerView.setAdapter(contentAdapter);
 
         Log.d("ContentActivity", "Received Category ID: " + categoryId);

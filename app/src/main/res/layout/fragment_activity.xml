@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/FakeGray"
+        android:background="@drawable/category_bg"
         tools:context=".ActivityFragment">
 
         <!-- Top View as Header -->
@@ -19,7 +19,7 @@
             android:id="@+id/top_view"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@drawable/bg_home_view" />
+             />
 
         <!-- GridLayout for CardViews -->
         <GridLayout
@@ -27,7 +27,6 @@
             android:layout_height="match_parent"
             android:layout_below="@id/top_view"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="-80dp"
             android:layout_marginRight="20dp"
             android:rowCount="7">
 
@@ -54,7 +53,7 @@
             android:layout_marginTop="60dp"
             android:gravity="center"
             android:text="@string/activity"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/black"
             android:textSize="40sp"
             android:textStyle="bold" />
 
