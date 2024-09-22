@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:text="Next"
         android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/dark_blue"
         android:layout_marginTop="16dp"/>
     <Button
         android:id="@+id/previousContentButton"
@@ -47,6 +48,8 @@
         android:layout_height="wrap_content"
         android:text="Back"
         android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/dark_blue"
+
         android:layout_marginTop="16dp"/>
 
 </LinearLayout>
