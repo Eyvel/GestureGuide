@@ -27,7 +27,6 @@
             android:layout_height="match_parent"
             android:layout_below="@id/top_view"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="-80dp"
             android:layout_marginRight="20dp"
             android:rowCount="7">
 

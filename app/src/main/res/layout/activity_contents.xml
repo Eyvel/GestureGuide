@@ -12,29 +12,23 @@
         android:background="@drawable/content_bg"
         tools:context=".ContentActivity">
 
+        <ImageButton
+            android:id="@+id/back_to_content_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_margin="16dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/back_btn"
+            android:background="@android:color/transparent"
 
-
-        <!-- Top View as Header -->
+            android:contentDescription="Back"/>
         <View
             android:id="@+id/top_view"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            />
+            android:layout_height="250dp" />
 
-        <!-- Custom Back Button -->
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentStart="true"
-            android:layout_margin="16dp"
-            android:src="@drawable/baseline_arrow_back_24"
-            android:background="@android:color/transparent"
-
-            android:contentDescription="Back"
-            />
-
-        <!-- GridLayout for CardViews -->
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
