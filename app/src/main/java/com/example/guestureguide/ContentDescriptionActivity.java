@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -23,6 +24,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
     private VideoView contentVideoView;
     private Button learnButton;
     private Button backButton;  // Back button
+    private String categoryId;  // Class-level variable for categoryId
 
     private ArrayList<Content> contentList;  // List of content items
     private int currentIndex;  // Current index of the content being displayed
@@ -32,8 +34,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_description);
 
-        String categoryId = getIntent().getStringExtra("id");
-
+        categoryId = getIntent().getStringExtra("id");//get frmom intent
 
         ImageButton backToContentButton = findViewById(R.id.back_to_content_button);
         backToContentButton.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +45,8 @@ public class ContentDescriptionActivity extends AppCompatActivity {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("id", categoryId);  // Pass the category ID back
                 setResult(RESULT_OK, resultIntent);  // Set the result to OK
+                Log.d("CategoryID", "Navigating back with categoryId: " + categoryId);
+
                 finish();  // Finish this activity and return to the previous one
             }
         });
@@ -136,12 +139,26 @@ public class ContentDescriptionActivity extends AppCompatActivity {
     }
 
     private void navigateBackToCategory() {
-        // Navigate back to the CategoryActivity or the screen with categories
-        Intent intent = new Intent(ContentDescriptionActivity.this, MainActivity.class);  // Replace with your CategoryActivity class
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();  // Finish the current activity
+        if (contentList == null || contentList.isEmpty()) {
+            // If no content is available, just finish the activity and return to ContentActivity
+            Intent intent = new Intent(ContentDescriptionActivity.this, ContentActivity.class);
+            intent.putExtra("id", categoryId);  // Pass the category ID
+            Log.d("CategoryID", "Navigating back with categoryId: " + categoryId);
+
+            setResult(RESULT_OK, intent);  // Send the category ID back to the ContentActivity
+            finish();  // Close this activity and go back
+        } else {
+            // Navigate back to ContentActivity if content is available
+            Intent intent = new Intent(ContentDescriptionActivity.this, ContentActivity.class);
+            intent.putExtra("id", categoryId);  // Pass the category ID
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            // Log the categoryId to ensure it's not null
+            Log.d("CategoryID", "Navigating back with categoryId: " + categoryId);
+
+            startActivity(intent);
+            finish();  // Finish the current activity
+        }
+
     }
-
-
 }

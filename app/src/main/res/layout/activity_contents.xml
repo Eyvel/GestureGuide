@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/FakeGray"
+        android:background="@drawable/content_bg"
         tools:context=".ContentActivity">
 
 
@@ -19,7 +19,7 @@
             android:id="@+id/top_view"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@drawable/bg_home_view" />
+            />
 
         <!-- Custom Back Button -->
         <ImageButton
@@ -63,7 +63,7 @@
             android:layout_marginTop="60dp"
             android:gravity="center"
             android:text="@string/content"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/black"
             android:textSize="40sp"
             android:textStyle="bold" />
 
