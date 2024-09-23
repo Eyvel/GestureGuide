@@ -3,28 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@drawable/small_container"
+    android:layout_margin="5dp"
+    >
 
     <ImageView
+
         android:id="@+id/imageViewContent"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:scaleType="centerCrop"
+
  />
 
     <TextView
         android:id="@+id/textViewContentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="25sp"
         android:textColor="@android:color/black"
         android:paddingTop="8dp" />
 
-    <VideoView
-        android:id="@+id/videoViewContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginTop="8dp" />
+
 
 </LinearLayout>

@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,9 +43,24 @@ public class ActivityFragment extends Fragment implements CategoryAdapter.OnCate
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));  // Using GridLayoutManager for grid style
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
         categories = new ArrayList<>();
+
+        ImageButton backButton = view.findViewById(R.id.back_to_first_act_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationActivity activity = (NavigationActivity) getActivity();
+                if (activity != null) {
+                    activity.binding.bottomNavigationView.setVisibility(View.VISIBLE); // Show the navigation view
+                }
+                // Use FragmentManager to navigate back to the previous fragment
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();  // Go back to the previous fragment in the back stack
+            }
+        });
 
         // Pass 'this' as the OnCategoryClickListener
         categoryAdapter = new CategoryAdapter(getContext(), categories, this);

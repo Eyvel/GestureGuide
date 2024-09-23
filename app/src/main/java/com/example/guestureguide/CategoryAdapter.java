@@ -1,13 +1,16 @@
 package com.example.guestureguide;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -45,6 +48,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 .load(fullImageUrl)
                 .into(holder.categoryImageView);
 
+        if (position % 2 == 0) {
+            holder.parentLinearLayout.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.YellowOrange));
+        } else {
+            holder.parentLinearLayout.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.dark_blue));
+        }
+
         // Set click listener for the entire item view
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,11 +74,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         ImageView categoryImageView;
         TextView categoryTextView;
+        LinearLayout parentLinearLayout;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             categoryImageView = itemView.findViewById(R.id.categoryImageView);
             categoryTextView = itemView.findViewById(R.id.categoryTextView);
+            parentLinearLayout = itemView.findViewById(R.id.parentLinearLayout);
         }
     }
 
