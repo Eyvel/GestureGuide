@@ -29,7 +29,7 @@ public class ContentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ContentAdapter contentAdapter;
     private ArrayList<Content> contentList;
-    private String categoryId;
+    private String categoryId, contentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class ContentActivity extends AppCompatActivity {
 
         categoryId = getIntent().getStringExtra("id");
 
-        ImageButton backButton = findViewById(R.id.back_button);
+        ImageButton backButton = findViewById(R.id.back_to_content_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +54,7 @@ public class ContentActivity extends AppCompatActivity {
 
         // Initialize content list and adapter
         contentList = new ArrayList<>();
-        contentAdapter = new ContentAdapter(this, contentList, categoryId);
+        contentAdapter = new ContentAdapter(this, contentList, categoryId,contentName);
         recyclerView.setAdapter(contentAdapter);
 
         Log.d("ContentActivity", "Received Category ID: " + categoryId);

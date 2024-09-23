@@ -30,7 +30,7 @@ public class NavigationActivity extends AppCompatActivity {
             if (itemId == R.id.home_nav) {
                 replaceFragment(new HomeFragment(), "HomeFragment");
             }else if (itemId == R.id.Activity_nav) {
-                replaceFragment(new ActivityFragment(), "ActivityFragment");
+                replaceFragment(new ActivityFirstScreenFragment(), "ActivityFirstScreen");
             }  else if (itemId == R.id.quiz_nav) {
                 replaceFragment(new QuizFragment(), "QuizFragment");
             } else if (itemId == R.id.profile_nav) {

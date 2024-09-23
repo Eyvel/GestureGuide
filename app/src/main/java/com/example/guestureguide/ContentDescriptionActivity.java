@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -24,7 +25,8 @@ public class ContentDescriptionActivity extends AppCompatActivity {
     private VideoView contentVideoView;
     private Button learnButton;
     private Button backButton;  // Back button
-    private String categoryId;  // Class-level variable for categoryId
+    private String categoryId, contentNameString;  // class variable for categoryId
+    private TextView lessonProgress, contentName;
 
     private ArrayList<Content> contentList;  // List of content items
     private int currentIndex;  // Current index of the content being displayed
@@ -35,6 +37,8 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_content_description);
 
         categoryId = getIntent().getStringExtra("id");//get frmom intent
+        contentNameString = getIntent().getStringExtra("contentName");
+
 
         ImageButton backToContentButton = findViewById(R.id.back_to_content_button);
         backToContentButton.setOnClickListener(new View.OnClickListener() {
@@ -55,11 +59,16 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         contentImageView = findViewById(R.id.contentImageView);
         contentVideoView = findViewById(R.id.contentVideoView);
         learnButton = findViewById(R.id.learnButton);
-        backButton = findViewById(R.id.previousContentButton);  // Back button initialization
+        backButton = findViewById(R.id.previousContentButton);
+        lessonProgress = findViewById(R.id.lessonProgress);
+        contentName = findViewById(R.id.contentName);
+
+        contentName.setText(contentNameString);// conv string to text view
 
         // Get content list and current index from intent
         contentList = (ArrayList<Content>) getIntent().getSerializableExtra("content_list");
         currentIndex = getIntent().getIntExtra("current_index", 0);
+
 
         // Check if contentList is null
         if (contentList == null || contentList.isEmpty()) {
@@ -78,6 +87,8 @@ public class ContentDescriptionActivity extends AppCompatActivity {
                 currentIndex++;
                 loadContent(currentIndex);
                 updateBackButtonVisibility();  // Update visibility when going forward
+                lessonProgress.setText(currentIndex+ 1 + "/" + contentList.size());
+
             } else {
                 Toast.makeText(ContentDescriptionActivity.this, "No more content available!", Toast.LENGTH_SHORT).show();
                 navigateBackToCategory();
@@ -91,6 +102,8 @@ public class ContentDescriptionActivity extends AppCompatActivity {
                 currentIndex--;
                 loadContent(currentIndex);
                 updateBackButtonVisibility();  // Update visibility when going back
+                lessonProgress.setText(currentIndex + 1 + "/" + contentList.size());
+
             }
         });
     }
@@ -100,6 +113,8 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         Content currentContent = contentList.get(index);
         String imageUrl = currentContent.getImageUrl();
         String videoUrl = currentContent.getVideoUrl();
+        lessonProgress.setText(currentIndex+ 1 + "/" + contentList.size());
+
 
         if (imageUrl != null) {
             // Load image using Glide
