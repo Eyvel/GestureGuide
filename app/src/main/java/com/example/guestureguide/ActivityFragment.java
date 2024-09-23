@@ -36,6 +36,7 @@ public class ActivityFragment extends Fragment implements CategoryAdapter.OnCate
     private Handler handler;
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
+    private String username;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class ActivityFragment extends Fragment implements CategoryAdapter.OnCate
         });
 
         // Pass 'this' as the OnCategoryClickListener
-        categoryAdapter = new CategoryAdapter(getContext(), categories, this);
+        categoryAdapter = new CategoryAdapter(getContext(), categories, this, username);
         recyclerView.setAdapter(categoryAdapter);
 
         // Initialize Handler for periodic updates
