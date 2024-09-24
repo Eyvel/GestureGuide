@@ -14,15 +14,21 @@
         android:background="@drawable/category_bg"
         tools:context=".HomeFragment">
         <TextView
+            android:id="@+id/greeting"
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
-            android:gravity="center"
+            android:layout_marginLeft="20dp"
             android:text="Hello, "
             android:textColor="@color/black"
             android:textSize="26sp"
-            android:textStyle="bold" />
-        <!-- Top View as Header -->
+            android:textStyle="bold"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="26sp"
+            android:autoSizeStepGranularity="2sp"
+            />
+
         <View
             android:id="@+id/top_view"
             android:layout_width="match_parent"

@@ -1,12 +1,15 @@
 package com.example.guestureguide;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -34,7 +37,8 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
     private Handler handler;
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
-
+    private String username;
+    private TextView greeting;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +49,25 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categories = new ArrayList<>();
 
+        greeting = view.findViewById(R.id.greeting);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
+
+
+        greeting.setText("Hello, "+ username +"!");
+
+        Log.d("HomeFragment", "Retrieved username: " + username);
+
+
         // Pass 'this' as the OnCategoryClickListener
-        categoryAdapter = new CategoryAdapter(getContext(), categories, this);
+        categoryAdapter = new CategoryAdapter(getContext(), categories, this, username);
         recyclerView.setAdapter(categoryAdapter);
 
         // Initialize Handler for periodic updates

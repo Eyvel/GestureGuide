@@ -2,6 +2,7 @@ package com.example.guestureguide;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -28,7 +29,7 @@ public class Activity extends AppCompatActivity {
 
     private TextView questionTextView;
     private RadioGroup radioGroup;
-    private RadioButton option1, option2, option3, option4;
+    private RadioButton option1, option2;
     private Button submitButton;
     private String categoryId;
     private ArrayList<Question> questionList;
@@ -48,8 +49,7 @@ public class Activity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         option1 = findViewById(R.id.radioOption1);
         option2 = findViewById(R.id.radioOption2);
-        option3 = findViewById(R.id.radioOption3);
-        option4 = findViewById(R.id.radioOption4);
+
         submitButton = findViewById(R.id.submitButton);
 
         // Fetch questions for the category
@@ -79,18 +79,23 @@ public class Activity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+
+                        Log.d("Activity", response.toString());
                         questionList = new ArrayList<>();
                         try {
+                            Log.d("Activity", "Questions fetched: " + questionList.size());
+
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject questionObject = response.getJSONObject(i);
                                 String question = questionObject.getString("question");
                                 String optionA = questionObject.getString("option_a");
                                 String optionB = questionObject.getString("option_b");
-                                String optionC = questionObject.getString("option_c");
-                                String optionD = questionObject.getString("option_d");
+
+
+
                                 String correctAnswer = questionObject.getString("correct_answer");
 
-                                questionList.add(new Question(question, optionA, optionB, optionC, optionD, correctAnswer));
+                                questionList.add(new Question(question, optionA, optionB, correctAnswer));
                             }
                             loadQuestion();
                         } catch (JSONException e) {
@@ -114,8 +119,7 @@ public class Activity extends AppCompatActivity {
             questionTextView.setText(currentQuestion.getQuestionText());
             option1.setText(currentQuestion.getOptionA());
             option2.setText(currentQuestion.getOptionB());
-            option3.setText(currentQuestion.getOptionC());
-            option4.setText(currentQuestion.getOptionD());
+
             radioGroup.clearCheck();  // Clear previous selection
 
             // Check if this is the last question
