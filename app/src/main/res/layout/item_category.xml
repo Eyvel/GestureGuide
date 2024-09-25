@@ -36,7 +36,7 @@
         android:layout_marginTop="60dp"
         android:autoSizeTextType="uniform"
         android:autoSizeMinTextSize="12sp"
-        android:autoSizeMaxTextSize="40sp"
+        android:autoSizeMaxTextSize="35sp"
         android:autoSizeStepGranularity="2sp"
         android:gravity="center"
 

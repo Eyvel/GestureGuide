@@ -9,11 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener {
+public class CategoryFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener {
 
     private RecyclerView recyclerView;
     private CategoryAdapter categoryAdapter;
@@ -39,7 +40,6 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
     private String username;
-    private TextView greeting;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_category, container, false);
 
 
 
@@ -56,34 +56,28 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categories = new ArrayList<>();
 
-        greeting = view.findViewById(R.id.greeting);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
 
 
-        greeting.setText( username);
 
         Log.d("HomeFragment", "Retrieved username: " + username);
 
-        TextView seeAll = view.findViewById(R.id.seeAll);
-        seeAll.setOnClickListener(new View.OnClickListener() {
+        ImageButton backButton = view.findViewById(R.id.back_to_home_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavigationActivity activity = (NavigationActivity) getActivity();
                 if (activity != null) {
-                    activity.binding.bottomNavigationView.setVisibility(View.GONE); // Hide the navigation view
+                    activity.binding.bottomNavigationView.setVisibility(View.VISIBLE); // Show the navigation view
                 }
-                if (getActivity() != null) {
-                    // Replace current fragment with ActivityFragment
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, new CategoryFragment()) // Assuming your frame layout ID
-                            .addToBackStack(null)
-                            .commit();
-                }
+                // Use FragmentManager to navigate back to the previous fragment
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();  // Go back to the previous fragment in the back stack
             }
         });
+
 
         // Pass 'this' as the OnCategoryClickListener
         categoryAdapter = new CategoryAdapter(getContext(), categories, this, username);

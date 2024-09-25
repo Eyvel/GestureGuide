@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    app:layout_editor_absoluteX="1dp"
+    app:layout_editor_absoluteY="1dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/content_bg"
+        tools:context=".CategoryFragment">
+        <ImageButton
+            android:id="@+id/back_to_home_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_margin="16dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/back_btn"
+            android:background="@android:color/transparent"
+
+            android:contentDescription="Back"/>
+
+
+        <View
+            android:id="@+id/top_view"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            />
+
+        <!-- GridLayout for CardViews -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/top_view"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="-80dp"
+            android:layout_marginRight="20dp"
+            android:rowCount="7">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewCategories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:padding="8dp" />
+
+
+            <!-- Add more CardViews similarly as needed -->
+        </GridLayout>
+
+        <!-- Title TextView -->
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:gravity="center"
+            android:text="@string/categories"
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</ScrollView>
