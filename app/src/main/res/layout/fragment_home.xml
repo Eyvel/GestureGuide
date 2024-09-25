@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fillViewport="true"
-    app:layout_editor_absoluteX="1dp"
-    app:layout_editor_absoluteY="1dp">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/category_bg"
-        tools:context=".HomeFragment">
+        android:padding="16dp"
+        android:background="@drawable/content_bg">
+
+        <!-- Greeting TextView -->
         <TextView
-            android:id="@+id/greeting"
+            android:id="@+id/hello"
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
@@ -29,52 +28,225 @@
             android:autoSizeStepGranularity="2sp"
             />
 
-        <View
-            android:id="@+id/top_view"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            />
 
-        <!-- GridLayout for CardViews -->
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/top_view"
+        <!-- User name TextView -->
+        <TextView
+            android:id="@+id/greeting"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="-80dp"
-            android:layout_marginRight="20dp"
-            android:rowCount="7">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hello"
+            android:layout_marginTop="4dp"
+            android:text="Mary Jane"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <!-- Sign Language Question Card -->
+        <LinearLayout
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/greeting"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/rounded_corner_orange"
+            android:elevation="4dp">
 
-            </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What sign language would you like to learn?"
+                android:textSize="18sp"
+                android:textColor="@android:color/white" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewCategories"
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Learn More"
+                android:backgroundTint="@android:color/white"
+                android:textColor="@android:color/holo_orange_light" />
+        </LinearLayout>
+
+        <!-- Bottom Button Section -->
+        <LinearLayout
+            android:id="@+id/bottomSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_corner_dark_blue"
+            android:padding="16dp">
+
+            <!-- Records Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Records"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <!-- Lesson Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lesson"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <!-- Quiz Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                  />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quiz"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Schedule Section -->
+        <FrameLayout
+            android:id="@+id/frame_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_below="@id/bottomSection"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            >
+
+            <TextView
+                android:id="@+id/schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Schedule"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/rounded_corner_orange"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_below="@id/schedule"
+                android:text="Monday - Friday : 7:00 - 9:00 AM"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+        </FrameLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:padding="8dp" />
+                android:layout_below="@id/frame_schedule"
+                >
+
+                <View
+                    android:id="@+id/top_view"
+                    android:layout_width="10dp"
+                    android:layout_height="110dp"
+                    />
+
+                <!-- GridLayout for CardViews -->
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/top_view"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="-80dp"
+                    android:layout_marginRight="20dp"
+                    android:rowCount="7">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </FrameLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewCategories"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_row="0"
+                        android:layout_column="0"
+                        android:padding="8dp" />
 
 
-            <!-- Add more CardViews similarly as needed -->
-        </GridLayout>
+                    <!-- Add more CardViews similarly as needed -->
+                </GridLayout>
 
-        <!-- Title TextView -->
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:gravity="center"
-            android:text="@string/categories"
-            android:textColor="@color/black"
-            android:textSize="40sp"
-            android:textStyle="bold" />
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+                <!-- Title TextView -->
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="60dp"
+
+                    android:gravity="start"
+                    android:text="@string/categories"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
+                <TextView
+                    android:id="@+id/seeAll"
+                    android:layout_width="200dp"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:text="@string/see_all"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+
+                    /></LinearLayout>
+
+            </RelativeLayout>
 
     </RelativeLayout>
-
 </ScrollView>
+
+
+
