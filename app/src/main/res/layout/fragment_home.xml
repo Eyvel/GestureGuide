@@ -91,6 +91,8 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:src="@drawable/records_icon"
+
                     />
 
                 <TextView
@@ -112,6 +114,7 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:src="@drawable/lesson_icon"
                     />
 
                 <TextView
@@ -133,6 +136,7 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:src="@drawable/quiz_icon"
                   />
 
                 <TextView
@@ -148,14 +152,14 @@
         <FrameLayout
             android:id="@+id/frame_schedule"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="100dp"
             android:layout_below="@id/bottomSection"
             android:layout_marginTop="16dp"
             android:orientation="vertical"
-            android:padding="16dp"
             >
 
             <TextView
+                android:padding="10dp"
                 android:id="@+id/schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -165,9 +169,11 @@
                 android:background="@drawable/rounded_corner_orange"/>
 
             <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_below="@id/schedule"
                 android:text="Monday - Friday : 7:00 - 9:00 AM"
                 android:textSize="18sp"
