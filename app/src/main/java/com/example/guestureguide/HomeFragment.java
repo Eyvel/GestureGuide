@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
                     public void onResponse(JSONArray response) {
                         categories.clear();
                         try {
-                            for (int i = 0; i < response.length(); i++) {
+                            for (int i = 0; i <= 1; i++) {
                                 JSONObject categoryObject = response.getJSONObject(i);
                                 String id = categoryObject.getString("id");
                                 String name = categoryObject.getString("category_name");
