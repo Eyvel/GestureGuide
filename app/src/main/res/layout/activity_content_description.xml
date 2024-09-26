@@ -107,7 +107,10 @@
         android:text="Next"
         android:layout_gravity="center_horizontal"
         android:backgroundTint="@color/dark_blue"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:textAllCaps="false"
+
+        />
     <Button
         android:id="@+id/previousContentButton"
         android:layout_width="wrap_content"
@@ -116,6 +119,9 @@
         android:layout_gravity="center_horizontal"
         android:backgroundTint="@color/dark_blue"
 
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:textAllCaps="false"
+
+        />
 
 </LinearLayout>

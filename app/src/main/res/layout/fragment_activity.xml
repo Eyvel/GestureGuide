@@ -6,12 +6,13 @@
     android:layout_height="wrap_content"
     android:fillViewport="true"
     app:layout_editor_absoluteX="1dp"
-    app:layout_editor_absoluteY="1dp">
+    app:layout_editor_absoluteY="1dp"
+    android:background="@drawable/category_bg">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/category_bg"
+
         tools:context=".ActivityFragment">
         <ImageButton
             android:id="@+id/back_to_first_act_button"

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,7 +68,26 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
         Log.d("HomeFragment", "Retrieved username: " + username);
 
         TextView seeAll = view.findViewById(R.id.seeAll);
+        Button learnMore = view.findViewById(R.id.learn_more_button);
+
         seeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationActivity activity = (NavigationActivity) getActivity();
+                if (activity != null) {
+                    activity.binding.bottomNavigationView.setVisibility(View.GONE); // Hide the navigation view
+                }
+                if (getActivity() != null) {
+                    // Replace current fragment with ActivityFragment
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, new CategoryFragment()) // Assuming your frame layout ID
+                            .addToBackStack(null)
+                            .commit();
+                }
+            }
+        });
+        learnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavigationActivity activity = (NavigationActivity) getActivity();
