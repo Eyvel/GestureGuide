@@ -32,17 +32,38 @@ public class Activity extends AppCompatActivity {
     private RadioButton option1, option2;
     private Button submitButton;
     private String categoryId;
+    private String user_id;
     private ArrayList<Question> questionList;
     private int currentQuestionIndex = 0;
     private Question currentQuestion;
+    private int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity);
 
+
         // Get category ID from the intent
         categoryId = getIntent().getStringExtra("id");
+        user_id = getIntent().getStringExtra("user_id");
+
+        // Check for null user_id and show a toast if it's missing
+        if (user_id == null) {
+            Toast.makeText(this, "User ID is missing", Toast.LENGTH_SHORT).show();
+            finish();  // Finish the activity if user ID is not provided
+            return; // Exit the method early
+        }
+
+        // Parse user_id to int
+        int user_id_int;
+        try {
+            user_id_int = Integer.parseInt(user_id);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid User ID", Toast.LENGTH_SHORT).show();
+            finish();  // Finish the activity if user ID is invalid
+            return; // Exit the method early
+        }
 
         // Initialize UI components
         questionTextView = findViewById(R.id.questionTextView);
@@ -55,6 +76,7 @@ public class Activity extends AppCompatActivity {
         // Fetch questions for the category
         if (categoryId != null) {
             fetchQuestions(categoryId);
+
         } else {
             Toast.makeText(this, "Category ID is missing", Toast.LENGTH_SHORT).show();
         }
@@ -69,7 +91,7 @@ public class Activity extends AppCompatActivity {
     }
 
     private void fetchQuestions(String categoryId) {
-        String url = "http://192.168.8.7/gesture/getQuestions.php?category_id=" + categoryId;  // Adjust URL as needed
+        String url = "http://192.168.8.9/gesture/getQuestions.php?category_id=" + categoryId;  // Adjust URL as needed
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -136,6 +158,7 @@ public class Activity extends AppCompatActivity {
 
     private void checkAnswer() {
         int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+
         if (selectedRadioButtonId == -1) {
             Toast.makeText(this, "Please select an answer", Toast.LENGTH_SHORT).show();
             return;
@@ -144,17 +167,29 @@ public class Activity extends AppCompatActivity {
         RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
         String selectedAnswer = selectedRadioButton.getText().toString();
 
+
+
         if (selectedAnswer.equals(currentQuestion.getCorrectAnswer())) {
+            score++;
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+
+
         } else {
             Toast.makeText(this, "Incorrect. The correct answer is: " + currentQuestion.getCorrectAnswer(), Toast.LENGTH_LONG).show();
         }
 
         // Check if it is the last question
         if (currentQuestionIndex == questionList.size() - 1) {
-            // This is the last question, so handle the final submission
+            Intent intent = new Intent(Activity.this, QuizScoreActivity.class);
+            intent.putExtra("score", score);
+            intent.putExtra("totalQuestions", questionList.size());
+            intent.putExtra("userId", Integer.parseInt(user_id));
+            intent.putExtra("categoryId", Integer.parseInt(categoryId));
+            startActivity(intent);
+
             Toast.makeText(this, "Activity completed!", Toast.LENGTH_SHORT).show();
-            // You can submit results or navigate to another activity here
+
+            // End the current activity
             finish();
         } else {
             currentQuestionIndex++;

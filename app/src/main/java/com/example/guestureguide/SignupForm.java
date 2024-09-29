@@ -26,7 +26,7 @@ public class SignupForm extends AppCompatActivity {
     Button btn_form;
     String username, email, password;
 
-    String url_signup = "http://192.168.8.7/gesture/signup.php";
+    String url_signup = "http://192.168.8.9/gesture/signup.php";
 
 
     @Override

@@ -68,7 +68,7 @@ public class ContentActivity extends AppCompatActivity {
     }
 
     private void fetchContent(String categoryId) {
-        String url = "http://192.168.8.7/gesture/getContent.php?category_id=" + categoryId;  // Adjust URL as needed
+        String url = "http://192.168.8.9/gesture/getContent.php?category_id=" + categoryId;  // Adjust URL as needed
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -88,8 +88,8 @@ public class ContentActivity extends AppCompatActivity {
                                 String contentImage = contentObject.getString("content_image");
                                 String contentVideo = contentObject.getString("content_video");
 
-                                String imageUrl = "http://192.168.8.7/" + contentImage;
-                                String videoUrl = "http://192.168.8.7/" + contentVideo;
+                                String imageUrl = "http://192.168.8.9/" + contentImage;
+                                String videoUrl = "http://192.168.8.9/" + contentVideo;
 
                                 contentList.add(new Content(contentName, imageUrl, videoUrl));
                             }
