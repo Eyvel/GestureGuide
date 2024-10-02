@@ -1,6 +1,8 @@
 package com.example.guestureguide;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -37,24 +39,25 @@ public class ActivityFragment extends Fragment implements CategoryAdapter.OnCate
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
     private String userId; // Store the user ID
-
-    // Static factory method to create a new instance of ActivityFragment
-    public static ActivityFragment newInstance(String userId) {
-        ActivityFragment fragment = new ActivityFragment();
-        Bundle args = new Bundle();
-        args.putString("user_id", userId); // Put user_id into the arguments
-        fragment.setArguments(args); // Set the arguments to the fragment
-        return fragment;
-    }
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
 
-        // Retrieve user_id from the fragment arguments
-        if (getArguments() != null) {
-            userId = getArguments().getString("user_id"); // Get user_id
+        // Retrieve user_id from SharedPreferences
+        sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getString("user_id", null); // Get the user_id from SharedPreferences
+
+
+        if (userId == null) {
+            Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
+            // Redirect to login if user_id is null
+            Intent intent = new Intent(getActivity(), LoginTabFragment.class);
+            startActivity(intent);
+            getActivity().finish();
+            return view;
         }
 
         // Initialize RecyclerView
@@ -92,7 +95,7 @@ public class ActivityFragment extends Fragment implements CategoryAdapter.OnCate
 
     // Fetch categories from API
     private void fetchCategories() {
-        String url = "http://192.168.8.9/gesture/getCategories.php";  // Your API endpoint
+        String url = "http://192.168.8.7/gesture/getCategories.php";  // Your API endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -104,6 +107,8 @@ public class ActivityFragment extends Fragment implements CategoryAdapter.OnCate
                     public void onResponse(JSONArray response) {
                         categories.clear();
                         try {
+                            Log.d("ActivityFragment", "User ID from SharedPreferences: " + userId);
+
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject categoryObject = response.getJSONObject(i);
                                 String id = categoryObject.getString("id");

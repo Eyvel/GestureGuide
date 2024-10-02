@@ -91,7 +91,7 @@ public class Activity extends AppCompatActivity {
     }
 
     private void fetchQuestions(String categoryId) {
-        String url = "http://192.168.8.9/gesture/getQuestions.php?category_id=" + categoryId;  // Adjust URL as needed
+        String url = "http://192.168.8.7/gesture/getQuestions.php?category_id=" + categoryId;  // Adjust URL as needed
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -105,7 +105,7 @@ public class Activity extends AppCompatActivity {
                         Log.d("Activity", response.toString());
                         questionList = new ArrayList<>();
                         try {
-                            Log.d("Activity", "Questions fetched: " + questionList.size());
+
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject questionObject = response.getJSONObject(i);
@@ -119,6 +119,7 @@ public class Activity extends AppCompatActivity {
 
                                 questionList.add(new Question(question, optionA, optionB, correctAnswer));
                             }
+                            Log.d("Activity", "Questions fetched: " + questionList.size());
                             loadQuestion();
                         } catch (JSONException e) {
                             e.printStackTrace();

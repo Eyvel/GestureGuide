@@ -19,7 +19,7 @@ public class SignupTabFragment extends Fragment {
 
 
 
-    String url_signup = "http://192.168.8.9/capstone_test/signup.php"; // corrected the URL
+    String url_signup = "http://192.168.8.7/capstone_test/signup.php"; // corrected the URL
 
 
 

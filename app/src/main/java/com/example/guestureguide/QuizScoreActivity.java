@@ -1,6 +1,7 @@
 package com.example.guestureguide;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ import java.util.Map;
 public class QuizScoreActivity extends AppCompatActivity {
 
     private TextView scoreTextView;
+    private static final String TAG = "QuizScoreActivity";  //llog
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +34,22 @@ public class QuizScoreActivity extends AppCompatActivity {
         int score = getIntent().getIntExtra("score", 0);
         int totalQuestions = getIntent().getIntExtra("totalQuestions", 0);
 
-        int user_id = getIntent().getIntExtra("user_id", 0);  // Get the userId from Intent
+        int user_id = getIntent().getIntExtra("userId", 0);  // Get the userId from Intent
         int categoryId = getIntent().getIntExtra("categoryId", 0);  // Get the categoryId from Intent
 
         // Display the score
         scoreTextView.setText("Score: " + score + "/" + totalQuestions);
+
+        Log.d(TAG, "User ID: " + user_id);
+        Log.d(TAG, "Category ID: " + categoryId);
+        Log.d(TAG, "Score: " + score);
+        Log.d(TAG, "Total Questions: " + totalQuestions);
         // Send the score to the server
         sendQuizScoreToServer(user_id, categoryId, score, totalQuestions);
     }
 
     private void sendQuizScoreToServer(int user_id, int categoryId, int score, int totalQuestions) {
-        String url = "http://192.168.8.9/gesture/saveQuizScore.php";
+        String url = "http://192.168.8.7/gesture/saveQuizScore.php";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
