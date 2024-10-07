@@ -10,15 +10,10 @@
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Activity"
+        android:title="Quiz"
         android:icon="@drawable/profile_logo"
         android:id="@+id/Activity_nav"/>
-    <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="Quiz"
-        android:icon="@drawable/quiz_kunyare"
-        android:id="@+id/quiz_nav"/>
+
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -17,9 +17,8 @@
         android:theme="@style/Theme.GuestureGuide"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".QuizFirstScreen"
-            android:exported="false" />
+
+
         <activity
             android:name=".ActivityFirstScreenFragment"
             android:exported="false" />
@@ -30,6 +29,9 @@
         <activity android:name=".ActivityFragment" />
         <activity
             android:name=".Content"
+            android:exported="false" />
+        <activity
+            android:name=".QuizScoreActivity"
             android:exported="false" />
         <activity
             android:name=".Category"
@@ -49,15 +51,20 @@
         <activity
             android:name=".NavigationActivity"
             android:exported="false" />
+
+        <!-- Updated MainActivity with windowSoftInputMode -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
 
 </manifest>
+
+
+

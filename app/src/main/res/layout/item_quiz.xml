@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parentLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@drawable/small_container"
+    android:backgroundTint="@color/dark_blue"
+    android:layout_marginTop="20dp"
+
+
+
+
+    >
+
+
+
+    <TextView
+        android:textStyle="bold"
+        android:id="@+id/quizTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="40sp"
+        android:textColor="@android:color/white"
+        android:paddingTop="10dp"
+
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="30sp"
+        android:autoSizeStepGranularity="2sp"
+        android:gravity="center"
+
+        />
+
+
+
+</LinearLayout>

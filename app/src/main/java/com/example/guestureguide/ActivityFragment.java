@@ -28,55 +28,37 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ActivityFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener {
+public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClickListener {
 
     private RecyclerView recyclerView;
-    private CategoryAdapter categoryAdapter;
-    private ArrayList<Category> categories;
+    private QuizAdapter quizAdapter;
+    private ArrayList<Quiz> quizzes;
     private Handler handler;
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
-    private String username;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
-
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
-        categories = new ArrayList<>();
+        quizzes = new ArrayList<>();
 
-        ImageButton backButton = view.findViewById(R.id.back_to_first_act_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavigationActivity activity = (NavigationActivity) getActivity();
-                if (activity != null) {
-                    activity.binding.bottomNavigationView.setVisibility(View.VISIBLE); // Show the navigation view
-                }
-                // Use FragmentManager to navigate back to the previous fragment
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack();  // Go back to the previous fragment in the back stack
-            }
-        });
+        // Initialize quiz adapter
+        quizAdapter = new QuizAdapter(getContext(), quizzes, this);
+        recyclerView.setAdapter(quizAdapter);
 
-        // Pass 'this' as the OnCategoryClickListener
-        categoryAdapter = new CategoryAdapter(getContext(), categories, this, username);
-        recyclerView.setAdapter(categoryAdapter);
-
-        // Initialize Handler for periodic updates
         handler = new Handler();
         startAutoUpdate();
 
         return view;
     }
 
-    // Fetch categories from API
-    private void fetchCategories() {
-        String url = "http://192.168.8.7/gesture/getCategories.php";  // Your API endpoint
+    // Fetch quiz titles from API
+    private void fetchQuizzes() {
+        String url = "http://192.168.8.7/gesture/getQuizTitles.php"; // Adjust API endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -86,19 +68,16 @@ public class ActivityFragment extends Fragment implements CategoryAdapter.OnCate
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        categories.clear();
+                        quizzes.clear();
                         try {
                             for (int i = 0; i < response.length(); i++) {
-                                JSONObject categoryObject = response.getJSONObject(i);
-                                String id = categoryObject.getString("id");
-                                String name = categoryObject.getString("category_name");
-                                String imageUrl = categoryObject.getString("category_image");
+                                JSONObject quizObject = response.getJSONObject(i);
+                                String id = quizObject.getString("id");
+                                String quizTitle = quizObject.getString("quiz_title");
 
-                                categories.add(new Category(id, name, imageUrl));
+                                quizzes.add(new Quiz(id, quizTitle));
                             }
-                            // Notify adapter about data change
-                            categoryAdapter.notifyDataSetChanged();
-
+                            quizAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -115,43 +94,29 @@ public class ActivityFragment extends Fragment implements CategoryAdapter.OnCate
         requestQueue.add(jsonArrayRequest);
     }
 
-    // Handle category click event
     @Override
-    public void onCategoryClick(Category category) {
-        // Create an intent to start ContentActivity
+    public void onQuizClick(Quiz quiz) {
         Intent intent = new Intent(getActivity(), Activity.class);
-
-        // Pass the category name and id as extras
-        intent.putExtra("category_name", category.getName());
-        intent.putExtra("id", category.getId());
-
-        // Start the ContentActivity
+        intent.putExtra("quiz_title", quiz.getQuizTitle());
+        intent.putExtra("id", quiz.getId());
         startActivity(intent);
-        Log.d("ContentActivity", "Starting ContentActivity with category: " + category.getName());
-
-        Toast.makeText(getContext(), "Clicked: " + category.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    // Start auto-update by calling fetchCategories() every X seconds
+
     private void startAutoUpdate() {
         runnable = new Runnable() {
             @Override
             public void run() {
-                fetchCategories();
+                fetchQuizzes();
                 handler.postDelayed(this, UPDATE_INTERVAL);
             }
         };
         handler.postDelayed(runnable, UPDATE_INTERVAL);
     }
 
-    // Stop auto-update when fragment is destroyed
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        stopAutoUpdate();
-    }
-
-    private void stopAutoUpdate() {
         handler.removeCallbacks(runnable);
     }
 }
