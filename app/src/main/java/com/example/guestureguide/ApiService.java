@@ -2,9 +2,12 @@ package com.example.guestureguide;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import java.util.ArrayList;
+
+import java.util.List;
 
 public interface ApiService {
-    @GET("gesture/getCategories.php")
-    Call<ArrayList<Category>> getCategories();
+    @GET("getCategories.php")  // Assuming this is your API endpoint
+    Call<List<Category>> getCategories();
 }
+
+

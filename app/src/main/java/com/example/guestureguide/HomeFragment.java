@@ -14,22 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener {
 
@@ -41,6 +34,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
     private String username;
     private TextView greeting;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,20 +45,15 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
-
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categories = new ArrayList<>();
 
         greeting = view.findViewById(R.id.greeting);
-
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
 
-
-        greeting.setText( username);
-
+        greeting.setText(username);
         Log.d("HomeFragment", "Retrieved username: " + username);
 
         TextView seeAll = view.findViewById(R.id.seeAll);
@@ -73,110 +62,72 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
         seeAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationActivity activity = (NavigationActivity) getActivity();
-                if (activity != null) {
-                    activity.binding.bottomNavigationView.setVisibility(View.GONE); // Hide the navigation view
-                }
-                if (getActivity() != null) {
-                    // Replace current fragment with ActivityFragment
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, new CategoryFragment()) // Assuming your frame layout ID
-                            .addToBackStack(null)
-                            .commit();
-                }
+                navigateToCategoryFragment();
             }
         });
         learnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationActivity activity = (NavigationActivity) getActivity();
-                if (activity != null) {
-                    activity.binding.bottomNavigationView.setVisibility(View.GONE); // Hide the navigation view
-                }
-                if (getActivity() != null) {
-                    // Replace current fragment with ActivityFragment
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, new CategoryFragment()) // Assuming your frame layout ID
-                            .addToBackStack(null)
-                            .commit();
-                }
+                navigateToCategoryFragment();
             }
         });
 
-        // Pass 'this' as the OnCategoryClickListener
         categoryAdapter = new CategoryAdapter(getContext(), categories, this, username);
         recyclerView.setAdapter(categoryAdapter);
 
-        // Initialize Handler for periodic updates
         handler = new Handler();
         startAutoUpdate();
-
         return view;
     }
 
-    // Fetch categories from API
-    private void fetchCategories() {
-        String url = "http://192.168.8.7/gesture/getCategories.php";  // Your API endpoint
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        categories.clear();
-                        try {
-                            for (int i = 0; i <= 1; i++) {
-                                JSONObject categoryObject = response.getJSONObject(i);
-                                String id = categoryObject.getString("id");
-                                String name = categoryObject.getString("category_name");
-                                String imageUrl = categoryObject.getString("category_image");
-
-                                categories.add(new Category(id, name, imageUrl));
-                            }
-                            // Notify adapter about data change
-                            categoryAdapter.notifyDataSetChanged();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                }
-        );
-
-        requestQueue.add(jsonArrayRequest);
+    private void navigateToCategoryFragment() {
+        NavigationActivity activity = (NavigationActivity) getActivity();
+        if (activity != null) {
+            activity.binding.bottomNavigationView.setVisibility(View.GONE); // Hide the navigation view
+        }
+        if (getActivity() != null) {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, new CategoryFragment())
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
-    // Handle category click event
+    private void fetchCategories() {
+        ApiService apiService = RetrofitClient.getInstance(getContext()).create(ApiService.class);
+        Call<List<Category>> call = apiService.getCategories();
+
+        call.enqueue(new Callback<List<Category>>() {
+            @Override
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    categories.clear();
+                    categories.addAll(response.body());
+                    categoryAdapter.setCategories(categories);
+                } else {
+                    Toast.makeText(getContext(), "Failed to fetch categories", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void onCategoryClick(Category category) {
-        // Create an intent to start ContentActivity
         Intent intent = new Intent(getActivity(), ContentActivity.class);
-
-        // Pass the category name as an extra
-        intent.putExtra("category_name", category.getName());
-
+        intent.putExtra("category_name", category.getCategory_name());
         intent.putExtra("id", category.getId());
-
-        // Start the ContentActivity
         startActivity(intent);
-        Log.d("ContentActivity", "Starting ContentActivity with category: " + category.getName());
-
-
-        Toast.makeText(getContext(), "Clicked: " + category.getName(), Toast.LENGTH_SHORT).show();
+        Log.d("ContentActivity", "Starting ContentActivity with category: " + category.getCategory_name());
+        Toast.makeText(getContext(), "Clicked: " + category.getCategory_name(), Toast.LENGTH_SHORT).show();
     }
 
-    // Start auto-update by calling fetchCategories() every X seconds
     private void startAutoUpdate() {
         runnable = new Runnable() {
             @Override
@@ -188,7 +139,6 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
         handler.postDelayed(runnable, UPDATE_INTERVAL);
     }
 
-    // Stop auto-update when fragment is destroyed
     @Override
     public void onDestroy() {
         super.onDestroy();

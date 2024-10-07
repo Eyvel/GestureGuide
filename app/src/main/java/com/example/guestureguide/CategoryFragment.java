@@ -138,16 +138,16 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
         Intent intent = new Intent(getActivity(), ContentActivity.class);
 
         // Pass the category name as an extra
-        intent.putExtra("category_name", category.getName());
+        intent.putExtra("category_name", category.getCategory_name());
 
         intent.putExtra("id", category.getId());
 
         // Start the ContentActivity
         startActivity(intent);
-        Log.d("ContentActivity", "Starting ContentActivity with category: " + category.getName());
+        Log.d("ContentActivity", "Starting ContentActivity with category: " + category.getCategory_name());
 
 
-        Toast.makeText(getContext(), "Clicked: " + category.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Clicked: " + category.getCategory_name(), Toast.LENGTH_SHORT).show();
     }
 
     // Start auto-update by calling fetchCategories() every X seconds
