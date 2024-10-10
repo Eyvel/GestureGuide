@@ -43,6 +43,21 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
 
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        //back for framgnent
+        ImageButton backButton = view.findViewById(R.id.back_to_first_quiz_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationActivity activity = (NavigationActivity) getActivity();
+                if (activity != null) {
+                    activity.binding.bottomNavigationView.setVisibility(View.VISIBLE); // Show the navigation view
+                }
+                // Use FragmentManager to navigate back to the previous fragment
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack();  // Go back to the previous fragment in the back stack
+            }
+        });
+
 
         quizzes = new ArrayList<>();
 

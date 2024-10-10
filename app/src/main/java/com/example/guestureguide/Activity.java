@@ -55,6 +55,15 @@ public class Activity extends AppCompatActivity {
         option1 = findViewById(R.id.radioOption1);
         option2 = findViewById(R.id.radioOption2);
         submitButton = findViewById(R.id.submitButton);
+        //back for acitivity
+        ImageButton backButton = findViewById(R.id.back_to_quiz_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
 
         // Retrieve quiz title from intent
         Intent intent = getIntent();

@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GuestureGuide"
+        android:theme="@style/Theme.GestureGuide"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
@@ -27,7 +27,7 @@
             android:name=".CategoryFragment"
             android:exported="false" />
         <activity
-            android:name=".RecordsActivity"
+            android:name=".RecordsFragment"
             android:exported="false" />
         <activity
             android:name=".ActivityFirstScreenFragment"
