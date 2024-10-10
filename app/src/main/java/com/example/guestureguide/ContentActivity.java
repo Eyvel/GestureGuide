@@ -41,14 +41,18 @@ public class ContentActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         categoryId = getIntent().getStringExtra("id");
-
+//back for activity
         ImageButton backButton = findViewById(R.id.back_to_content_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
+                /*
                 Intent intent = new Intent(ContentActivity.this, MainActivity.class);
                 intent.putExtra("id", categoryId);  // Pass the category ID
                 startActivityForResult(intent, 1);  // Request code 1
+
+                 */
             }
         });
 

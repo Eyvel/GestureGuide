@@ -68,6 +68,7 @@ public class Activity extends AppCompatActivity {
         Log.d("Activity", "Quiz Title: " + quizTitle);
         Log.d("Activity", "User ID: " + user_id);
 
+
         // Use quizTitle to fetch related questions
         fetchQuestions(quizTitle);
 

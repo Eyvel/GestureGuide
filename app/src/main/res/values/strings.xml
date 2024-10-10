@@ -7,6 +7,10 @@
     <string name="stud_info">Student Information</string>
     <string name="security_info">Security Information</string>
     <string name="account">Account Settings</string>
+    <string name="quiz_record">Records of Quiz</string>
+    <string name="lesson_record">Records of Lesson</string>
+    <string name="records">Records</string>
+
     <string name="rate_us">Rate Us</string>
     <string name="message">Message Us</string>
     <string name="nav_login">Login</string>
@@ -19,7 +23,6 @@
     <string name="activity">Activity</string>
     <string name="quiz">Quiz</string>
     <string name="check">Check</string>
-
 
 
     <string name="first">First Name</string>

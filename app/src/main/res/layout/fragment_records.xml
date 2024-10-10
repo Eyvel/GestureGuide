@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/records_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        tools:context=".RecordsFragment">
+        <ImageButton
+            android:id="@+id/back_to_home_screen_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/back_btn"
+            android:background="@android:color/transparent"
+            android:contentDescription="Back"/>
+        <TextView
+            android:layout_marginTop="-40dp"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+
+            android:gravity="center"
+            android:text="@string/records"
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/lesson_record"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/lesson_record"
+                android:contentDescription="@string/lesson_record" />
+
+            <ImageButton
+                android:id="@+id/quiz_record"
+
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/quiz_records"
+                android:contentDescription="@string/quiz_record" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

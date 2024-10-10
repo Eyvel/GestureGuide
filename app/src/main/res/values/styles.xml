@@ -31,4 +31,13 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
+
+
+        <style name="CircularShape" parent="">
+            <item name="cornerFamily">rounded</item>
+            <item name="cornerSize">50%</item> <!-- Half of width/height for a circle -->
+        </style>
+
+
+
 </resources>
