@@ -1,10 +1,13 @@
 package com.example.guestureguide;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -16,7 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -31,57 +34,59 @@ public class Activity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private RadioButton option1, option2;
     private Button submitButton;
-    private String categoryId;
-    private String user_id;
+
     private ArrayList<Question> questionList;
     private int currentQuestionIndex = 0;
     private Question currentQuestion;
-    private int score = 0;
+    private int score = 0;  // Track the score
+    private int totalQuestions = 0;  // Track total number of questions
+    private String quizTitle;
+    private String user_id; // User ID variable
+    private SharedPreferences sharedPreferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_activity);
+
+        setContentView(R.layout.activity_activity);  // Ensure the correct layout file is used
 
 
-        // Get category ID from the intent
-        categoryId = getIntent().getStringExtra("id");
-        user_id = getIntent().getStringExtra("user_id");
-
-        // Check for null user_id and show a toast if it's missing
-        if (user_id == null) {
-            Toast.makeText(this, "User ID is missing", Toast.LENGTH_SHORT).show();
-            finish();  // Finish the activity if user ID is not provided
-            return; // Exit the method early
-        }
-
-        // Parse user_id to int
-        int user_id_int;
-        try {
-            user_id_int = Integer.parseInt(user_id);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid User ID", Toast.LENGTH_SHORT).show();
-            finish();  // Finish the activity if user ID is invalid
-            return; // Exit the method early
-        }
-
-        // Initialize UI components
+        // Initialize views
         questionTextView = findViewById(R.id.questionTextView);
         radioGroup = findViewById(R.id.radioGroup);
         option1 = findViewById(R.id.radioOption1);
         option2 = findViewById(R.id.radioOption2);
-
         submitButton = findViewById(R.id.submitButton);
+        //back for acitivity
+        ImageButton backButton = findViewById(R.id.back_to_quiz_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
 
-        // Fetch questions for the category
-        if (categoryId != null) {
-            fetchQuestions(categoryId);
 
-        } else {
-            Toast.makeText(this, "Category ID is missing", Toast.LENGTH_SHORT).show();
-        }
+            }
+        });
 
-        // Handle button clicks (Next or Submit)
+        // Retrieve quiz title from intent
+        Intent intent = getIntent();
+        quizTitle = intent.getStringExtra("quiz_title");
+
+        // Retrieve userId from SharedPreferences
+        sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE);
+        user_id = sharedPreferences.getString("user_id", "").trim();
+
+        // Log to check if the quiz title and user ID are fetched correctly
+        Log.d("Activity", "Quiz Title: " + quizTitle);
+        Log.d("Activity", "User ID: " + user_id);
+
+
+        // Use quizTitle to fetch related questions
+        fetchQuestions(quizTitle);
+
+        // Handle button clicks
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,36 +95,41 @@ public class Activity extends AppCompatActivity {
         });
     }
 
-    private void fetchQuestions(String categoryId) {
-        String url = "http://192.168.8.7/gesture/getQuestions.php?category_id=" + categoryId;  // Adjust URL as needed
+    private void fetchQuestions(String quizTitle) {
+        // Assuming the API takes quiz_title as a parameter in the URL
+        String url = "http://192.168.8.7/gesture/getQuestions.php?quiz_title=" + quizTitle;
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null,
-                new Response.Listener<JSONArray>() {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-
-                        Log.d("Activity", response.toString());
-                        questionList = new ArrayList<>();
+                    public void onResponse(JSONObject response) {
                         try {
 
+                            JSONArray questionsArray = response.getJSONArray("questions");
 
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject questionObject = response.getJSONObject(i);
+                            // Initialize question list and set total questions
+                            questionList = new ArrayList<>();
+                            totalQuestions = questionsArray.length();
+
+
+                            for (int i = 0; i < questionsArray.length(); i++) {
+                                JSONObject questionObject = questionsArray.getJSONObject(i);
                                 String question = questionObject.getString("question");
                                 String optionA = questionObject.getString("option_a");
                                 String optionB = questionObject.getString("option_b");
-
-
-
                                 String correctAnswer = questionObject.getString("correct_answer");
 
                                 questionList.add(new Question(question, optionA, optionB, correctAnswer));
                             }
-                            Log.d("Activity", "Questions fetched: " + questionList.size());
+
+
+                            // Load the first question
+
                             loadQuestion();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -133,7 +143,8 @@ public class Activity extends AppCompatActivity {
                     }
                 }
         );
-        requestQueue.add(jsonArrayRequest);
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void loadQuestion() {
@@ -145,15 +156,13 @@ public class Activity extends AppCompatActivity {
 
             radioGroup.clearCheck();  // Clear previous selection
 
-            // Check if this is the last question
             if (currentQuestionIndex == questionList.size() - 1) {
-                submitButton.setText("Submit");  // Change text to "Submit"
+                submitButton.setText("Submit");
             } else {
-                submitButton.setText("Next");  // Change text to "Next"
+                submitButton.setText("Next");
             }
         } else {
             Toast.makeText(this, "You have completed all questions!", Toast.LENGTH_SHORT).show();
-            // You can navigate back or show results here
         }
     }
 
@@ -169,32 +178,71 @@ public class Activity extends AppCompatActivity {
         String selectedAnswer = selectedRadioButton.getText().toString();
 
 
-
-        if (selectedAnswer.equals(currentQuestion.getCorrectAnswer())) {
-            score++;
+        // Check if the answer is correct
+        boolean isCorrect = selectedAnswer.equals(currentQuestion.getCorrectAnswer());
+        if (isCorrect) {
+            score++;  // Increment score for correct answers
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
-
+            if (currentQuestionIndex < questionList.size() - 1) {
+                showGreatJobDialog();
+            }
 
         } else {
             Toast.makeText(this, "Incorrect. The correct answer is: " + currentQuestion.getCorrectAnswer(), Toast.LENGTH_LONG).show();
+            if (currentQuestionIndex < questionList.size() - 1) {
+                showSorryDialog();
+            }
         }
 
         // Check if it is the last question
         if (currentQuestionIndex == questionList.size() - 1) {
+
+            // Handle the final submission and navigate to QuizScoreActivity
             Intent intent = new Intent(Activity.this, QuizScoreActivity.class);
-            intent.putExtra("score", score);
-            intent.putExtra("totalQuestions", questionList.size());
-            intent.putExtra("userId", Integer.parseInt(user_id));
-            intent.putExtra("categoryId", Integer.parseInt(categoryId));
+            intent.putExtra("quiz_score", score);
+            intent.putExtra("total_questions", totalQuestions);  // Pass total number of questions
+            intent.putExtra("quiz_title", quizTitle);  // Pass the quiz title
+            intent.putExtra("user_id", user_id);  // Pass the retrieved userId
+            intent.putExtra("showGreatJobDialog", isCorrect);  // Pass whether the last answer was correct or not
             startActivity(intent);
+            finish();  // Close the current activity
 
-            Toast.makeText(this, "Activity completed!", Toast.LENGTH_SHORT).show();
-
-            // End the current activity
-            finish();
         } else {
             currentQuestionIndex++;
             loadQuestion();  // Load the next question
         }
+    }
+
+    private void showGreatJobDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.great_job_dialog);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationReport;
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        ImageButton closeDialog = dialog.findViewById(R.id.closeDialog);
+
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void showSorryDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.sorry_dialog_box);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationReport;
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        ImageButton closeDialog = dialog.findViewById(R.id.closeDialog);
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

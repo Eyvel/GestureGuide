@@ -10,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,10 +31,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener {
+public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCategoryClickListener {
 
     private RecyclerView recyclerView;
-    private CategoryAdapter categoryAdapter;
+    private HomeCategoryAdapter homeCategoryAdapter;
     private ArrayList<Category> categories;
     private Handler handler;
     private Runnable runnable;
@@ -105,9 +105,28 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
             }
         });
 
+        LinearLayout recordsButton = view.findViewById(R.id.bottomSection);
+        recordsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationActivity activity = (NavigationActivity) getActivity();
+                if (activity != null) {
+                    activity.binding.bottomNavigationView.setVisibility(View.GONE); // Hide the navigation view
+                }
+                if (getActivity() != null) {
+                    // Replace current fragment with ActivityFragment
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, new RecordsFragment()) // Assuming your frame layout ID
+                            .addToBackStack(null)
+                            .commit();
+                }
+            }
+        });
+
         // Pass 'this' as the OnCategoryClickListener
-        categoryAdapter = new CategoryAdapter(getContext(), categories, this, username);
-        recyclerView.setAdapter(categoryAdapter);
+        homeCategoryAdapter = new HomeCategoryAdapter(getContext(), categories, this, username);
+        recyclerView.setAdapter(homeCategoryAdapter);
 
         // Initialize Handler for periodic updates
         handler = new Handler();
@@ -139,7 +158,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.OnCategory
                                 categories.add(new Category(id, name, imageUrl));
                             }
                             // Notify adapter about data change
-                            categoryAdapter.notifyDataSetChanged();
+                            homeCategoryAdapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();

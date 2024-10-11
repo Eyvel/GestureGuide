@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapter.CategoryViewHolder> {
 
     private Context context;
     private ArrayList<Category> categoryList;
@@ -24,7 +24,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private String username;
 
     // Constructor accepting Context, Category List, and OnCategoryClickListener
-    public CategoryAdapter(Context context, ArrayList<Category> categoryList, OnCategoryClickListener onCategoryClickListener, String username) {
+    public HomeCategoryAdapter(Context context, ArrayList<Category> categoryList, OnCategoryClickListener onCategoryClickListener, String username) {
         this.context = context;
         this.categoryList = categoryList;
         this.onCategoryClickListener = onCategoryClickListener;
@@ -34,7 +34,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_content, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_category, parent, false);
         return new CategoryViewHolder(view);
     }
 
@@ -48,15 +48,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Glide.with(context)
                 .load(fullImageUrl)
                 .into(holder.categoryImageView);
-/*
-        // Alternate background color for items
+
         if (position % 2 == 0) {
             holder.parentLinearLayout.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.YellowOrange));
         } else {
             holder.parentLinearLayout.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.dark_blue));
         }
-
- */
 
         // Set click listener for the entire item view
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +79,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            categoryImageView = itemView.findViewById(R.id.imageViewContent);
-            categoryTextView = itemView.findViewById(R.id.textViewContentName);
+            categoryImageView = itemView.findViewById(R.id.categoryImageView);
+            categoryTextView = itemView.findViewById(R.id.categoryTextView);
             parentLinearLayout = itemView.findViewById(R.id.parentLinearLayout);
         }
     }

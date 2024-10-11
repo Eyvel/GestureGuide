@@ -18,10 +18,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".QuizScoreActivity"
+
+            android:name=".LessonRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".QuizFirstScreen"
+            android:name=".QuizRecordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategoryFragment"
+            android:exported="false" />
+        <activity
+            android:name=".RecordsFragment"
+
             android:exported="false" />
         <activity
             android:name=".ActivityFirstScreenFragment"
@@ -33,6 +41,9 @@
         <activity android:name=".ActivityFragment" />
         <activity
             android:name=".Content"
+            android:exported="false" />
+        <activity
+            android:name=".QuizScoreActivity"
             android:exported="false" />
         <activity
             android:name=".Category"
@@ -51,10 +62,11 @@
             android:exported="false" />
         <activity
             android:name=".NavigationActivity"
-            android:exported="false" />
+            android:exported="false" /> <!-- Updated MainActivity with windowSoftInputMode -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

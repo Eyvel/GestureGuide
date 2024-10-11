@@ -10,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,8 +54,11 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
 
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        categories = new ArrayList<>();
 
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2); // Use requireContext() if you want to avoid null context
+        recyclerView.setLayoutManager(gridLayoutManager);
+        categories = new ArrayList<>();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
@@ -63,7 +66,7 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
 
 
         Log.d("HomeFragment", "Retrieved username: " + username);
-
+//back for framgnent
         ImageButton backButton = view.findViewById(R.id.back_to_home_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

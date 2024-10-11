@@ -31,9 +31,7 @@ public class NavigationActivity extends AppCompatActivity {
                 replaceFragment(new HomeFragment(), "HomeFragment");
             }else if (itemId == R.id.Activity_nav) {
                 replaceFragment(new ActivityFirstScreenFragment(), "ActivityFirstScreen");
-            }  else if (itemId == R.id.quiz_nav) {
-                replaceFragment(new QuizFirstScreenFragment(), "QuizFragment");
-            } else if (itemId == R.id.profile_nav) {
+            }  else if (itemId == R.id.profile_nav) {
                 replaceFragment(new ProfileFragment(), "ProfileFragment");
             }
             return true;
@@ -78,8 +76,7 @@ public class NavigationActivity extends AppCompatActivity {
     private void updateBottomNavigationView(Fragment fragment) {
         if (fragment instanceof HomeFragment) {
             binding.bottomNavigationView.setSelectedItemId(R.id.home_nav);
-        } else if (fragment instanceof QuizFirstScreenFragment) {
-            binding.bottomNavigationView.setSelectedItemId(R.id.quiz_nav);
+
         } else if (fragment instanceof ProfileFragment) {
             binding.bottomNavigationView.setSelectedItemId(R.id.profile_nav);
         }
