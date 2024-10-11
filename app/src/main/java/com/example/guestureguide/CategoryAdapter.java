@@ -48,13 +48,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Glide.with(context)
                 .load(fullImageUrl)
                 .into(holder.categoryImageView);
-
+/*
         // Alternate background color for items
         if (position % 2 == 0) {
             holder.parentLinearLayout.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.YellowOrange));
         } else {
             holder.parentLinearLayout.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.dark_blue));
         }
+
+ */
 
         // Set click listener for the entire item view
         holder.itemView.setOnClickListener(new View.OnClickListener() {
