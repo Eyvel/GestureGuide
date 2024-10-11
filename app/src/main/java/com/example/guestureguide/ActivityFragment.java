@@ -1,6 +1,8 @@
 package com.example.guestureguide;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -37,14 +39,18 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
+
 
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         //back for framgnent
         ImageButton backButton = view.findViewById(R.id.back_to_first_quiz_button);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,11 +58,11 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
                 if (activity != null) {
                     activity.binding.bottomNavigationView.setVisibility(View.VISIBLE); // Show the navigation view
                 }
-                // Use FragmentManager to navigate back to the previous fragment
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.popBackStack();  // Go back to the previous fragment in the back stack
             }
         });
+
 
 
         quizzes = new ArrayList<>();
@@ -67,6 +73,9 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
 
         handler = new Handler();
         startAutoUpdate();
+
+        // Fetch categories when the fragment is created
+        fetchCategories();
 
         return view;
     }
@@ -85,6 +94,8 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
                     public void onResponse(JSONArray response) {
                         quizzes.clear();
                         try {
+                            Log.d("ActivityFragment", "User ID from SharedPreferences: " + userId);
+
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject quizObject = response.getJSONObject(i);
                                 String id = quizObject.getString("id");
@@ -110,11 +121,13 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     }
 
     @Override
+
     public void onQuizClick(Quiz quiz) {
         Intent intent = new Intent(getActivity(), Activity.class);
         intent.putExtra("quiz_title", quiz.getQuizTitle());
         intent.putExtra("id", quiz.getId());
         startActivity(intent);
+
     }
 
 

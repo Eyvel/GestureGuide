@@ -34,6 +34,7 @@ public class Activity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private RadioButton option1, option2;
     private Button submitButton;
+
     private ArrayList<Question> questionList;
     private int currentQuestionIndex = 0;
     private Question currentQuestion;
@@ -44,10 +45,13 @@ public class Activity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_activity);  // Ensure the correct layout file is used
+
 
         // Initialize views
         questionTextView = findViewById(R.id.questionTextView);
@@ -61,6 +65,7 @@ public class Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+
 
             }
         });
@@ -104,11 +109,13 @@ public class Activity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
                             JSONArray questionsArray = response.getJSONArray("questions");
 
                             // Initialize question list and set total questions
                             questionList = new ArrayList<>();
                             totalQuestions = questionsArray.length();
+
 
                             for (int i = 0; i < questionsArray.length(); i++) {
                                 JSONObject questionObject = questionsArray.getJSONObject(i);
@@ -120,7 +127,9 @@ public class Activity extends AppCompatActivity {
                                 questionList.add(new Question(question, optionA, optionB, correctAnswer));
                             }
 
+
                             // Load the first question
+
                             loadQuestion();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -159,6 +168,7 @@ public class Activity extends AppCompatActivity {
 
     private void checkAnswer() {
         int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+
         if (selectedRadioButtonId == -1) {
             Toast.makeText(this, "Please select an answer", Toast.LENGTH_SHORT).show();
             return;
@@ -166,6 +176,7 @@ public class Activity extends AppCompatActivity {
 
         RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
         String selectedAnswer = selectedRadioButton.getText().toString();
+
 
         // Check if the answer is correct
         boolean isCorrect = selectedAnswer.equals(currentQuestion.getCorrectAnswer());
@@ -175,6 +186,7 @@ public class Activity extends AppCompatActivity {
             if (currentQuestionIndex < questionList.size() - 1) {
                 showGreatJobDialog();
             }
+
         } else {
             Toast.makeText(this, "Incorrect. The correct answer is: " + currentQuestion.getCorrectAnswer(), Toast.LENGTH_LONG).show();
             if (currentQuestionIndex < questionList.size() - 1) {
@@ -184,6 +196,7 @@ public class Activity extends AppCompatActivity {
 
         // Check if it is the last question
         if (currentQuestionIndex == questionList.size() - 1) {
+
             // Handle the final submission and navigate to QuizScoreActivity
             Intent intent = new Intent(Activity.this, QuizScoreActivity.class);
             intent.putExtra("quiz_score", score);
@@ -193,6 +206,7 @@ public class Activity extends AppCompatActivity {
             intent.putExtra("showGreatJobDialog", isCorrect);  // Pass whether the last answer was correct or not
             startActivity(intent);
             finish();  // Close the current activity
+
         } else {
             currentQuestionIndex++;
             loadQuestion();  // Load the next question
