@@ -1,4 +1,4 @@
-package com.example.guestureguide;
+/*package com.example.guestureguide;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -50,11 +50,11 @@ public class ApiClient {
         // Build Retrofit
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.8.7/")  // Replace with your base URL
+                    .baseUrl("http://192.168.100.251/")  // Replace with your base URL
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofit;
     }
-}
+}*/

@@ -74,15 +74,12 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         handler = new Handler();
         startAutoUpdate();
 
-        // Fetch categories when the fragment is created
-        fetchCategories();
-
         return view;
     }
 
     // Fetch quiz titles from API
     private void fetchQuizzes() {
-        String url = "http://192.168.8.7/gesture/getQuizTitles.php"; // Adjust API endpoint
+        String url = "http://192.168.19.127/gesture/getQuizTitles.php"; // Adjust API endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -94,8 +91,6 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
                     public void onResponse(JSONArray response) {
                         quizzes.clear();
                         try {
-                            Log.d("ActivityFragment", "User ID from SharedPreferences: " + userId);
-
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject quizObject = response.getJSONObject(i);
                                 String id = quizObject.getString("id");
