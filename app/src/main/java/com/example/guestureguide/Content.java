@@ -3,6 +3,7 @@ package com.example.guestureguide;
 import java.io.Serializable;
 
 public class Content implements Serializable {
+    private String contentId
     private String name;
     private String imageUrl;
     private String videoUrl;

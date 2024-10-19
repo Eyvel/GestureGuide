@@ -77,7 +77,7 @@ public class QuizRecordActivity extends AppCompatActivity {
 
     private void fetchQuizRecords() {
         Log.d("QuizRecordActivity",user_id);
-        String url = "http://192.168.8.7/gesture/fetch_quiz_records.php?user_id=" +user_id;
+        String url = "http://192.168.8.20/gesture/fetch_quiz_records.php?user_id=" +user_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
