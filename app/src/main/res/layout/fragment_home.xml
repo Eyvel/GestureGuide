@@ -228,28 +228,41 @@
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-                <!-- Title TextView -->
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="60dp"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:text="Categories"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeStepGranularity="2sp"
+        />
+<View
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_weight="1">
 
-                    android:gravity="start"
-                    android:text="@string/categories"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:id="@+id/seeAll"
-                    android:layout_width="200dp"
-                    android:layout_height="60dp"
-                    android:gravity="center"
-                    android:text="@string/see_all"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-
-                    /></LinearLayout>
+</View>
+    <TextView
+        android:id="@+id/seeAll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:text="See All"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeStepGranularity="2sp"/>
+</LinearLayout>
 
             </RelativeLayout>
 
