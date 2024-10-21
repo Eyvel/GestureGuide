@@ -20,14 +20,15 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
 
     private Context context;
     private ArrayList<Content> contentList;
-    private String categoryId, contentName;
+    private String categoryId, contentName, categoryName;
 
 
-    public ContentAdapter(Context context, ArrayList<Content> contentList, String categoryId, String contentName) {
+    public ContentAdapter(Context context, ArrayList<Content> contentList, String categoryId, String contentName, String categoryName) {
         this.context = context;
         this.contentList = contentList;
         this.categoryId = categoryId;
         this.contentName = contentName;
+        this.categoryName = categoryName;
     }
 
     @NonNull
@@ -56,6 +57,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
             intent.putExtra("current_index", position);    // Pass the current index
             intent.putExtra("id", categoryId);
             intent.putExtra("content_name", contentName);
+            intent.putExtra("category_name", categoryName);
 
 
             context.startActivity(intent);
@@ -71,12 +73,15 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
     public static class ContentViewHolder extends RecyclerView.ViewHolder {
 
         ImageView contentImageView;
-        TextView contentTextView;
+        TextView contentTextView, categoryTextView;
+
 
         public ContentViewHolder(@NonNull View itemView) {
             super(itemView);
             contentImageView = itemView.findViewById(R.id.imageViewContent);
             contentTextView = itemView.findViewById(R.id.textViewContentName);
+
+
         }
 
     }

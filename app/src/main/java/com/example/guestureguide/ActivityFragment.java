@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -48,7 +46,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
 
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        //back for framgnent
+
         ImageButton backButton = view.findViewById(R.id.back_to_first_quiz_button);
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -56,15 +54,18 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
             public void onClick(View v) {
                 NavigationActivity activity = (NavigationActivity) getActivity();
                 if (activity != null) {
-                    activity.binding.bottomNavigationView.setVisibility(View.VISIBLE); // Show the navigation view
+                    activity.binding.bottomNavigationView.setVisibility(View.VISIBLE);
                 }
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack();  // Go back to the previous fragment in the back stack
+                fragmentManager.popBackStack();
             }
         });
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
         quizzes = new ArrayList<>();
 
         // Initialize quiz adapter
@@ -80,9 +81,15 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         return view;
     }
 
+<<<<<<< Updated upstream
     // Fetch quiz titles from API
     private void fetchQuizzes() {
         String url = "http://192.168.100.72/gesture/getQuizTitles.php"; // Adjust API endpoint
+=======
+    // Fetch quiz titles from API by quiz_id
+    private void fetchQuizzesById(int quizId) {
+        String url = "http://192.168.100.72/gesture/getQuizTitles.php?quiz_id=" + quizId; // Adjust API endpoint
+>>>>>>> Stashed changes
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -98,7 +105,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject quizObject = response.getJSONObject(i);
-                                String id = quizObject.getString("id");
+                                String id = quizObject.getString("quiz_id");
                                 String quizTitle = quizObject.getString("quiz_title");
 
                                 quizzes.add(new Quiz(id, quizTitle));
@@ -125,17 +132,17 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     public void onQuizClick(Quiz quiz) {
         Intent intent = new Intent(getActivity(), Activity.class);
         intent.putExtra("quiz_title", quiz.getQuizTitle());
-        intent.putExtra("id", quiz.getId());
+        intent.putExtra("quiz_id", quiz.getId()); // Passing the quiz_id
         startActivity(intent);
 
     }
-
 
     private void startAutoUpdate() {
         runnable = new Runnable() {
             @Override
             public void run() {
-                fetchQuizzes();
+                int quizId = 1; // Example: fetch quiz with quiz_id = 1
+                fetchQuizzesById(quizId);
                 handler.postDelayed(this, UPDATE_INTERVAL);
             }
         };
