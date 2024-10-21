@@ -26,14 +26,14 @@
             android:background="@android:color/transparent"
 
             android:contentDescription="Back"/>
-    <ImageView
+    <pl.droidsonroids.gif.GifImageView
         android:layout_margin="50dp"
         android:foregroundGravity="center_horizontal"
         android:layout_gravity="center"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:background="@drawable/great_job"
-        ></ImageView>
+        />
 </FrameLayout>
 
 

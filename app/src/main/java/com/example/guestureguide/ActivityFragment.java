@@ -82,7 +82,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
 
     // Fetch quiz titles from API
     private void fetchQuizzes() {
-        String url = "http://192.168.8.20/gesture/getQuizTitles.php"; // Adjust API endpoint
+        String url = "http://192.168.100.72/gesture/getQuizTitles.php"; // Adjust API endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
