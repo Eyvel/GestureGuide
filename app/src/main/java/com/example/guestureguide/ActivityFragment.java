@@ -1,8 +1,6 @@
 package com.example.guestureguide;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -37,111 +35,89 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
 
-
-        recyclerView = view.findViewById(R.id.recyclerViewCategories);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
-
-        ImageButton backButton = view.findViewById(R.id.back_to_first_quiz_button);
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavigationActivity activity = (NavigationActivity) getActivity();
-                if (activity != null) {
-                    activity.binding.bottomNavigationView.setVisibility(View.VISIBLE);
-                }
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack();
-            }
-        });
-
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
-        quizzes = new ArrayList<>();
-
-        // Initialize quiz adapter
-        quizAdapter = new QuizAdapter(getContext(), quizzes, this);
-        recyclerView.setAdapter(quizAdapter);
-
-        handler = new Handler();
+        initializeViews(view);
+        setupRecyclerView();
+        setupBackButton(view);
         startAutoUpdate();
-
-        // Fetch categories when the fragment is created
-        fetchCategories();
 
         return view;
     }
 
-<<<<<<< Updated upstream
-    // Fetch quiz titles from API
-    private void fetchQuizzes() {
-        String url = "http://192.168.100.72/gesture/getQuizTitles.php"; // Adjust API endpoint
-=======
-    // Fetch quiz titles from API by quiz_id
+    private void initializeViews(View view) {
+        recyclerView = view.findViewById(R.id.recyclerViewCategories);
+        quizzes = new ArrayList<>();
+        quizAdapter = new QuizAdapter(getContext(), quizzes, this);
+        recyclerView.setAdapter(quizAdapter);
+    }
+
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+    }
+
+    private void setupBackButton(View view) {
+        ImageButton backButton = view.findViewById(R.id.back_to_first_quiz_button);
+        backButton.setOnClickListener(v -> {
+            NavigationActivity activity = (NavigationActivity) getActivity();
+            if (activity != null) {
+                activity.binding.bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.popBackStack();
+        });
+    }
+
     private void fetchQuizzesById(int quizId) {
-        String url = "http://192.168.100.72/gesture/getQuizTitles.php?quiz_id=" + quizId; // Adjust API endpoint
->>>>>>> Stashed changes
+        String url = "http://192.168.100.72/gesture/getQuizTitles.php?quiz_id=" + quizId;
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 url,
                 null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        quizzes.clear();
-                        try {
-                            Log.d("ActivityFragment", "User ID from SharedPreferences: " + userId);
-
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject quizObject = response.getJSONObject(i);
-                                String id = quizObject.getString("quiz_id");
-                                String quizTitle = quizObject.getString("quiz_title");
-
-                                quizzes.add(new Quiz(id, quizTitle));
-                            }
-                            quizAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                }
+                this::parseQuizResponse,
+                this::handleQuizError
         );
 
         requestQueue.add(jsonArrayRequest);
     }
 
-    @Override
+    private void parseQuizResponse(JSONArray response) {
+        quizzes.clear();
+        try {
+            for (int i = 0; i < response.length(); i++) {
+                JSONObject quizObject = response.getJSONObject(i);
+                String id = quizObject.getString("quiz_id");
+                String quizTitle = quizObject.getString("quiz_title");
+                quizzes.add(new Quiz(id, quizTitle));
+            }
+            quizAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void handleQuizError(VolleyError error) {
+        error.printStackTrace();
+    }
+
+    @Override
     public void onQuizClick(Quiz quiz) {
         Intent intent = new Intent(getActivity(), Activity.class);
         intent.putExtra("quiz_title", quiz.getQuizTitle());
-        intent.putExtra("quiz_id", quiz.getId()); // Passing the quiz_id
+        intent.putExtra("quiz_id", quiz.getId());
         startActivity(intent);
-
     }
 
     private void startAutoUpdate() {
+        handler = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
-                int quizId = 1; // Example: fetch quiz with quiz_id = 1
+                int quizId = 1; // Fetch quiz with quiz_id = 1
                 fetchQuizzesById(quizId);
                 handler.postDelayed(this, UPDATE_INTERVAL);
             }

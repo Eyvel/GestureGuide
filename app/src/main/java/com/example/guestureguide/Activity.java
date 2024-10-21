@@ -49,12 +49,8 @@ public class Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< Updated upstream
 
-        setContentView(R.layout.activity_activity);  // Ensure the correct layout file is used
-=======
         setContentView(R.layout.activity_activity);
->>>>>>> Stashed changes
 
 
         // Initialize views
@@ -68,15 +64,9 @@ public class Activity extends AppCompatActivity {
         ImageButton backButton = findViewById(R.id.back_to_quiz_button);
         backButton.setOnClickListener(v -> finish());
 
-<<<<<<< Updated upstream
 
-            }
-        });
-
-        // Retrieve quiz title from intent
-=======
         // Retrieve quiz title and quiz ID from intent
->>>>>>> Stashed changes
+
         Intent intent = getIntent();
         quizTitle = intent.getStringExtra("quiz_title");
         quizId = intent.getStringExtra("quiz_id");
@@ -97,56 +87,27 @@ public class Activity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> checkAnswer());
     }
 
-<<<<<<< Updated upstream
-    private void fetchQuestions(String quizTitle) {
-        // Assuming the API takes quiz_title as a parameter in the URL
-        String url = "http://192.168.100.72/gesture/getQuestions.php?quiz_title=" + quizTitle;
-=======
+
     private void fetchQuestions(String quizId) {
         String url = "http://192.168.100.72/gesture/getQuestions.php?quiz_id=" + quizId;
->>>>>>> Stashed changes
+
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null,
-<<<<<<< Updated upstream
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
 
-                            JSONArray questionsArray = response.getJSONArray("questions");
-=======
                 response -> {
                     try {
                         JSONArray questionsArray = response.getJSONArray("questions");
->>>>>>> Stashed changes
+
 
                         // Initialize question list and set total questions
                         questionList = new ArrayList<>();
                         totalQuestions = questionsArray.length();
 
-<<<<<<< Updated upstream
 
-                            for (int i = 0; i < questionsArray.length(); i++) {
-                                JSONObject questionObject = questionsArray.getJSONObject(i);
-                                String question = questionObject.getString("question");
-                                String optionA = questionObject.getString("option_a");
-                                String optionB = questionObject.getString("option_b");
-                                String correctAnswer = questionObject.getString("correct_answer");
-
-                                questionList.add(new Question(question, optionA, optionB, correctAnswer));
-                            }
-
-
-                            // Load the first question
-
-                            loadQuestion();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-=======
                         for (int i = 0; i < totalQuestions; i++) {
                             JSONObject questionObject = questionsArray.getJSONObject(i);
                             String question = questionObject.getString("question_text");
@@ -155,7 +116,7 @@ public class Activity extends AppCompatActivity {
                             String correctAnswer = questionObject.getString("is_correct");
 
                             questionList.add(new Question(question, optionA, optionB, correctAnswer));
->>>>>>> Stashed changes
+
                         }
 
                         // Load the first question
@@ -202,33 +163,18 @@ public class Activity extends AppCompatActivity {
         }
 
         RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
-<<<<<<< Updated upstream
-        //String selectedAnswer = selectedRadioButton.getText().toString();
 
-
-        String selectedAnswer = selectedRadioButton.getTag().toString();  // Get "A" or "B" value
-
-
-
-
-
-=======
         String selectedAnswer = selectedRadioButton.getText().toString();
         String selectedTag = (String) selectedRadioButton.getTag();
->>>>>>> Stashed changes
+
 
         boolean isCorrect = selectedTag.equals(currentQuestion.getCorrectAnswer()); // Use currentQuestion here
         if (isCorrect) {
             score++;
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
-<<<<<<< Updated upstream
-            if (currentQuestionIndex < questionList.size() - 1) {
-                showGreatJobDialog();
-            }
 
-=======
             showGreatJobDialog();
->>>>>>> Stashed changes
+
         } else {
             Toast.makeText(this, "Incorrect. The correct answer is: " + currentQuestion.getCorrectAnswer(), Toast.LENGTH_LONG).show();
             showSorryDialog();
@@ -236,11 +182,8 @@ public class Activity extends AppCompatActivity {
 
         // Move to the next question or show the score
         if (currentQuestionIndex == questionList.size() - 1) {
-<<<<<<< Updated upstream
 
-            // Handle the final submission and navigate to QuizScoreActivity
-=======
->>>>>>> Stashed changes
+
             Intent intent = new Intent(Activity.this, QuizScoreActivity.class);
             intent.putExtra("quiz_score", score);
             intent.putExtra("total_questions", totalQuestions);
@@ -248,12 +191,9 @@ public class Activity extends AppCompatActivity {
             intent.putExtra("quiz_id", quizId);
             intent.putExtra("user_id", user_id);
             startActivity(intent);
-<<<<<<< Updated upstream
-            finish();  // Close the current activity
 
-=======
             finish();
->>>>>>> Stashed changes
+
         } else {
             currentQuestionIndex++;
             loadQuestion();
