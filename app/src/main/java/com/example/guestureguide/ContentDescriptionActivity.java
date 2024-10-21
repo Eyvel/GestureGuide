@@ -157,10 +157,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         }
 
         // Reset learned state for new content
-<<<<<<< Updated upstream
-     //   isLearned = currentContent.isLearned();
-=======
->>>>>>> Stashed changes
+
         learnButton.setText(isLearned ? R.string.learned : R.string.learn);
     }
 
@@ -220,10 +217,9 @@ public class ContentDescriptionActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
 
                 params.put("user_id", "33");  // Replace with actual user ID
-<<<<<<< Updated upstream
+
                 //params.put("content_id", String.valueOf(currentContent.getContentId()));
-=======
->>>>>>> Stashed changes
+
                 params.put("category_name", categoryId);
                 params.put("progress", learned ? "1" : "0"); // 1 for learned, 0 for unlearned
                 params.put("total_lessons", String.valueOf(contentList.size()));

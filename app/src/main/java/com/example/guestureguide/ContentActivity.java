@@ -93,11 +93,8 @@ public class ContentActivity extends AppCompatActivity {
                                 String contentVideo = contentObject.getString("content_video");
                                 String categoryName = contentObject.getString("category_name");
 
-<<<<<<< Updated upstream
-                                String imageUrl = "http://192.168.100.72/" + contentImage;
-                                String videoUrl = "http://192.168.100.72/" + contentVideo;
-=======
->>>>>>> Stashed changes
+
+
 
 
                                 String imageUrl = "http://192.168.100.72/" + contentImage;
