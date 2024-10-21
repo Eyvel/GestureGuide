@@ -3,7 +3,7 @@ package com.example.guestureguide;
 public class Question {
 
     private String questionText;
-    private String optionA, optionB, optionC, optionD;
+    private String optionA, optionB;
     private String correctAnswer;
 
     public Question(String questionText, String optionA, String optionB,  String correctAnswer) {
