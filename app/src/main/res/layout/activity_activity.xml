@@ -67,7 +67,8 @@
         android:autoSizeTextType="uniform"
         android:autoSizeMinTextSize="12sp"
         android:autoSizeMaxTextSize="40sp"
-        android:text="Option A" />
+        android:text="Option A"
+        />
 
     <RadioButton
         android:layout_margin="10dp"

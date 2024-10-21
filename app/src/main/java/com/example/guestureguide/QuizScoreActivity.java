@@ -82,7 +82,7 @@ public class QuizScoreActivity extends AppCompatActivity {
     }
 
     private void saveQuizScoreAndExit(final String user_id, final int categoryId, final String quizTitle, final int quizScore, final int totalQuestions) {
-        String url = "http://192.168.8.20/gesture/saveQuizScore.php";  // Your backend URL
+        String url = "http://192.168.100.72/gesture/saveQuizScore.php";  // Your backend URL
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 

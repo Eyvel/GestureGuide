@@ -138,14 +138,14 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         }
 
         // Reset learned state for new content
-        isLearned = currentContent.isLearned();
+     //   isLearned = currentContent.isLearned();
         learnButton.setText(isLearned ? R.string.learned : R.string.learn);
     }
 
     // Function to update learning progress on the server
     private void updateProgressOnServer(int contentIndex, boolean learned) {
         Content currentContent = contentList.get(contentIndex);
-        String url = "https://192.168.8.20/gesture/save_content_progress.php"; // Your PHP URL here
+        String url = "https://192.168.100.72/gesture/save_content_progress.php"; // Your PHP URL here
 
         // Prepare the POST request with necessary parameters
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -161,7 +161,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("user_id", "33");  // Replace with actual user ID
-                params.put("content_id", String.valueOf(currentContent.getContentId()));
+                //params.put("content_id", String.valueOf(currentContent.getContentId()));
                 params.put("category_name", categoryId);
                 params.put("progress", learned ? "1" : "0"); // 1 for learned, 0 for unlearned
                 params.put("total_lessons", String.valueOf(contentList.size()));

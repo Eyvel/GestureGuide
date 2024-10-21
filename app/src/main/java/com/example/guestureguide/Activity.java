@@ -92,7 +92,7 @@ public class Activity extends AppCompatActivity {
 
     private void fetchQuestions(String quizTitle) {
         // Assuming the API takes quiz_title as a parameter in the URL
-        String url = "http://192.168.8.20x/gesture/getQuestions.php?quiz_title=" + quizTitle;
+        String url = "http://192.168.100.72/gesture/getQuestions.php?quiz_title=" + quizTitle;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -158,14 +158,24 @@ public class Activity extends AppCompatActivity {
     }
 
     private void checkAnswer() {
+        option1.setTag("A");
+        option2.setTag("B");
         int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+
         if (selectedRadioButtonId == -1) {
             Toast.makeText(this, "Please select an answer", Toast.LENGTH_SHORT).show();
             return;
         }
 
         RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
-        String selectedAnswer = selectedRadioButton.getText().toString();
+        //String selectedAnswer = selectedRadioButton.getText().toString();
+
+
+        String selectedAnswer = selectedRadioButton.getTag().toString();  // Get "A" or "B" value
+
+
+
+
 
         // Check if the answer is correct
         boolean isCorrect = selectedAnswer.equals(currentQuestion.getCorrectAnswer());
