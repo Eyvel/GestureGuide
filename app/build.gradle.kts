@@ -55,7 +55,7 @@ dependencies {
 
 
     implementation ("androidx.cardview:cardview:1.0.0")
-    implementation ("com.google.android.exoplayer:exoplayer:2.18.1") // Use the latest version
+
     implementation ("androidx.preference:preference:1.2.0")
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -64,7 +64,5 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.2")
 
     implementation ("com.google.android.material:material:1.10.0")
-
-    implementation ("com.google.android.exoplayer:exoplayer:2.18.1")
 
 }
