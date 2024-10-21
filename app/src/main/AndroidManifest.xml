@@ -25,6 +25,9 @@
             android:name=".QuizRecordActivity"
             android:exported="false" />
         <activity
+            android:name=".QuizFirstScreenFragment"
+            android:exported="false" />
+        <activity
             android:name=".CategoryFragment"
             android:exported="false" />
         <activity

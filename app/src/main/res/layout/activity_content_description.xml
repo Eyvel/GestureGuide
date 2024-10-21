@@ -11,6 +11,7 @@
         android:orientation="horizontal"
         >
     <ImageButton
+        android:layout_weight="2"
         android:id="@+id/back_to_content_button"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -26,21 +27,42 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="2"></View>
-    <ImageButton
+            android:layout_weight="50"></View>
 
-        android:id="@+id/next_content_button"
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageButton
+        android:layout_weight="1"
+
+        android:id="@+id/previous_content_button"
+        android:rotation="180"
         android:scaleX="-1"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_margin="16dp"
-        android:layout_marginStart="290dp"
-        android:layout_marginEnd="16dp"
+
         android:src="@drawable/back_btn"
         android:background="@android:color/transparent"
 
         android:contentDescription="Back"
         />
+
+        <ImageButton
+
+
+            android:id="@+id/next_content_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="16dp"
+
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Back"
+
+            android:scaleX="-1"
+            android:src="@drawable/back_btn" />
+</LinearLayout>
 
     </LinearLayout>
     <LinearLayout
@@ -52,9 +74,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="Lesson Progress: "
+            android:text="Lesson Number: "
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -63,7 +85,7 @@
             android:layout_height="30dp"
             android:text=" / "
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
     <!-- ImageView to show content image -->
@@ -77,6 +99,7 @@
         >
 
         <ImageView
+
             android:id="@+id/contentImageView"
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -90,11 +113,11 @@
         <TextView
             android:id="@+id/contentName"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:text="Lesson Name"
             android:layout_gravity="center"
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="36sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -104,24 +127,14 @@
         android:id="@+id/learnButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="@string/learn"
         android:layout_gravity="center_horizontal"
         android:backgroundTint="@color/dark_blue"
         android:layout_marginTop="16dp"
         android:textAllCaps="false"
+        android:textColor="@color/white"
 
         />
-    <Button
-        android:id="@+id/previousContentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_gravity="center_horizontal"
-        android:backgroundTint="@color/dark_blue"
 
-        android:layout_marginTop="16dp"
-        android:textAllCaps="false"
-
-        />
 
 </LinearLayout>
