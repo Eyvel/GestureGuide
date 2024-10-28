@@ -1,6 +1,8 @@
 package com.example.guestureguide;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -42,6 +45,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         initializeViews(view);
         setupRecyclerView();
         setupBackButton(view);
+        fetchAllQuizzes(); // Fetch all quizzes when the view is created
         startAutoUpdate();
 
         return view;
@@ -70,8 +74,8 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         });
     }
 
-    private void fetchQuizzesById(int quizId) {
-        String url = "http://192.168.100.72/gesture/getQuizTitles.php?quiz_id=" + quizId;
+    private void fetchAllQuizzes() {
+        String url = "http://192.168.100.72/gesture/getAllQuizzes.php"; // Update URL to your endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -94,13 +98,64 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
                 String quizTitle = quizObject.getString("quiz_title");
                 quizzes.add(new Quiz(id, quizTitle));
             }
-            quizAdapter.notifyDataSetChanged();
+
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+            String userId = sharedPreferences.getString("user_id", "").trim();
+            checkUserResponses(userId); // Check user responses after fetching quizzes
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     private void handleQuizError(VolleyError error) {
+        error.printStackTrace();
+    }
+
+    private void checkUserResponses(String userId) {
+        String url = "http://192.168.100.72/gesture/checkUserResponse.php?user_id=" + userId;
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                this::handleUserResponseCheck,
+                this::handleUserResponseError
+        );
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void handleUserResponseCheck(JSONObject response) {
+        try {
+            boolean recordExists = response.getBoolean("record_exists");
+
+            // If a record exists, filter out the corresponding quizzes
+            if (recordExists) {
+                // Check if the "answered_quizzes" key exists in the response
+                if (response.has("answered_quizzes")) {
+                    JSONArray answeredQuizzes = response.getJSONArray("answered_quizzes");
+                    ArrayList<String> answeredIds = new ArrayList<>();
+
+                    for (int i = 0; i < answeredQuizzes.length(); i++) {
+                        answeredIds.add(answeredQuizzes.getString(i));
+                    }
+
+                    // Remove quizzes that the user has already answered
+                    quizzes.removeIf(quiz -> answeredIds.contains(quiz.getId()));
+                }
+
+                // Update the adapter after filtering quizzes
+                quizAdapter.notifyDataSetChanged();
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void handleUserResponseError(VolleyError error) {
         error.printStackTrace();
     }
 
@@ -117,8 +172,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         runnable = new Runnable() {
             @Override
             public void run() {
-                int quizId = 1; // Fetch quiz with quiz_id = 1
-                fetchQuizzesById(quizId);
+                fetchAllQuizzes(); // Fetch all quizzes periodically
                 handler.postDelayed(this, UPDATE_INTERVAL);
             }
         };
