@@ -28,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Activity extends AppCompatActivity {
@@ -40,14 +39,14 @@ public class Activity extends AppCompatActivity {
 
     private ArrayList<Question> questionList;
     private int currentQuestionIndex = 0;
-    private int score = 0;
+    private int totalScore = 0;
     private String quizTitle;
     private String quizId;
     private String userId;
     private SharedPreferences sharedPreferences;
     private Question currentQuestion;
-    private int selectedOptionIndex = -1; // -1 means no option is selected
-    private Dialog currentDialog; // Dialog reference for showing feedback
+    private int selectedOptionIndex = -1;
+    private Dialog currentDialog;
 
     private int currentQuestionScore = 0;
 
@@ -56,14 +55,12 @@ public class Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity);
 
-
         initializeViews();
         retrieveIntentData();
         setupBackButton();
         setupOptionClickListeners();
         setupSubmitButton();
 
-        // Fetch questions using quizId
         fetchQuestions(quizId);
     }
 
@@ -78,17 +75,14 @@ public class Activity extends AppCompatActivity {
     private void retrieveIntentData() {
         Intent intent = getIntent();
         quizTitle = intent.getStringExtra("quiz_title");
-        quizId = intent.getStringExtra("quiz_id"); // Fetch quizId from Intent
+        quizId = intent.getStringExtra("quiz_id");
 
         Log.d("Activity", "Quiz Title: " + quizTitle);
         Log.d("Activity", "Quiz ID: " + quizId);
 
-        // Retrieve userId from SharedPreferences
         sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE);
         userId = sharedPreferences.getString("user_id", "").trim();
 
-        Log.d("Activity", "Quiz Title: " + quizTitle);
-        Log.d("Activity", "Quiz ID: " + quizId);
         Log.d("Activity", "User ID: " + userId);
     }
 
@@ -107,7 +101,7 @@ public class Activity extends AppCompatActivity {
     }
 
     private void fetchQuestions(String quizId) {
-        String url = "http://192.168.100.72/gesture/getQuestions.php?quiz_id=" + quizId;
+        String url = "http://192.168.8.20/gesture/getQuestions.php?quiz_id=" + quizId;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -123,7 +117,6 @@ public class Activity extends AppCompatActivity {
 
     private void parseQuestionsResponse(JSONObject response) {
         try {
-            // Adjust based on the actual structure of the response
             JSONArray questionsArray = response.getJSONArray("questions");
             questionList = new ArrayList<>();
             Log.d("Activity", "Questions array length: " + questionsArray.length());
@@ -138,19 +131,15 @@ public class Activity extends AppCompatActivity {
                 String questionVideo = questionObject.getString("question_video");
                 int points = questionObject.getInt("points");
 
-                Log.d("Activity", "Number of points fetched: " + points);
-
                 questionList.add(new Question(questionId, questionText, optionA, optionB, correctAnswer, questionVideo, points));
             }
 
             loadQuestion();
-            Log.d("Activity", "Number of questions fetched: " + questionList.size());
         } catch (JSONException e) {
             Log.e("Activity", "Error parsing JSON response", e);
             Toast.makeText(Activity.this, "Error loading questions", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void handleError(VolleyError error) {
         Log.e("Activity", "Error fetching questions", error);
@@ -166,7 +155,6 @@ public class Activity extends AppCompatActivity {
 
             submitButton.setText(currentQuestionIndex == questionList.size() - 1 ? "Submit" : "Next");
 
-            // Reset selected option
             selectedOptionIndex = -1;
             option1ImageView.setBackgroundResource(0);
             option2ImageView.setBackgroundResource(0);
@@ -178,14 +166,14 @@ public class Activity extends AppCompatActivity {
     }
 
     private void loadVideo() {
-        String videoUrl = "http://192.168.100.72/gesture/" + currentQuestion.getQuestionVideo();
+        String videoUrl = "http://192.168.8.20/gesture/" + currentQuestion.getQuestionVideo();
         questionVideoView.setVideoURI(Uri.parse(videoUrl));
         questionVideoView.start();
     }
 
     private void loadOptions() {
-        String optionAUrl = "http://192.168.100.72/gesture/" + currentQuestion.getOptionA();
-        String optionBUrl = "http://192.168.100.72/gesture/" + currentQuestion.getOptionB();
+        String optionAUrl = "http://192.168.8.20/gesture/" + currentQuestion.getOptionA();
+        String optionBUrl = "http://192.168.8.20/gesture/" + currentQuestion.getOptionB();
         Glide.with(this).load(optionAUrl).into(option1ImageView);
         Glide.with(this).load(optionBUrl).into(option2ImageView);
 
@@ -196,7 +184,6 @@ public class Activity extends AppCompatActivity {
     private void selectOption(int optionIndex) {
         selectedOptionIndex = optionIndex;
 
-        // Update UI to reflect the selection
         option1ImageView.setBackgroundResource(optionIndex == 0 ? R.drawable.selected_background : 0);
         option2ImageView.setBackgroundResource(optionIndex == 1 ? R.drawable.selected_background : 0);
     }
@@ -207,49 +194,41 @@ public class Activity extends AppCompatActivity {
             return;
         }
 
-        // Get the selected answer based on the tag
         String selectedTag = selectedOptionIndex == 0 ? (String) option1ImageView.getTag() : (String) option2ImageView.getTag();
         String correctAnswer = currentQuestion.getCorrectAnswer();
-        currentQuestionScore = (selectedTag.equals(correctAnswer)) ? currentQuestion.getPoints() : 0; // Send 0 if answer is wrong
+        currentQuestionScore = (selectedTag.equals(correctAnswer)) ? currentQuestion.getPoints() : 0;
 
-
-        // Calculate score based on the answer
         if (selectedTag.equals(correctAnswer)) {
-            score += currentQuestion.getPoints();
-            showGreatJobDialog(); // Show the "Great Job" dialog
-        }  else {
-            // Check if it's the last question before showing the dialog
-            if (currentQuestionIndex != questionList.size() - 1) {
-                showSorryDialog(); // Show the "Sorry" dialog only if not the last question
-            }
+            totalScore += currentQuestion.getPoints();
+            showGreatJobDialog();
+        } else if (currentQuestionIndex != questionList.size() - 1) {
+            showSorryDialog();
         }
 
-        // Prepare data to send to the database
-        int totalScore = calculateTotalPoints(); // Assuming this is the total points of the quiz
-        sendUserResponseToDatabase(userId, quizId, currentQuestion.getQuestionId(), score, selectedTag, totalScore);
+        int totalPoints = calculateCurrentQuestionPoints();
+        sendUserResponseToDatabase(userId, quizId, currentQuestion.getQuestionId(), currentQuestionScore, selectedTag, totalPoints, totalScore);
 
-        // Check if it's the last question
         if (currentQuestionIndex == questionList.size() - 1) {
             finishQuiz();
         } else {
             currentQuestionIndex++;
-            loadQuestion(); // Load the next question
+            loadQuestion();
         }
     }
 
-    private void sendUserResponseToDatabase(String userId, String quizId, int questionId, int score, String selectedChoice, int totalScore) {
-        String url = "http://192.168.100.72/gesture/saveQuizScore.php"; // Change to your actual endpoint
+    private void sendUserResponseToDatabase(String userId, String quizId, int questionId, int score, String selectedChoice, int totalPoints, int totalScore) {
+        String url = "http://192.168.8.20/gesture/saveQuizScore.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         try {
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("user_id", userId);
             jsonBody.put("quiz_id", quizId);
-
             jsonBody.put("question_id", questionId);
-            jsonBody.put("score", currentQuestionScore);
+            jsonBody.put("score", score);
             jsonBody.put("selected_choice", selectedChoice);
-            jsonBody.put("total_score", currentQuestion.getPoints());
+            jsonBody.put("total_points", totalPoints);
+            jsonBody.put("total_score", totalScore);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.POST,
@@ -266,18 +245,34 @@ public class Activity extends AppCompatActivity {
         }
     }
 
-
     private void finishQuiz() {
         Intent intent = new Intent(Activity.this, QuizScoreActivity.class);
-        intent.putExtra("quiz_score", score);
-        intent.putExtra("total_questions", calculateTotalPoints());
+        intent.putExtra("quiz_score", totalScore);
+        intent.putExtra("total_score", calculateTotalPoints());
+        intent.putExtra("total_question_items", calculateTotalPoints());
         intent.putExtra("quiz_title", quizTitle);
         intent.putExtra("quiz_id", quizId);
         intent.putExtra("user_id", userId);
 
-
         startActivity(intent);
         finish();
+    }
+
+    private int calculateCurrentQuestionPoints() {
+        if (currentQuestionIndex < questionList.size()) {
+            // Return the points for the current question
+            return questionList.get(currentQuestionIndex).getPoints();
+        }
+        return 0; // In case there are no questions available
+    }
+    private int calculateTotalPoints() {
+
+            int questionPoint = 0;
+            for (int i = 0; i <= currentQuestionIndex; i++) {
+                questionPoint += questionList.get(i).getPoints();
+            }
+            return questionPoint;
+
     }
 
 
@@ -305,28 +300,5 @@ public class Activity extends AppCompatActivity {
         ImageButton closeDialog = dialog.findViewById(R.id.closeDialog);
         closeDialog.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
-    }
-
-
-    private Dialog createDialog(int layoutRes) {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(layoutRes);
-        dialog.setCancelable(false);
-        return dialog;
-    }
-
-    private void dismissCurrentDialog() {
-        if (currentDialog != null && currentDialog.isShowing()) {
-            currentDialog.dismiss();
-            currentDialog = null; // Clear reference
-        }
-    }
-
-    private int calculateTotalPoints() {
-        int totalPoints = 0;
-        for (Question question : questionList) {
-            totalPoints += question.getPoints();
-        }
-        return totalPoints;
     }
 }

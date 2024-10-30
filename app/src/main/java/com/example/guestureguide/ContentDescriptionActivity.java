@@ -200,7 +200,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
     // Function to update learning progress on the server
     private void updateProgressOnServer(int contentIndex, boolean learned) {
         Content currentContent = contentList.get(contentIndex);
-        String url = "https://192.168.100.72/gesture/save_content_progress.php"; // Your PHP URL here
+        String url = "https://192.168.8.20/gesture/save_content_progress.php"; // Your PHP URL here
 
         // Prepare the POST request with necessary parameters
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
