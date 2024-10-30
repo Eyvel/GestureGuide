@@ -44,7 +44,7 @@
     <!-- TextView for displaying the actual score -->
     <TextView
         android:layout_gravity="center_horizontal"
-        android:id="@+id/quiz_score"
+        android:id="@+id/quiz_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -59,7 +59,7 @@
         android:autoSizeStepGranularity="2sp"/>
         <TextView
             android:layout_gravity="center_horizontal"
-            android:id="@+id/quizScore"
+            android:id="@+id/quiz_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -88,7 +88,7 @@
             android:autoSizeStepGranularity="2sp"/>
         <TextView
             android:layout_gravity="center_horizontal"
-            android:id="@+id/incorrectAnswer"
+            android:id="@+id/incorrectAnswers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"

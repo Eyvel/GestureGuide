@@ -21,6 +21,11 @@
 
             android:name=".LessonRecordActivity"
             android:exported="false" />
+
+        <activity
+
+            android:name=".QuizSummary"
+            android:exported="false" />
         <activity
             android:name=".QuizRecordActivity"
             android:exported="false" />
