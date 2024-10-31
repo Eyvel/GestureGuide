@@ -117,6 +117,71 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         error.printStackTrace();
     }
 
+    @Override
+    public void onQuizClick(Quiz quiz) {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("user_id",""); // Retrieve the user_id
+
+        if (userId != "") {
+            checkUserRecordExists(userId, quiz); // Check if the user already has a record for this quiz
+        } else {
+            // Handle case where user_id is not available
+            Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void checkUserRecordExists(String userId, Quiz quiz) {
+        String url = "http://192.168.8.20/gesture/checkUserResponse.php?user_id=" + userId + "&quiz_id=" + quiz.getId();
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        Log.d("ServerResponse", "Response: " + response.toString());
+
+                        if (response.has("record_exists")) {
+                            boolean recordExists = response.getBoolean("record_exists");
+                            Log.d("RecordExists", "Record exists: " + recordExists);
+
+                            if (recordExists) {
+                                // Navigate to QuizSummary if the record exists
+                                Intent intent = new Intent(getActivity(), QuizSummary.class);
+                                intent.putExtra("quiz_title", quiz.getQuizTitle());
+                                intent.putExtra("quiz_id", quiz.getId());
+                                startActivity(intent);
+                            } else {
+                                // Notify user that there is no data and navigate to Activity.class
+                                Toast.makeText(getContext(), "No previous records found for this quiz.", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(getActivity(), Activity.class); // Navigate to Activity.class
+                                intent.putExtra("quiz_title", quiz.getQuizTitle());
+                                intent.putExtra("quiz_id", quiz.getId());
+                                startActivity(intent);
+                            }
+                        } else {
+                            Log.e("ResponseError", "Missing 'record_exists' field in response");
+                            Toast.makeText(getContext(), "Invalid server response", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getContext(), "Error parsing response", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    Log.e("NetworkError", "Error: " + (error.getMessage() != null ? error.getMessage() : "Unknown error"));
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "Network error: " + (error.getMessage() != null ? error.getMessage() : "Unknown error"), Toast.LENGTH_SHORT).show();
+                }
+        );
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
+
 
 
     private void startAutoUpdate() {
@@ -136,55 +201,4 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         super.onDestroyView();
         handler.removeCallbacks(runnable);
     }
-
-    @Override
-    public void onQuizClick(Quiz quiz) {
-        // Assume you have the user_id stored in SharedPreferences
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
-        String userId = sharedPreferences.getString("user_id", ""); // Retrieve the user_id
-
-        if (userId != "") {
-            checkUserRecordExists(userId, quiz);
-        } else {
-            // Handle case where user_id is not available
-            Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void checkUserRecordExists(String userId, Quiz quiz) {
-        String url = "http://192.168.8.20/gesture/checkUserResponse.php?user_id=" + userId; // Update URL to your endpoint
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
-                response -> {
-                    try {
-                        boolean recordExists = response.getBoolean("record_exists");
-
-                        if (recordExists) {
-                            // If the record exists, go to QuizSummary class
-                            Intent intent = new Intent(getActivity(), QuizSummary.class);
-                            intent.putExtra("quiz_title", quiz.getQuizTitle());
-                            intent.putExtra("quiz_id", quiz.getId());
-                            startActivity(intent);
-                        } else {
-                            // Handle case where record does not exist
-                            Toast.makeText(getContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getContext(), "Error parsing response", Toast.LENGTH_SHORT).show();
-                    }
-                },
-                error -> {
-                    error.printStackTrace();
-                    Toast.makeText(getContext(), "Error checking user record", Toast.LENGTH_SHORT).show();
-                }
-        );
-
-        requestQueue.add(jsonObjectRequest);
-    }
-
 }

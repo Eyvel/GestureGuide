@@ -1,6 +1,11 @@
 package com.example.guestureguide;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +26,8 @@ public class QuizSummary extends AppCompatActivity {
     private TextView correctAnswersTextView;
     private TextView incorrectAnswersTextView;
     private TextView answerPercentTextView;
-    private TextView answeredDateTextView;  // Add a TextView for answered date
+    private TextView answeredDateTextView;
+    private Button exitButton;// Add a TextView for answered date
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +35,39 @@ public class QuizSummary extends AppCompatActivity {
         setContentView(R.layout.activity_quiz_summary);
 
         // Initialize UI components
+        exitButton = findViewById(R.id.finishButton);
         titleTextView = findViewById(R.id.quiz_name);
         scoreTextView = findViewById(R.id.quiz_score);
         correctAnswersTextView = findViewById(R.id.correctAnswers);
         incorrectAnswersTextView = findViewById(R.id.incorrectAnswers);
         answerPercentTextView = findViewById(R.id.answerPercentage);
         answeredDateTextView = findViewById(R.id.dateTaken);  // Initialize the answered date TextView
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("user_id",""); // Retrieve the user_id
 
         // Assume user_id and quiz_id are passed from intent
-        int userId = getIntent().getIntExtra("user_id", -1);
-        int quizId = getIntent().getIntExtra("quiz_id", -1);
+        //String userId = getIntent().getStringExtra("user_id");
+        String quizId = getIntent().getStringExtra("quiz_id");
 
         // Fetch quiz summary from the server
         fetchQuizSummary(userId, quizId);
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("quizsummary", "clicked");
+                finish();
+
+
+            }
+        });
+
+
     }
 
-    private void fetchQuizSummary(int userId, int quizId) {
-        String url = "http://192.168.8.20/gesture//gesture/getQuizSummary.php?user_id=" + userId + "&quiz_id=" + quizId;
+
+
+    private void fetchQuizSummary(String userId, String quizId) {
+        String url = "http://192.168.8.20/gesture/getQuizSummary.php?user_id=" + userId + "&quiz_id=" + quizId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -61,11 +83,11 @@ public class QuizSummary extends AppCompatActivity {
                                 String quizAnsweredDate = response.getString("quiz_answered_date");  // Get answered date
 
                                 // Calculate score percentage
-                                int scoreToPercent = (int) (((double) correctCount / totalScore) * 100);
+                                int scoreToPercent = (int) (((double) totalScore / totalItems) * 100);
 
                                 // Update the UI with the fetched data
                                 titleTextView.setText(quizTitle);
-                                scoreTextView.setText("Score: " + correctCount + "/" + totalScore);
+                                scoreTextView.setText("Score: " + totalScore + "/" + totalItems);
                                 correctAnswersTextView.setText("Correct Answers: " + correctCount);
                                 incorrectAnswersTextView.setText("Incorrect Answers: " + incorrectCount);
                                 answerPercentTextView.setText("Answer Percentage: " + scoreToPercent + "%");

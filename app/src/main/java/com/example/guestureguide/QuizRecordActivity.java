@@ -90,9 +90,9 @@ public class QuizRecordActivity extends AppCompatActivity {
                                 JSONObject recordObj = recordsArray.getJSONObject(i);
 
                                 String quizTitle = recordObj.getString("quiz_title");
-                                int score = recordObj.getInt("score");
-                                int totalQuestions = recordObj.getInt("total_questions");
-                                String dateTaken = recordObj.getString("date_taken");
+                                int score = recordObj.getInt("total_score");
+                                int totalQuestions = recordObj.getInt("total_items");
+                                String dateTaken = recordObj.getString("quiz_answered_date");
 
                                 // Create a QuizRecord object and add it to the list
                                 quizRecordList.add(new QuizRecord(quizTitle, score, totalQuestions, dateTaken));

@@ -10,10 +10,14 @@
         android:id="@+id/quiz_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
 
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="2sp"
+        android:autoSizeMaxTextSize="16sp"
+        android:autoSizeStepGranularity="2sp"/>
 
     <!-- Quiz Range -->
     <TextView
@@ -24,7 +28,12 @@
         android:gravity="center"
 
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="2sp"
+        android:autoSizeMaxTextSize="16sp"
+        android:autoSizeStepGranularity="2sp"
+        />
 
     <!-- Date Taken -->
     <TextView
@@ -34,6 +43,11 @@
         android:layout_weight="1"
         android:gravity="end"
 
+
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="2sp"
+        android:autoSizeMaxTextSize="16sp"
+        android:autoSizeStepGranularity="2sp"/>
 </LinearLayout>

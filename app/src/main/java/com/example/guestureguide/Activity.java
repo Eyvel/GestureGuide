@@ -37,7 +37,10 @@ public class Activity extends AppCompatActivity {
     private ImageView option1ImageView, option2ImageView;
     private Button submitButton;
 
-    private ArrayList<Question> questionList;
+
+
+    private ArrayList<Question> questionList = new ArrayList<>();
+
     private int currentQuestionIndex = 0;
     private int totalScore = 0;
     private String quizTitle;
@@ -50,6 +53,12 @@ public class Activity extends AppCompatActivity {
 
     private int currentQuestionScore = 0;
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveQuizState(quizId);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +68,32 @@ public class Activity extends AppCompatActivity {
         retrieveIntentData();
         setupBackButton();
         setupOptionClickListeners();
+        loadSavedQuizState(quizId);
         setupSubmitButton();
 
         fetchQuestions(quizId);
     }
+    private void saveQuizState(String quizId) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("current_question_index_" + quizId, currentQuestionIndex);
+        editor.putInt("total_score_" + quizId, totalScore);
+        editor.putString("current_question_text_" + quizId, currentQuestion != null ? currentQuestion.getQuestionText() : "");
+        editor.putInt("selected_option_index_" + quizId, selectedOptionIndex); // Save selected option index
+        editor.apply();
+    }
+
+
+    private void loadSavedQuizState(String quizId) {
+        currentQuestionIndex = sharedPreferences.getInt("current_question_index_" + quizId, 0);
+        totalScore = sharedPreferences.getInt("total_score_" + quizId, 0);
+        selectedOptionIndex = sharedPreferences.getInt("selected_option_index_" + quizId, -1);
+
+        if (currentQuestionIndex < questionList.size()) {
+            currentQuestion = questionList.get(currentQuestionIndex);
+        }
+    }
+
+
 
     private void initializeViews() {
         questionTextView = findViewById(R.id.questionTextView);
@@ -119,27 +150,27 @@ public class Activity extends AppCompatActivity {
         try {
             JSONArray questionsArray = response.getJSONArray("questions");
             questionList = new ArrayList<>();
-            Log.d("Activity", "Questions array length: " + questionsArray.length());
-
             for (int i = 0; i < questionsArray.length(); i++) {
                 JSONObject questionObject = questionsArray.getJSONObject(i);
-                int questionId = questionObject.getInt("question_id");
-                String questionText = questionObject.getString("question_text");
-                String optionA = questionObject.getString("option_1");
-                String optionB = questionObject.getString("option_2");
-                String correctAnswer = questionObject.getString("is_correct");
-                String questionVideo = questionObject.getString("question_video");
-                int points = questionObject.getInt("points");
-
-                questionList.add(new Question(questionId, questionText, optionA, optionB, correctAnswer, questionVideo, points));
+                // Populate questionList here
+                questionList.add(new Question(
+                        questionObject.getInt("question_id"),
+                        questionObject.getString("question_text"),
+                        questionObject.getString("option_1"),
+                        questionObject.getString("option_2"),
+                        questionObject.getString("is_correct"),
+                        questionObject.getString("question_video"),
+                        questionObject.getInt("points")
+                ));
             }
-
-            loadQuestion();
+            loadSavedQuizState(quizId); // Load saved state after questions are fetched
+            loadQuestion(); // Load the first question after populating the list
         } catch (JSONException e) {
             Log.e("Activity", "Error parsing JSON response", e);
             Toast.makeText(Activity.this, "Error loading questions", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void handleError(VolleyError error) {
         Log.e("Activity", "Error fetching questions", error);
@@ -148,22 +179,26 @@ public class Activity extends AppCompatActivity {
 
     private void loadQuestion() {
         if (questionList != null && !questionList.isEmpty()) {
+            // Load question based on the current index
             currentQuestion = questionList.get(currentQuestionIndex);
             questionTextView.setText(currentQuestion.getQuestionText());
             loadVideo();
             loadOptions();
 
+            // Highlight the previously selected option
+            if (selectedOptionIndex != -1) {
+                selectOption(selectedOptionIndex);
+            }
+
             submitButton.setText(currentQuestionIndex == questionList.size() - 1 ? "Submit" : "Next");
 
-            selectedOptionIndex = -1;
-            option1ImageView.setBackgroundResource(0);
-            option2ImageView.setBackgroundResource(0);
         } else {
             Log.e("Activity", "Question list is empty");
             Toast.makeText(this, "No questions available!", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
+
 
     private void loadVideo() {
         String videoUrl = "http://192.168.8.20/gesture/" + currentQuestion.getQuestionVideo();
@@ -187,6 +222,14 @@ public class Activity extends AppCompatActivity {
         option1ImageView.setBackgroundResource(optionIndex == 0 ? R.drawable.selected_background : 0);
         option2ImageView.setBackgroundResource(optionIndex == 1 ? R.drawable.selected_background : 0);
     }
+    private void clearQuizData(String quizId) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("current_question_index_" + quizId);
+        editor.remove("total_score_" + quizId);
+        editor.remove("current_question_text_" + quizId);
+        editor.remove("selected_option_index_" + quizId);
+        editor.apply();
+    }
 
     private void checkAnswer() {
         if (selectedOptionIndex == -1) {
@@ -209,7 +252,8 @@ public class Activity extends AppCompatActivity {
         sendUserResponseToDatabase(userId, quizId, currentQuestion.getQuestionId(), currentQuestionScore, selectedTag, totalPoints, totalScore);
 
         if (currentQuestionIndex == questionList.size() - 1) {
-            finishQuiz();
+            clearQuizData(quizId);  // Clear quiz data before finishing
+            finishQuiz(quizId);
         } else {
             currentQuestionIndex++;
             loadQuestion();
@@ -245,7 +289,14 @@ public class Activity extends AppCompatActivity {
         }
     }
 
-    private void finishQuiz() {
+    private void finishQuiz(String quizId) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("current_question_index_" + quizId);
+        editor.remove("total_score_" + quizId);
+        editor.remove("current_question_text_" + quizId);
+        editor.remove("selected_option_index_" + quizId);
+        editor.apply();
+
         Intent intent = new Intent(Activity.this, QuizScoreActivity.class);
         intent.putExtra("quiz_score", totalScore);
         intent.putExtra("total_score", calculateTotalPoints());
@@ -257,6 +308,7 @@ public class Activity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 
     private int calculateCurrentQuestionPoints() {
         if (currentQuestionIndex < questionList.size()) {
