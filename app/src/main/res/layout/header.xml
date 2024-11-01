@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:orientation="vertical"
@@ -7,14 +8,18 @@
     android:gravity="bottom">
 
     <TextView
+        android:id="@+id/profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gesture Guide"
-        android:textSize="24sp" />
+        android:text="E D. Wardo"
+        android:textSize="25sp"
+        android:layout_marginStart="20dp"/>
     <TextView
+        android:id="@+id/profile_LRN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="fb.com"
-        android:textSize="14sp"/>
+        android:text="104837080151"
+        android:textSize="15sp"
+        android:layout_marginStart="20dp"/>
 
 </LinearLayout>

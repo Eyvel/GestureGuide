@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -35,14 +37,7 @@ public class LoginTabFragment extends Fragment {
     MaterialTextView tv_error;
     MaterialButton btn_login;
     SharedPreferences sharedPreferences;
-
-
-
-
     String url_login = "http://192.168.19.127/gesture/studentLogin.php"; // corrected the URL
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,19 +47,28 @@ public class LoginTabFragment extends Fragment {
         txt_password = view.findViewById(R.id.login_password);
         btn_login = view.findViewById(R.id.login_btn);
         tv_error = view.findViewById(R.id.tv_error);
-        sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);//requireContext() to use sharedPreference
+        sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
 
-
-
-        if(sharedPreferences.getString("logged", "false").equals("true")){
+        if (sharedPreferences.getString("logged", "false").equals("true")) {
             Intent intent = new Intent(getActivity(), NavigationActivity.class);
             startActivity(intent);
-            getActivity().finish();//to not log in again, get save user that logged in
-        };
+            getActivity().finish();
+        }
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login();
+            }
+        });
+
+        // Set OnClickListener for the "Forgot Password?" TextView
+        TextView tv_forgot_password = view.findViewById(R.id.tv_forgot_password);
+        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ForgetPassword.class);
+                startActivity(intent);
             }
         });
 
@@ -91,59 +95,51 @@ public class LoginTabFragment extends Fragment {
                             Log.d("LoginResponse", response);
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
-
                                 String success = jsonObject.getString("success");
+
                                 if (success.equals("1")) {
                                     JSONArray jsonArray = jsonObject.getJSONArray("login");
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject object = jsonArray.getJSONObject(i);
+                                    JSONObject object = jsonArray.getJSONObject(0);
 
-                                        String username = object.getString("username");
-                                        String user_id = object.getString("user_id");
-                                        String userEmail = object.getString("email");
-                                        String userNumber = object.getString("number");
-                                        String userBirthday =object.getString("birthday");
-                                        String userAddress = object.getString("street");
-                                        String userLRN = object.getString("lrn");
-                                        String firstName = object.getString("firstName");
-                                        String lastName = object.getString("lastName");
-                                        String middleName = object.getString("middleName");
-                                        String middleInitial = object.getString("middleInitial");
-                                        String suffix = object.getString("suffix");
+                                    // Extract user information
+                                    String username = object.getString("username");
+                                    String user_id = object.getString("user_id");
+                                    String userEmail = object.getString("email");
+                                    String userNumber = object.getString("number");
+                                    String userBirthday = object.getString("birthday");
+                                    String userAddress = object.getString("street");
+                                    String userLRN = object.getString("lrn");
+                                    String firstName = object.getString("firstName");
+                                    String lastName = object.getString("lastName");
+                                    String middleName = object.getString("middleName");
+                                    String middleInitial = object.getString("middleInitial");
+                                    String suffix = object.getString("suffix");
+                                    String apiKey = object.getString("apiKey");
 
-                                        String apiKey = object.getString("apiKey");
+                                    // Save user information in SharedPreferences
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("username", username);
+                                    editor.putString("user_id", user_id);
+                                    editor.putString("email", userEmail);
+                                    editor.putString("number", userNumber);
+                                    editor.putString("birthday", userBirthday);
+                                    editor.putString("address", userAddress);
+                                    editor.putString("lrn", userLRN);
+                                    editor.putString("logged", "true");
+                                    editor.putString("firstName", firstName);
+                                    editor.putString("lastName", lastName);
+                                    editor.putString("middleName", middleName);
+                                    editor.putString("middleInitial", middleInitial);
+                                    editor.putString("suffix", suffix);
+                                    editor.putString("apiKey", apiKey);
+                                    editor.apply();
 
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
 
-
-                                        editor.putString("username", username);
-
-                                        editor.putString("user_id", user_id);
-                                        editor.putString("email", userEmail);
-                                        editor.putString("number", userNumber);
-                                        editor.putString("birthday", userBirthday);
-                                        editor.putString("address", userAddress);
-                                        editor.putString("lrn", userLRN);
-                                        editor.putString("logged", "true");
-                                        editor.putString("firstName", firstName);
-                                        editor.putString("lastName", lastName);
-                                        editor.putString("middleName", middleName);
-                                        editor.putString("middleInitial", middleInitial);
-                                        editor.putString("suffix", suffix);
-
-
-
-                                        editor.putString("apiKey", apiKey);
-                                        editor.apply();//to access anywhere sharedprefence
-
-                                        Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
-
-                                        // Start the main activity
-                                        Intent intent = new Intent(getActivity(), NavigationActivity.class);
-                                        startActivity(intent);
-                                        getActivity().finish();
-
-                                    }
+                                    // Start the main activity
+                                    Intent intent = new Intent(getActivity(), NavigationActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
                                 } else {
                                     tv_error.setText("Login failed. Please try again.");
                                 }
@@ -165,7 +161,6 @@ public class LoginTabFragment extends Fragment {
                     Map<String, String> params = new HashMap<>();
                     params.put("email", email);
                     params.put("password", password);
-
                     return params;
                 }
             };
