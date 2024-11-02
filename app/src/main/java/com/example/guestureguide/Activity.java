@@ -203,8 +203,13 @@ public class Activity extends AppCompatActivity {
     private void loadVideo() {
         String videoUrl = "http://192.168.8.20/gesture/" + currentQuestion.getQuestionVideo();
         questionVideoView.setVideoURI(Uri.parse(videoUrl));
+
+        // Set a completion listener to loop the video
+        questionVideoView.setOnCompletionListener(mp -> questionVideoView.start());
+
         questionVideoView.start();
     }
+
 
     private void loadOptions() {
         String optionAUrl = "http://192.168.8.20/gesture/" + currentQuestion.getOptionA();

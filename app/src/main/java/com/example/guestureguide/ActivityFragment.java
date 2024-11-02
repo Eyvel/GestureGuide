@@ -97,13 +97,21 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
             for (int i = 0; i < response.length(); i++) {
                 JSONObject quizObject = response.getJSONObject(i);
                 String id = quizObject.getString("quiz_id");
-                String quizTitle = quizObject.getString("quiz_title");
+                String quizTitle = quizObject.getString("quiz_title").trim(); // Trim whitespace
                 quizzes.add(new Quiz(id, quizTitle));
-
-
             }
 
+            // Sort quizzes by the numeric part of the title
+            quizzes.sort((quiz1, quiz2) -> {
+                int num1 = Integer.parseInt(quiz1.getQuizTitle().replaceAll("\\D+", ""));
+                int num2 = Integer.parseInt(quiz2.getQuizTitle().replaceAll("\\D+", ""));
+                return Integer.compare(num1, num2);
+            });
+
             // Log the total number of quiz titles fetched
+            for (Quiz quiz : quizzes) {
+                Log.d("QuizTitle", quiz.getQuizTitle()); // Log the titles
+            }
 
             // Notify adapter about data change
             quizAdapter.notifyDataSetChanged();
@@ -112,6 +120,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
             e.printStackTrace();
         }
     }
+
 
     private void handleQuizError(VolleyError error) {
         error.printStackTrace();
