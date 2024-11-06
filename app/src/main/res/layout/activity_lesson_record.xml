@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="LESSON TITLE"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
@@ -79,7 +79,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="end"
                     android:text="DATE"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"

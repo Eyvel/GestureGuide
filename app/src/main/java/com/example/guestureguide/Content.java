@@ -8,14 +8,12 @@ public class Content implements Serializable {
     private String imageUrl;
     private String videoUrl;
     private String categoryName;
-    private String contentId;
 
-    public Content(String name, String imageUrl, String videoUrl, String categoryName, String contentId) {
+    public Content(String name, String imageUrl, String videoUrl, String categoryName) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.videoUrl = videoUrl;
         this.categoryName = categoryName;
-        this.contentId = contentId;
     }
 
     public String getName() {
@@ -34,9 +32,6 @@ public class Content implements Serializable {
         return categoryName;
     }
 
-    public String getContentId() {
-        return contentId;
-    }
 }
 
 

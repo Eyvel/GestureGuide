@@ -1,5 +1,6 @@
 package com.example.guestureguide;
 
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,118 +26,143 @@ import java.util.Map;
 public class QuizScoreActivity extends AppCompatActivity {
 
     private TextView scoreTextView;
+
     private Button exitButton;
-    private String quizId;
+    private String quizTitle;
     private int quizScore;
-    private int totalQuestionItems;
+    private int totalQuestions;
     private String user_id;
-    private static final String TAG = "QuizScoreActivity";
+    private int categoryId;
+    private static final String TAG = "QuizScoreActivity";  // For logging
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz_score);
 
+        setContentView(R.layout.activity_quiz_score); // Ensure correct layout file
+
+        // Initialize the views
         scoreTextView = findViewById(R.id.scoreTextView);
-        exitButton = findViewById(R.id.finishButton);
+        exitButton = findViewById(R.id.exitButton);  // Add the exit button to your layout
 
-        // Retrieve data from the Intent
+        // Get the intent data
         Intent intent = getIntent();
-        quizId = intent.getStringExtra("quiz_id");
+        quizTitle = intent.getStringExtra("quiz_title");
         quizScore = intent.getIntExtra("quiz_score", 0);
-        totalQuestionItems = intent.getIntExtra("total_question_items", 0);
-        user_id = intent.getStringExtra("user_id");
+        totalQuestions = intent.getIntExtra("total_questions", 0);
+        user_id = intent.getStringExtra("user_id");  // Make sure to pass user ID
+        categoryId = intent.getIntExtra("category_id", 0); // Make sure to pass category ID
 
-        // Set the score display
-        scoreTextView.setText(quizScore + "/" + totalQuestionItems);
+        // Display the score
+        scoreTextView.setText(quizScore + "/" + totalQuestions);
 
-        // Dialog logic based on intent data
         boolean showGreatJobDialog = intent.getBooleanExtra("showGreatJobDialog", false);
+
+
         if (showGreatJobDialog) {
-            showGreatJobDialog();
+            showGreatJobDialog();  // Show the great job dialog if the last answer was correct
         } else {
-            showSorryDialog();
+            showSorryDialog();  // Show the sorry dialog if the last answer was worng
         }
 
-        // Log received data for debugging
-        /*
-        Log.d(TAG, "quizId: " + quizId);
+
+
+
+                // Log the received data for debugging
+        Log.d(TAG, "quizTitle: " + quizTitle);
         Log.d(TAG, "quizScore: " + quizScore);
-        Log.d(TAG, "totalQuestions: " + totalQuestionItems);
+        Log.d(TAG, "totalQuestions: " + totalQuestions);
         Log.d(TAG, "userId: " + user_id);
+        Log.d(TAG, "categoryId: " + categoryId);
 
-         */
-
+        // Set the click listener for the exit button
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Exit button clicked");
-
-                Log.d(TAG, "Logging details - user_id: " + user_id + ", quiz_id: " + quizId + ", total_score: " + quizScore + ", total_items: " + totalQuestionItems);
-                saveQuizScoreAndExit(user_id, quizId, quizScore, totalQuestionItems);
+                Log.d(TAG, "Exit button clicked");  // Log when the button is clicked
+                saveQuizScoreAndExit(user_id, categoryId, quizTitle, quizScore, totalQuestions);
             }
         });
     }
 
-    private void saveQuizScoreAndExit(final String user_id, final String quizId, final int totalScore, final int totalItems) {
-        String url = "http://192.168.8.20/gesture/saveQuizSummary.php";
+    private void saveQuizScoreAndExit(final String user_id, final int categoryId, final String quizTitle, final int quizScore, final int totalQuestions) {
+        String url = "http://192.168.100.72/gesture/saveQuizScore.php";  // Your backend URL
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+                        // Log the response from the server
                         Log.d(TAG, "Response from server: " + response);
-                        Intent intent = new Intent(QuizScoreActivity.this, MainActivity.class);
+
+                        // Navigate to the correct activity after saving
+                        Intent intent = new Intent(QuizScoreActivity.this, MainActivity.class);  // Change 'MainActivity' to the correct activity
                         startActivity(intent);
-                        finish();
+                        finish();  // Close the current activity
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        // Log error response
                         Log.e(TAG, "Error: " + error.getMessage());
                     }
                 }) {
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                params.put("user_id", String.valueOf(user_id));
+                params.put("category_id", String.valueOf(categoryId));
 
-                params.put("user_id", user_id);
-                params.put("quiz_id", String.valueOf(quizId));
-                params.put("total_score", String.valueOf(totalScore));
-                params.put("total_items", String.valueOf(totalItems));
+                params.put("quiz_title", quizTitle);  // Pass quiz title
+                params.put("score", String.valueOf(quizScore));  // Pass score
+                params.put("total_questions", String.valueOf(totalQuestions));  // Pass total questions
 
                 return params;
             }
         };
 
+
+        // Add the request to the RequestQueue
         requestQueue.add(stringRequest);
     }
-
     private void showGreatJobDialog() {
-        if (isFinishing()) return;
-
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.great_job_dialog);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationReport;
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimationReport;
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         ImageButton closeDialog = dialog.findViewById(R.id.closeDialog);
-        closeDialog.setOnClickListener(v -> dialog.dismiss());
+
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
     private void showSorryDialog() {
-        if (isFinishing()) return;
-
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.sorry_dialog_box);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationReport;
+        dialog.getWindow().getAttributes().windowAnimations=R.style.DialogAnimationReport;
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         ImageButton closeDialog = dialog.findViewById(R.id.closeDialog);
-        closeDialog.setOnClickListener(v -> dialog.dismiss());
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
+
 }

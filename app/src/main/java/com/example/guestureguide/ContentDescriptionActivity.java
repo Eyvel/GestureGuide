@@ -1,6 +1,5 @@
 package com.example.guestureguide;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -19,19 +18,19 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
+import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.source.LoopingMediaSource;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,13 +38,11 @@ import java.util.Map;
 
 public class ContentDescriptionActivity extends AppCompatActivity {
 
-    private Content currentContent;
-
     private ImageView contentImageView;
     private Button learnButton;
     private ImageButton backContentButton;
     private ImageButton nextContentButton;
-    private String categoryId, contentNameString, categoryNameString, contentId;
+    private String categoryId, contentNameString, categoryNameString;
     private TextView lessonProgress, contentName, categoryName;
 
     private ArrayList<Content> contentList;
@@ -61,6 +58,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_description);
+
 
         contentVideoView = findViewById(R.id.contentVideoView);
         toggleSpeedButton = findViewById(R.id.speedToggleButton);
@@ -86,6 +84,8 @@ public class ContentDescriptionActivity extends AppCompatActivity {
             Toast.makeText(this, "No content to display", Toast.LENGTH_SHORT).show();
             return;
         }
+
+
 
         // Initialize Volley request queue
         requestQueue = Volley.newRequestQueue(this);
@@ -119,28 +119,24 @@ public class ContentDescriptionActivity extends AppCompatActivity {
 
         // Learn button click listener
         learnButton.setOnClickListener(view -> {
-            if (currentContent != null) { // Ensure currentContent is assigned
-                isLearned = !isLearned;
-                learnButton.setText(isLearned ? R.string.learned : R.string.learn);
-                updateProgressOnServer(isLearned ? 1 : 0); // Send status as 1 for learned and 0 for unlearned
-                saveLearnedStatus(currentContent.getContentId(), isLearned ? 1 : 0); // Save learned status
+            if (isLearned) {
+                isLearned = false;
+                learnButton.setText(R.string.learn);  // Change button text back to "Learn"
+                updateProgressOnServer(currentIndex, false);  // Mark as unlearned on the server
             } else {
-                Toast.makeText(this, "Content not loaded", Toast.LENGTH_SHORT).show();
+                isLearned = true;
+                learnButton.setText(R.string.learned);  // Change button text to "Learned"
+                updateProgressOnServer(currentIndex, true);  // Mark as learned on the server
             }
         });
     }
 
     // Function to load content based on the current index
     private void loadContent(int index) {
-        currentContent = contentList.get(index);
+        Content currentContent = contentList.get(index);
 
         contentName.setText(currentContent.getName());
         categoryName.setText(currentContent.getCategoryName());
-
-        SharedPreferences prefs = getSharedPreferences("MyAppName", MODE_PRIVATE);
-        isLearned = prefs.getInt("learned_" + currentContent.getContentId(), 0) == 1; // 1 means learned
-        learnButton.setText(isLearned ? R.string.learned : R.string.learn);
-
 
         String imageUrl = currentContent.getImageUrl();
         String videoUrl = currentContent.getVideoUrl();
@@ -160,79 +156,80 @@ public class ContentDescriptionActivity extends AppCompatActivity {
             Toast.makeText(this, "Video URL is missing", Toast.LENGTH_SHORT).show();
         }
 
+        // Reset learned state for new content
+
         learnButton.setText(isLearned ? R.string.learned : R.string.learn);
     }
+
+
+
     private float getPlaybackSpeed() {
         SharedPreferences prefs = getSharedPreferences("MyAppName", MODE_PRIVATE); // Use consistent key
         return prefs.getFloat("playback_speed", 1.0f); // Default to normal speed
     }
 
+
     private void initializePlayer(String videoUrl) {
+        // Check if the player is already created
         if (player == null) {
+            // Create a new SimpleExoPlayer instance
             player = new SimpleExoPlayer.Builder(this).build();
             contentVideoView.setPlayer(player);
-
-            // Set a listener to loop the video
-            player.addListener(new Player.Listener() {
-                @Override
-                public void onPlaybackStateChanged(int playbackState) {
-                    if (playbackState == Player.STATE_ENDED) {
-                        player.seekTo(0); // Seek to the beginning
-                        player.play();    // Play again
-                    }
-                }
-            });
         }
+
+        // Create a DefaultMediaSourceFactory
+        DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(this);
+
+        // Create a MediaItem
         MediaItem mediaItem = MediaItem.fromUri(Uri.parse(videoUrl));
-        player.setMediaItem(mediaItem);
-        player.setPlaybackSpeed(getPlaybackSpeed());
+
+        // Create a MediaSource using the factory
+        MediaSource mediaSource = mediaSourceFactory.createMediaSource(mediaItem);
+
+        // Wrap the MediaSource in a LoopingMediaSource
+        LoopingMediaSource loopingSource = new LoopingMediaSource(mediaSource);
+
+        // Set the looping media source to the player
+        player.setMediaSource(loopingSource);
         player.prepare();
+        player.setPlaybackSpeed(getPlaybackSpeed()); // Set the retrieved playback speed
         player.play();
     }
 
 
     // Function to update learning progress on the server
-    private void updateProgressOnServer(int status) {
-        Content currentContent = contentList.get(currentIndex);
-        String url = "http://192.168.8.20/gesture/save_content_progress.php";
+    private void updateProgressOnServer(int contentIndex, boolean learned) {
+        Content currentContent = contentList.get(contentIndex);
+        String url = "https://192.168.100.72/gesture/save_content_progress.php"; // Your PHP URL here
 
-        JSONObject jsonObject = new JSONObject();
-        try {
-            SharedPreferences sharedPreferences = getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
-            String userId = sharedPreferences.getString("user_id", "");
-
-            jsonObject.put("user_id", userId); // Replace with actual user ID
-            jsonObject.put("content_id", currentContent.getContentId());
-            jsonObject.put("category_id", categoryId);
-            jsonObject.put("status", status);
-            jsonObject.put("total_content", contentList.size());
-
-        } catch (JSONException e) {
-            Log.e("Progress Update", "JSON Exception: " + e.getMessage());
-            return; // Return early if JSON creation fails
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+        // Prepare the POST request with necessary parameters
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
-                    Log.d("Progress Update", "Response: " + response.toString());
+                    Log.d("Progress Update", "Response: " + response);
                     Toast.makeText(ContentDescriptionActivity.this, "Progress updated!", Toast.LENGTH_SHORT).show();
                 },
                 error -> {
                     Log.e("Progress Update", "Error: " + error.getMessage());
                     Toast.makeText(ContentDescriptionActivity.this, "Failed to update progress", Toast.LENGTH_SHORT).show();
-                });
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("user_id", "33");  // Replace with actual user ID
+
+                //params.put("content_id", String.valueOf(currentContent.getContentId()));
+
+                params.put("category_name", categoryId);
+                params.put("progress", learned ? "1" : "0"); // 1 for learned, 0 for unlearned
+                params.put("total_lessons", String.valueOf(contentList.size()));
+                return params;
+            }
+        };
 
         // Add the request to the queue
-        requestQueue.add(jsonObjectRequest);
+        requestQueue.add(stringRequest);
     }
-
-    private void saveLearnedStatus(String contentId, int status) {
-        SharedPreferences prefs = getSharedPreferences("MyAppName", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("learned_" + contentId, status);
-        editor.apply();
-    }
-
 
     private void navigateBackToCategory() {
         Intent intent = new Intent(ContentDescriptionActivity.this, ContentActivity.class);
@@ -244,19 +241,22 @@ public class ContentDescriptionActivity extends AppCompatActivity {
 
     private void togglePlaybackSpeed() {
         if (currentPlaybackSpeed == 1.0f) {
-            currentPlaybackSpeed = 0.5f;
+            currentPlaybackSpeed = 0.5f; // Change to half speed
             toggleSpeedButton.setText("0.5x Speed");
         } else {
-            currentPlaybackSpeed = 1.0f;
+            currentPlaybackSpeed = 1.0f; // Change to normal speed
             toggleSpeedButton.setText("1.0x Speed");
         }
 
+        // Save the current speed in SharedPreferences
         savePlaybackSpeed(currentPlaybackSpeed);
 
+        // Set the playback speed on the ExoPlayer
         if (player != null) {
             player.setPlaybackSpeed(currentPlaybackSpeed);
         }
     }
+
 
     private void savePlaybackSpeed(float speed) {
         SharedPreferences prefs = getSharedPreferences("MyAppName", MODE_PRIVATE);
@@ -265,12 +265,14 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         editor.apply();
     }
 
+
     @Override
     protected void onStop() {
         super.onStop();
         if (player != null) {
-            player.release();
+            player.release(); // Release the player when the activity is stopped
             player = null;
         }
     }
+
 }
