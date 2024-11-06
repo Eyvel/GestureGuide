@@ -38,11 +38,11 @@
 
     <!-- Button to exit or go back -->
     <Button
-        android:id="@+id/exitButton"
+        android:id="@+id/finishButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
-        android:text="Finish"
+        android:text="@string/finish"
         android:textSize="18sp"
         android:layout_marginTop="16dp"
         android:padding="12dp"
