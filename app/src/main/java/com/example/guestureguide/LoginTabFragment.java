@@ -39,7 +39,7 @@ public class LoginTabFragment extends Fragment {
 
 
 
-    String url_login = "http://192.168.100.72/gesture/studentLogin.php"; // corrected the URL
+    String url_login = "http://192.168.8.20/gesture/studentLogin.php"; // corrected the URL
 
 
 

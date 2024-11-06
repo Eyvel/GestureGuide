@@ -162,7 +162,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
     // Fetch categories from API
     private void fetchCategories() {
-        String url = "http://192.168.100.72/gesture/getCategories.php";  // Your API endpoint
+        String url = "http://192.168.8.20/gesture/getCategories.php";  // Your API endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(

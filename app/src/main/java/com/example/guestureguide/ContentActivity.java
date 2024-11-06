@@ -72,7 +72,7 @@ public class ContentActivity extends AppCompatActivity {
     }
 
     private void fetchContent(String categoryId) {
-        String url = "http://192.168.100.72/gesture/getContent.php?category_id=" + categoryId;  // Adjust URL as needed
+        String url = "http://192.168.8.20/gesture/getContent.php?category_id=" + categoryId;  // Adjust URL as needed
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -92,15 +92,16 @@ public class ContentActivity extends AppCompatActivity {
                                 String contentImage = contentObject.getString("content_image");
                                 String contentVideo = contentObject.getString("content_video");
                                 String categoryName = contentObject.getString("category_name");
+                                String contentId = contentObject.getString("id");
 
 
 
 
 
-                                String imageUrl = "http://192.168.100.72/" + contentImage;
-                                String videoUrl = "http://192.168.100.72/" + contentVideo;
+                                String imageUrl = "http://192.168.8.20/" + contentImage;
+                                String videoUrl = "http://192.168.8.20/" + contentVideo;
 
-                                contentList.add(new Content(contentName, imageUrl, videoUrl, categoryName));
+                                contentList.add(new Content(contentName, imageUrl, videoUrl, categoryName, contentId));
                             }
                             contentAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {

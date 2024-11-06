@@ -77,7 +77,7 @@ public class QuizRecordActivity extends AppCompatActivity {
 
     private void fetchQuizRecords() {
         Log.d("QuizRecordActivity",user_id);
-        String url = "http://192.168.100.72/gesture/fetch_quiz_records.php?user_id=" +user_id;
+        String url = "http://192.168.8.20/gesture/fetch_quiz_records.php?user_id=" +user_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -90,9 +90,9 @@ public class QuizRecordActivity extends AppCompatActivity {
                                 JSONObject recordObj = recordsArray.getJSONObject(i);
 
                                 String quizTitle = recordObj.getString("quiz_title");
-                                int score = recordObj.getInt("score");
-                                int totalQuestions = recordObj.getInt("total_questions");
-                                String dateTaken = recordObj.getString("date_taken");
+                                int score = recordObj.getInt("total_score");
+                                int totalQuestions = recordObj.getInt("total_items");
+                                String dateTaken = recordObj.getString("quiz_answered_date");
 
                                 // Create a QuizRecord object and add it to the list
                                 quizRecordList.add(new QuizRecord(quizTitle, score, totalQuestions, dateTaken));
