@@ -122,6 +122,7 @@ public class Activity extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
     }
 
+
     private void setupOptionClickListeners() {
         option1ImageView.setOnClickListener(v -> selectOption(0));
         option2ImageView.setOnClickListener(v -> selectOption(1));
@@ -130,6 +131,7 @@ public class Activity extends AppCompatActivity {
     private void setupSubmitButton() {
         submitButton.setOnClickListener(v -> checkAnswer());
     }
+
 
     private void fetchQuestions(String quizId) {
         String url = "http://192.168.100.72/gesture/getQuestions.php?quiz_id=" + quizId;

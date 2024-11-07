@@ -45,7 +45,9 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
         holder.categoryTextView.setText(category.getName());
 
         // Load the category image using Glide
+
         String fullImageUrl = "http://192.168.100.72/" + category.getImageUrl();
+
         Glide.with(context)
                 .load(fullImageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL) // Caches both the original and the resized image

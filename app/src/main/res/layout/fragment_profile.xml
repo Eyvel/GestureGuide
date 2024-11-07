@@ -5,12 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
-    android:background="@color/FakeGray"
     tools:context=".ProfileFragment"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-
-
 
     <!-- Side navigation drawer-->
     <com.google.android.material.navigation.NavigationView
@@ -26,18 +23,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/FakeGray">
+        android:background="@drawable/img">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/FakeGray">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/FakeGray"
                 android:minHeight="?attr/actionBarSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,40 +44,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="20dp">
+            android:paddingTop="10dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:src="@drawable/profile" />
+                android:src="@drawable/profile"
+                android:layout_margin="10dp"/>
 
             <TextView
-
                 android:id="@+id/profile_name"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-
+                android:layout_height="wrap_content"
                 android:text="E D. Wardo"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textAlignment="center"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:padding="5dp"/>
 
             <TextView
                 android:id="@+id/profile_LRN"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:text="1048370580151"
                 android:textColor="@color/black"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:textAlignment="center"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/black" />
 
@@ -114,7 +109,6 @@
             <TextView
 
                 android:id="@+id/profile_email"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"

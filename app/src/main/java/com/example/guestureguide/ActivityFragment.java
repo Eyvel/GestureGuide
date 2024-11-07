@@ -116,6 +116,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
             // Notify adapter about data change
             quizAdapter.notifyDataSetChanged();
 
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -141,12 +142,14 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
 
     private void checkUserRecordExists(String userId, Quiz quiz) {
         String url = "http://192.168.100.72/gesture/checkUserResponse.php?user_id=" + userId + "&quiz_id=" + quiz.getId();
+
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null,
+
                 response -> {
                     try {
                         Log.d("ServerResponse", "Response: " + response.toString());
@@ -169,6 +172,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
                                 intent.putExtra("quiz_title", quiz.getQuizTitle());
                                 intent.putExtra("quiz_id", quiz.getId());
                                 startActivity(intent);
+
                             }
                         } else {
                             Log.e("ResponseError", "Missing 'record_exists' field in response");

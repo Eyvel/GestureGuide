@@ -2,25 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item android:title="@string/account">
-
             <menu>
-
                 <item
                     android:id="@+id/stud_info"
-                    android:icon="@drawable/student_info"
+                    android:icon="@drawable/educational_info"
                     android:title="@string/stud_info" />
                 <item
-                    android:id="@+id/educ_info"
+                    android:id="@+id/teacher_info"
                     android:icon="@drawable/educational_info"
-                    android:title="@string/security_info" />
+                    android:title="@string/teacher_info" />
+            </menu>
+        </item>
+        <item android:title="@string/security">
+            <menu>
                 <item
-                    android:id="@+id/nav_rate"
-                    android:icon="@drawable/rate_us"
-                    android:title="@string/rate_us"/>
+                    android:id="@+id/acc_settings"
+                    android:icon="@drawable/student_info"
+                    android:title="@string/acc_settings"/>
                 <item
-                    android:id="@+id/nav_message"
-                    android:icon="@drawable/message_profile"
-                    android:title="@string/message" />
+                    android:id="@+id/change_password"
+                    android:icon="@drawable/baseline_lock_24"
+                    android:title="@string/change_pass"/>
                 <item
                     android:id="@+id/nav_logout"
                     android:icon="@drawable/logout_profile"

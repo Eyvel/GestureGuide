@@ -1,14 +1,14 @@
 package com.example.guestureguide;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import com.example.guestureguide.R;
 
-public class Security_Information extends AppCompatActivity {
+import android.os.Bundle;
+
+public class TeacherID_input extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_security_information);
+        setContentView(R.layout.activity_teacher_id_input);
     }
 }

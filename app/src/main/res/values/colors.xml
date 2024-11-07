@@ -76,7 +76,7 @@
     <color name="orange_700">#F57C00</color>
     <color name="orange_800">#EF6C00</color>
     <color name="orange_900">#E65100</color>
-    <color name="records_orange">#F17400</color>
+
 
 
     <!-- Purples -->
@@ -95,6 +95,8 @@
     <color name="dark_blue">#0C2D57</color>
     <color name="dark_orange">#FE8F50</color>
 
-
+    <!--Nav Colors-->
+    <color name="nav_color">#FF8A08</color>
+    <color name="records_orange">#F17400</color>
 
 </resources>

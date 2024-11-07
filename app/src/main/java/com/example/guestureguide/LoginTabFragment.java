@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -39,7 +41,9 @@ public class LoginTabFragment extends Fragment {
 
 
 
+
     String url_login = "http://192.168.100.72/gesture/studentLogin.php"; // corrected the URL
+
 
 
 
@@ -52,19 +56,28 @@ public class LoginTabFragment extends Fragment {
         txt_password = view.findViewById(R.id.login_password);
         btn_login = view.findViewById(R.id.login_btn);
         tv_error = view.findViewById(R.id.tv_error);
-        sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);//requireContext() to use sharedPreference
+        sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
 
-
-
-        if(sharedPreferences.getString("logged", "false").equals("true")){
+        if (sharedPreferences.getString("logged", "false").equals("true")) {
             Intent intent = new Intent(getActivity(), NavigationActivity.class);
             startActivity(intent);
-            getActivity().finish();//to not log in again, get save user that logged in
-        };
+            getActivity().finish();
+        }
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login();
+            }
+        });
+
+        // Set OnClickListener for the "Forgot Password?" TextView
+        TextView tv_forgot_password = view.findViewById(R.id.tv_forgot_password);
+        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ForgetPassword.class);
+                startActivity(intent);
             }
         });
 
@@ -91,10 +104,11 @@ public class LoginTabFragment extends Fragment {
                             Log.d("LoginResponse", response);
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
-
                                 String success = jsonObject.getString("success");
+
                                 if (success.equals("1")) {
                                     JSONArray jsonArray = jsonObject.getJSONArray("login");
+
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject object = jsonArray.getJSONObject(i);
 
@@ -146,6 +160,7 @@ public class LoginTabFragment extends Fragment {
                                         getActivity().finish();
 
                                     }
+
                                 } else {
                                     tv_error.setText("Login failed. Please try again.");
                                 }
@@ -167,7 +182,6 @@ public class LoginTabFragment extends Fragment {
                     Map<String, String> params = new HashMap<>();
                     params.put("email", email);
                     params.put("password", password);
-
                     return params;
                 }
             };

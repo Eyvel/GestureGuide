@@ -19,7 +19,27 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-
+            android:name=".TeacherID_input"
+            android:exported="false" />
+        <activity
+            android:name=".FailedScreen"
+            android:exported="false" />
+        <activity
+            android:name=".WaitingScreen"
+            android:exported="false" />
+        <activity
+            android:name=".ForgetPassword"
+            android:exported="false" />
+        <activity
+            android:name=".DoneQuizes"
+            android:exported="false" />
+        <activity
+            android:name=".TeacherInformation"
+            android:exported="false" />
+        <activity
+            android:name=".AccountSettings"
+            android:exported="false" />
+        <activity
             android:name=".LessonRecordActivity"
             android:exported="false" />
 
@@ -38,7 +58,6 @@
             android:exported="false" />
         <activity
             android:name=".RecordsFragment"
-
             android:exported="false" />
         <activity
             android:name=".ActivityFirstScreenFragment"
@@ -61,7 +80,7 @@
             android:name=".Message_Us"
             android:exported="false" />
         <activity
-            android:name=".Security_Information"
+            android:name=".ChangePassword"
             android:exported="false" />
         <activity
             android:name=".StudentInformation"
