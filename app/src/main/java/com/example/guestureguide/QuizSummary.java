@@ -67,7 +67,7 @@ public class QuizSummary extends AppCompatActivity {
 
 
     private void fetchQuizSummary(String userId, String quizId) {
-        String url = "http://192.168.8.20/gesture/getQuizSummary.php?user_id=" + userId + "&quiz_id=" + quizId;
+        String url = "http://192.168.100.72/gesture/getQuizSummary.php?user_id=" + userId + "&quiz_id=" + quizId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

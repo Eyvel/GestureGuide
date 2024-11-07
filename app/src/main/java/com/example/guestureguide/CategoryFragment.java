@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -32,14 +34,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class CategoryFragment extends Fragment implements CategoryAdapter.OnCategoryClickListener {
-
+    private TextView addTeacherText;
+    private Button addTeacherBtn;
     private RecyclerView recyclerView;
     private CategoryAdapter categoryAdapter;
     private ArrayList<Category> categories;
     private Handler handler;
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
-    private String username;
+    private String username, userId, userType;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +55,11 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
         View view = inflater.inflate(R.layout.fragment_category, container, false);
 
 
-
         recyclerView = view.findViewById(R.id.recyclerViewCategories);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
+        addTeacherText = view.findViewById(R.id.addTeacherText);
+        addTeacherBtn = view.findViewById(R.id.addTeacherButton);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2); // Use requireContext() if you want to avoid null context
         recyclerView.setLayoutManager(gridLayoutManager);
         categories = new ArrayList<>();
@@ -63,6 +67,8 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
 
+        userId = sharedPreferences.getString("user_id", "").trim();
+        userType = sharedPreferences.getString("user_type", "").trim();
 
 
         Log.d("HomeFragment", "Retrieved username: " + username);
@@ -82,20 +88,31 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
         });
 
 
-        // Pass 'this' as the OnCategoryClickListener
-        categoryAdapter = new CategoryAdapter(getContext(), categories, this, username);
-        recyclerView.setAdapter(categoryAdapter);
+        if ("user".equals(userType)) {
+            addTeacherText.setVisibility(View.VISIBLE);
+            addTeacherBtn.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            addTeacherText.setVisibility(View.GONE);
+            addTeacherBtn.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
 
-        // Initialize Handler for periodic updates
-        handler = new Handler();
-        startAutoUpdate();
+            // Initialize and set the adapter
+            categoryAdapter = new CategoryAdapter(getContext(), categories, this, username);
+            recyclerView.setAdapter(categoryAdapter);
+
+            // Initialize Handler for periodic updates
+            handler = new Handler();
+            startAutoUpdate();
+        }
 
         return view;
     }
 
     // Fetch categories from API
     private void fetchCategories() {
-        String url = "http://192.168.8.20/gesture/getCategories.php";  // Your API endpoint
+
+        String url = "http://192.168.100.72/gesture/category.api.php?user_type=" + userType + "&student_id=" + userId;  // Your API endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -173,6 +190,8 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
     }
 
     private void stopAutoUpdate() {
-        handler.removeCallbacks(runnable);
+        if (handler != null && runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
     }
 }

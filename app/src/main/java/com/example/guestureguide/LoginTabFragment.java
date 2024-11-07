@@ -39,7 +39,7 @@ public class LoginTabFragment extends Fragment {
 
 
 
-    String url_login = "http://192.168.8.20/gesture/studentLogin.php"; // corrected the URL
+    String url_login = "http://192.168.100.72/gesture/studentLogin.php"; // corrected the URL
 
 
 
@@ -112,6 +112,7 @@ public class LoginTabFragment extends Fragment {
                                         String suffix = object.getString("suffix");
 
                                         String apiKey = object.getString("apiKey");
+                                        String userType = object.getString("user_type");
 
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -130,6 +131,7 @@ public class LoginTabFragment extends Fragment {
                                         editor.putString("middleName", middleName);
                                         editor.putString("middleInitial", middleInitial);
                                         editor.putString("suffix", suffix);
+                                        editor.putString("user_type", userType );
 
 
 

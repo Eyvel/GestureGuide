@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -44,9 +45,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.categoryTextView.setText(category.getName());
 
         // Load the category image using Glide
-        String fullImageUrl = "http://192.168.8.20/" + category.getImageUrl();
+        String fullImageUrl = "http://192.168.100.72/" + category.getImageUrl();
         Glide.with(context)
                 .load(fullImageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // Caches both the original and the resized image
+                .skipMemoryCache(false)
                 .into(holder.categoryImageView);
 /*
         // Alternate background color for items
@@ -92,4 +95,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public interface OnCategoryClickListener {
         void onCategoryClick(Category category);
     }
+
+    // Call this method to prefetch images before setting up the RecyclerView
+    public void prefetchImages(ArrayList<Category> categories) {
+        for (Category category : categories) {
+            String fullImageUrl = "http://192.168.100.72/" + category.getImageUrl();
+            Glide.with(context)
+                    .load(fullImageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL) // Cache images for faster access
+                    .preload(); // Preload into cache
+        }
+    }
+
 }

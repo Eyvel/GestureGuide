@@ -12,8 +12,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         tools:context=".CategoryFragment">
+
         <ImageButton
             android:id="@+id/back_to_home_button"
             android:layout_width="70dp"
@@ -24,15 +24,12 @@
             android:layout_marginEnd="16dp"
             android:src="@drawable/back_btn"
             android:background="@android:color/transparent"
-
-            android:contentDescription="Back"/>
-
+            android:contentDescription="Back" />
 
         <View
             android:id="@+id/top_view"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            />
+            android:layout_height="250dp" />
 
         <!-- GridLayout for CardViews -->
         <GridLayout
@@ -46,9 +43,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </FrameLayout>
+                android:layout_height="match_parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewCategories"
@@ -59,7 +54,7 @@
                 android:padding="8dp" />
 
 
-            <!-- Add more CardViews similarly as needed -->
+
         </GridLayout>
 
         <!-- Title TextView -->
@@ -68,12 +63,34 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
-
             android:gravity="center"
             android:text="@string/categories"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold" />
+
+        <!-- Invisible Button and Text for "Add Teacher" -->
+        <TextView
+            android:id="@+id/addTeacherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/top_view"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="30dp"
+            android:text="Content only for students, Add teacher to get access:"
+            android:textSize="24sp"
+            android:textColor="@android:color/black"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/addTeacherButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addTeacherText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Add Teacher"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

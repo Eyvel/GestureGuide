@@ -77,7 +77,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     }
 
     private void fetchAllQuizzes() {
-        String url = "http://192.168.8.20/gesture/getAllQuizzes.php"; // Update URL to your endpoint
+        String url = "http://192.168.100.72/gesture/getAllQuizzes.php"; // Update URL to your endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -140,7 +140,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     }
 
     private void checkUserRecordExists(String userId, Quiz quiz) {
-        String url = "http://192.168.8.20/gesture/checkUserResponse.php?user_id=" + userId + "&quiz_id=" + quiz.getId();
+        String url = "http://192.168.100.72/gesture/checkUserResponse.php?user_id=" + userId + "&quiz_id=" + quiz.getId();
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(

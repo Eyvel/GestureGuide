@@ -50,7 +50,7 @@ public class ApiClient {
         // Build Retrofit
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.8.20/")  // Replace with your base URL
+                    .baseUrl("http://192.168.100.72/")  // Replace with your base URL
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

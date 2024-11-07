@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,8 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
         // Load image using Glide
         Glide.with(context)
                 .load(content.getImageUrl())
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // Caches both the original and the resized image
+                .skipMemoryCache(false)
                 .into(holder.contentImageView);
 
         // Set click listener for each content item

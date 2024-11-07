@@ -194,7 +194,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
     // Function to update learning progress on the server
     private void updateProgressOnServer(int status) {
         Content currentContent = contentList.get(currentIndex);
-        String url = "http://192.168.8.20/gesture/save_content_progress.php";
+        String url = "http://192.168.100.72/gesture/save_content_progress.php";
 
         JSONObject jsonObject = new JSONObject();
         try {
