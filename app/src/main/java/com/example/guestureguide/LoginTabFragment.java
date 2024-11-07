@@ -37,7 +37,7 @@ public class LoginTabFragment extends Fragment {
     MaterialTextView tv_error;
     MaterialButton btn_login;
     SharedPreferences sharedPreferences;
-    String url_login = "http://192.168.19.127/gesture/studentLogin.php"; // corrected the URL
+    String url_login = "http://192.168.100.40/gesture/studentLogin.php"; // corrected the URL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

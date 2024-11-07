@@ -97,7 +97,7 @@ public class Activity extends AppCompatActivity {
 
     private void fetchQuestions(String quizTitle) {
         // Assuming the API takes quiz_title as a parameter in the URL
-        String url = "http://192.168.19.127/gesture/getQuestions.php?quiz_title=" + quizTitle;
+        String url = "http://192.168.100.40/gesture/getQuestions.php?quiz_title=" + quizTitle;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 

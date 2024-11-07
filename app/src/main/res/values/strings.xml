@@ -47,5 +47,9 @@
 
     <string name="content">Contents</string>
 
+    <string-array name="user_type_options">
+        <item>User</item>
+        <item>Student</item>
+    </string-array>
 
 </resources>
