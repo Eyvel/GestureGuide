@@ -31,7 +31,7 @@
             android:name=".ForgetPassword"
             android:exported="false" />
         <activity
-            android:name=".DoneQuizes"
+            android:name=".TeacherIDInputActivity"
             android:exported="false" />
         <activity
             android:name=".TeacherInformation"
@@ -43,9 +43,7 @@
             android:name=".LessonRecordActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".LoginTabFragment"
-            android:exported="false" />
+
         <activity
 
             android:name=".QuizSummary"

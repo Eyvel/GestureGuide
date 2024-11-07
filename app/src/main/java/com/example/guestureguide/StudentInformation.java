@@ -33,7 +33,7 @@ public class StudentInformation extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
 
-    private static final String URL_UPDATE = "http://192.168.100.72/gesture/studentInfo.php";  // Update PHP file URL
+    //private static final String URL_UPDATE = "http://192.168.8.20/gesture/studentInfo.php";  // Update PHP file URL
 
 
     @Override

@@ -46,7 +46,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         // Load the category image using Glide
 
-        String fullImageUrl = "http://192.168.100.72/" + category.getImageUrl();
+        String fullImageUrl = "http://192.168.8.20/" + category.getImageUrl();
 
         Glide.with(context)
                 .load(fullImageUrl)
@@ -101,7 +101,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     // Call this method to prefetch images before setting up the RecyclerView
     public void prefetchImages(ArrayList<Category> categories) {
         for (Category category : categories) {
-            String fullImageUrl = "http://192.168.100.72/" + category.getImageUrl();
+            String fullImageUrl = "http://192.168.8.20/" + category.getImageUrl();
             Glide.with(context)
                     .load(fullImageUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL) // Cache images for faster access

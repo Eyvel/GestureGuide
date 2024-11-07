@@ -40,14 +40,21 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
 
+    private String userId;
+    private String userType;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("user_id",""); // Retrieve the user_id
+        String userType = sharedPreferences.getString("user_type","");
+
+
 
         initializeViews(view);
         setupRecyclerView();
         setupBackButton(view);
-        fetchAllQuizzes(); // Fetch all quizzes when the view is created
+        fetchAllQuizzes(userId, userType); // Fetch all quizzes when the view is created
         startAutoUpdate();
 
         return view;
@@ -76,8 +83,9 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         });
     }
 
-    private void fetchAllQuizzes() {
-        String url = "http://192.168.100.72/gesture/getAllQuizzes.php"; // Update URL to your endpoint
+    private void fetchAllQuizzes(String userId, String userType) {
+
+        String url = "http://192.168.8.20/gesture/getAllQuizzes.php?user_type="+ userType+"&student_id="+userId; // Update URL to your endpoint
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -131,6 +139,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     public void onQuizClick(Quiz quiz) {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("user_id",""); // Retrieve the user_id
+        String userType = sharedPreferences.getString("user_type","");
 
         if (userId != "") {
             checkUserRecordExists(userId, quiz); // Check if the user already has a record for this quiz
@@ -141,7 +150,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     }
 
     private void checkUserRecordExists(String userId, Quiz quiz) {
-        String url = "http://192.168.100.72/gesture/checkUserResponse.php?user_id=" + userId + "&quiz_id=" + quiz.getId();
+        String url = "http://192.168.8.20/gesture/checkUserResponse.php?user_id=" + userId + "&quiz_id=" + quiz.getId();
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
@@ -202,7 +211,7 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         runnable = new Runnable() {
             @Override
             public void run() {
-                fetchAllQuizzes(); // Fetch all quizzes periodically
+                fetchAllQuizzes(userId, userType); // Fetch all quizzes periodically
                 handler.postDelayed(this, UPDATE_INTERVAL);
             }
         };

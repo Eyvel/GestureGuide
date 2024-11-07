@@ -134,7 +134,7 @@ public class Activity extends AppCompatActivity {
 
 
     private void fetchQuestions(String quizId) {
-        String url = "http://192.168.100.72/gesture/getQuestions.php?quiz_id=" + quizId;
+        String url = "http://192.168.8.20/gesture/getQuestions.php?quiz_id=" + quizId;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -203,7 +203,7 @@ public class Activity extends AppCompatActivity {
 
 
     private void loadVideo() {
-        String videoUrl = "http://192.168.100.72/gesture/" + currentQuestion.getQuestionVideo();
+        String videoUrl = "http://192.168.8.20/gesture/" + currentQuestion.getQuestionVideo();
         questionVideoView.setVideoURI(Uri.parse(videoUrl));
 
         // Set a completion listener to loop the video
@@ -214,8 +214,8 @@ public class Activity extends AppCompatActivity {
 
 
     private void loadOptions() {
-        String optionAUrl = "http://192.168.100.72/gesture/" + currentQuestion.getOptionA();
-        String optionBUrl = "http://192.168.100.72/gesture/" + currentQuestion.getOptionB();
+        String optionAUrl = "http://192.168.8.20/gesture/" + currentQuestion.getOptionA();
+        String optionBUrl = "http://192.168.8.20/gesture/" + currentQuestion.getOptionB();
         Glide.with(this).load(optionAUrl).into(option1ImageView);
         Glide.with(this).load(optionBUrl).into(option2ImageView);
 
@@ -268,7 +268,7 @@ public class Activity extends AppCompatActivity {
     }
 
     private void sendUserResponseToDatabase(String userId, String quizId, int questionId, int score, String selectedChoice, int totalPoints, int totalScore) {
-        String url = "http://192.168.100.72/gesture/saveQuizScore.php";
+        String url = "http://192.168.8.20/gesture/saveQuizScore.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         try {
@@ -290,6 +290,19 @@ public class Activity extends AppCompatActivity {
             );
 
             requestQueue.add(jsonObjectRequest);
+            Log.d("Activity", "user Id:"+userId);
+            Log.d("Activity", "quiz Id:"+quizId);
+
+            Log.d("Activity", "question Id:"+questionId);
+
+            Log.d("Activity", "score:"+score);
+
+            Log.d("Activity", "selected choice:"+selectedChoice);
+
+            Log.d("Activity", "total poitisn:"+totalPoints);
+            Log.d("Activity", "total score :"+totalScore);
+
+
         } catch (JSONException e) {
             Log.e("Activity", "Error creating JSON object", e);
             Toast.makeText(this, "Error saving your answer", Toast.LENGTH_SHORT).show();

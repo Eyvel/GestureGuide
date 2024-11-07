@@ -34,7 +34,7 @@ public class NavigationActivity extends AppCompatActivity {
             } else if (itemId == R.id.Activity_nav) {
                 replaceFragment(new StudyFragment(), "StudyFragment");
             } else if (itemId == R.id.profile_nav) {
-                replaceFragment(new ProfileFragment(), "ProfileFragment");
+                //replaceFragment(new ProfileFragment(), "ProfileFragment");
             }
             return true;
         });
@@ -48,7 +48,9 @@ public class NavigationActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
         // Check which fragment is being replaced and adjust the bottom navigation visibility
-        if (fragment instanceof HomeFragment || fragment instanceof StudyFragment || fragment instanceof ProfileFragment) {
+
+        // || fragment instanceof ProfileFragment * add this to condtion
+        if (fragment instanceof HomeFragment || fragment instanceof StudyFragment ) {
             binding.bottomNavigationView.setVisibility(View.VISIBLE); // Show bottom navigation
         } else if (fragment instanceof ActivityFirstScreenFragment) {
             binding.bottomNavigationView.setVisibility(View.GONE); // Hide bottom navigation
@@ -91,13 +93,15 @@ public class NavigationActivity extends AppCompatActivity {
     private void updateBottomNavigationView(Fragment fragment) {
         if (fragment instanceof HomeFragment) {
             binding.bottomNavigationView.setSelectedItemId(R.id.home_nav);
-        } else if (fragment instanceof ProfileFragment) {
-            binding.bottomNavigationView.setSelectedItemId(R.id.profile_nav);
         }
+//        else if (fragment instanceof ProfileFragment) {
+//            binding.bottomNavigationView.setSelectedItemId(R.id.profile_nav);
+//        }
     }
 
     private void showOrHideBottomNav(Fragment fragment) {
-        if (fragment instanceof HomeFragment || fragment instanceof StudyFragment || fragment instanceof ProfileFragment) {
+        //|| fragment instanceof ProfileFragment
+        if (fragment instanceof HomeFragment || fragment instanceof StudyFragment) {
             binding.bottomNavigationView.setVisibility(View.VISIBLE);  // Show bottom navigation
         } else {
             binding.bottomNavigationView.setVisibility(View.GONE);  // Hide bottom navigation

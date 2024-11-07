@@ -38,15 +38,7 @@ public class LoginTabFragment extends Fragment {
     MaterialButton btn_login;
     SharedPreferences sharedPreferences;
 
-
-
-
-
-    String url_login = "http://192.168.100.72/gesture/studentLogin.php"; // corrected the URL
-
-
-
-
+    String url_login = "http://192.168.8.20/gesture/studentLogin.php";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,30 +50,27 @@ public class LoginTabFragment extends Fragment {
         tv_error = view.findViewById(R.id.tv_error);
         sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
 
-        if (sharedPreferences.getString("logged", "false").equals("true")) {
-            Intent intent = new Intent(getActivity(), NavigationActivity.class);
-            startActivity(intent);
-            getActivity().finish();
+        // Check if the user is already logged in
+        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
+            navigateToHome();
         }
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+        btn_login.setOnClickListener(v -> login());
 
         // Set OnClickListener for the "Forgot Password?" TextView
         TextView tv_forgot_password = view.findViewById(R.id.tv_forgot_password);
-        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ForgetPassword.class);
-                startActivity(intent);
-            }
+        tv_forgot_password.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ForgetPassword.class);
+            startActivity(intent);
         });
 
         return view;
+    }
+
+    private void navigateToHome() {
+        Intent intent = new Intent(getActivity(), NavigationActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     private void login() {
@@ -98,22 +87,21 @@ public class LoginTabFragment extends Fragment {
             progressDialog.show();
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url_login,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.d("LoginResponse", response);
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                String success = jsonObject.getString("success");
+                    response -> {
+                        Log.d("LoginResponse", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
 
-                                if (success.equals("1")) {
-                                    JSONArray jsonArray = jsonObject.getJSONArray("login");
+                            if (success.equals("1")) {
+                                JSONArray jsonArray = jsonObject.getJSONArray("login");
 
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject object = jsonArray.getJSONObject(i);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.getJSONObject(i);
 
-                                        String username = object.getString("user_name");
-                                        String user_id = object.getString("id");
+                                    String username = object.getString("user_name");
+                                    String user_id = object.getString("id");
+                                    String userType = object.getString("user_type");
 //                                        String userEmail = object.getString("email");
 //                                        String userNumber = object.getString("number");
 //                                        String userBirthday =object.getString("birthday");
@@ -124,17 +112,13 @@ public class LoginTabFragment extends Fragment {
 //                                        String middleName = object.getString("middleName");
 //                                        String middleInitial = object.getString("middleInitial");
 //                                        String suffix = object.getString("suffix");
-//
-//
-                                        String userType = object.getString("user_type");
 
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-
-                                        editor.putString("username", username);
-
-                                        editor.putString("user_id", user_id);
-//                                        editor.putString("email", userEmail);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("username", username);
+                                    editor.putString("user_id", user_id);
+                                    editor.putString("user_type", userType);
+                                    editor.putBoolean("isLoggedIn", true);
+                                    //                                        editor.putString("email", userEmail);
 //                                        editor.putString("number", userNumber);
 //                                        editor.putString("birthday", userBirthday);
 //                                        editor.putString("address", userAddress);
@@ -145,37 +129,23 @@ public class LoginTabFragment extends Fragment {
 //                                        editor.putString("middleName", middleName);
 //                                        editor.putString("middleInitial", middleInitial);
 //                                        editor.putString("suffix", suffix);
-                                        editor.putString("user_type", userType );
+                                    editor.apply();
 
-
-
-
-                                        editor.apply();//to access anywhere sharedprefence
-
-                                        Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
-
-                                        // Start the main activity
-                                        Intent intent = new Intent(getActivity(), NavigationActivity.class);
-                                        startActivity(intent);
-                                        getActivity().finish();
-
-                                    }
-
-                                } else {
-                                    tv_error.setText("Login failed. Please try again.");
+                                    Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
+                                    navigateToHome();
                                 }
-                            } catch (Exception e) {
-                                tv_error.setText("Error: " + e.getMessage());
+                            } else {
+                                String message = jsonObject.getString("message");
+                                tv_error.setText(message);
                             }
-                            progressDialog.dismiss();
+                        } catch (Exception e) {
+                            tv_error.setText("Error: " + e.getMessage());
                         }
+                        progressDialog.dismiss();
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getActivity(), "Error: " + error.toString(), Toast.LENGTH_LONG).show();
-                            progressDialog.dismiss();
-                        }
+                    error -> {
+                        Toast.makeText(getActivity(), "Error: " + error.toString(), Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                     }) {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {

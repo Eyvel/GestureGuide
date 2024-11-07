@@ -194,7 +194,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
     // Function to update learning progress on the server
     private void updateProgressOnServer(int status) {
         Content currentContent = contentList.get(currentIndex);
-        String url = "http://192.168.100.72/gesture/save_content_progress.php";
+        String url = "http://192.168.8.20/gesture/save_content_progress.php";
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -207,6 +207,14 @@ public class ContentDescriptionActivity extends AppCompatActivity {
             jsonObject.put("status", status);
             jsonObject.put("total_content", contentList.size());
 
+
+            Log.d("Progress", userId);
+            Log.d("Content", currentContent.getContentId());
+            Log.d("CategoryId", categoryId);
+            Log.d("stats",String.valueOf(status));
+            Log.d("total", String.valueOf(contentList.size()));
+
+
         } catch (JSONException e) {
             Log.e("Progress Update", "JSON Exception: " + e.getMessage());
             return; // Return early if JSON creation fails
@@ -215,6 +223,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                 response -> {
                     Log.d("Progress Update", "Response: " + response.toString());
+
                     Toast.makeText(ContentDescriptionActivity.this, "Progress updated!", Toast.LENGTH_SHORT).show();
                 },
                 error -> {

@@ -38,7 +38,7 @@
                 android:id="@+id/authenticationSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Please enter your Teacher ID and wait\nfor the Teacher to admit you."
+                android:text="Please enter your Teacher ID and wait\nfor the Teacher to admit you.\nIf no Teacher Id choose user type user. "
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="8dp"
@@ -74,7 +74,7 @@
 
                 <!-- Resend Code Button -->
                 <Button
-                    android:id="@+id/resendCodeButton"
+                    android:id="@+id/sendTeacherIdBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

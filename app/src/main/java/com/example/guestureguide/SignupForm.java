@@ -17,7 +17,7 @@
 //import java.util.HashMap;
 //
 //
-//    String url_signup = "http://192.168.100.72/gesture/signup.php";
+//    String url_signup = "http://192.168.8.20/gesture/signup.php";
 //
 //
 //    private EditText lastName, firstName, middleName, ext, contactNumber, birthday, address, province, city, barangay, zipcode, lrn, program;

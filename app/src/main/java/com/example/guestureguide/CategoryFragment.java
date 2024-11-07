@@ -113,7 +113,7 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
     private void fetchCategories() {
 
 
-        String url = "http://192.168.100.72/gesture/category.api.php?user_type=" + userType + "&student_id=" + userId;  // Your API endpoint
+        String url = "http://192.168.8.20/gesture/category.api.php?user_type=" + userType + "&student_id=" + userId;  // Your API endpoint
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 

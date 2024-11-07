@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
             return;
         }
 
-        String url = "http://192.168.100.72/gesture/getCategories.php";  // Your API endpoint
+        String url = "http://192.168.8.20/gesture/getCategories.php";  // Your API endpoint
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 

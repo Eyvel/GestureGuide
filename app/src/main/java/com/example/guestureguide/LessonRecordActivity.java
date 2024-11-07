@@ -65,7 +65,7 @@ public class LessonRecordActivity extends AppCompatActivity {
 
     private void fetchLessonRecords() {
         Log.d("LessonRecordActivity", "Fetching data for user: " + user_id);
-        String url = "http://192.168.100.72/gesture/fetch_lesson_progress_summary.php?user_id=" + user_id;
+        String url = "http://192.168.8.20/gesture/fetch_lesson_progress_summary.php?user_id=" + user_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
