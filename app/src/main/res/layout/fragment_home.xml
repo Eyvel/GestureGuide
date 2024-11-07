@@ -114,6 +114,7 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/lesson_icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/lesson_icon"
@@ -136,6 +137,7 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/quiz_icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/quiz_icon"

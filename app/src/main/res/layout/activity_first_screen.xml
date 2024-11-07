@@ -3,9 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/quiz_first_screen">
 
+    android:background="@drawable/quiz_first_screen">
+    <ImageButton
+        android:id="@+id/back_to_study_screen_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/back_btn"
+        android:background="@android:color/transparent"
+        android:contentDescription="Back"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"

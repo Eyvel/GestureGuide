@@ -29,7 +29,7 @@ public class ContentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ContentAdapter contentAdapter;
     private ArrayList<Content> contentList;
-    private String categoryId, contentName;
+    private String categoryId, contentName, categoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class ContentActivity extends AppCompatActivity {
 
         // Initialize content list and adapter
         contentList = new ArrayList<>();
-        contentAdapter = new ContentAdapter(this, contentList, categoryId,contentName);
+        contentAdapter = new ContentAdapter(this, contentList, categoryId,contentName,categoryName);
         recyclerView.setAdapter(contentAdapter);
 
         Log.d("ContentActivity", "Received Category ID: " + categoryId);
@@ -72,7 +72,9 @@ public class ContentActivity extends AppCompatActivity {
     }
 
     private void fetchContent(String categoryId) {
-        String url = "http://192.168.100.40/gesture/getContent.php?category_id=" + categoryId;  // Adjust URL as needed
+
+        String url = "http://192.168.100.72/gesture/getContent.php?category_id=" + categoryId;  // Adjust URL as needed
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -91,11 +93,19 @@ public class ContentActivity extends AppCompatActivity {
                                 String contentName = contentObject.getString("content_name");
                                 String contentImage = contentObject.getString("content_image");
                                 String contentVideo = contentObject.getString("content_video");
+                                String categoryName = contentObject.getString("category_name");
+                                String contentId = contentObject.getString("id");
 
-                                String imageUrl = "http://192.168.100.40/" + contentImage;
-                                String videoUrl = "http://192.168.100.40/" + contentVideo;
 
-                                contentList.add(new Content(contentName, imageUrl, videoUrl));
+
+
+
+
+
+                                String imageUrl = "http://192.168.100.72/" + contentImage;
+                                String videoUrl = "http://192.168.100.72/" + contentVideo;
+
+                                contentList.add(new Content(contentName, imageUrl, videoUrl, categoryName, contentId));
                             }
                             contentAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {

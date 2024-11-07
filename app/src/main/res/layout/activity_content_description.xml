@@ -1,60 +1,76 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="10dp"
     android:background="@drawable/content_desc_bg">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        >
-    <ImageButton
-        android:id="@+id/back_to_content_button"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentStart="true"
-        android:layout_margin="16dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginEnd="16dp"
+        android:padding="8dp">  <!-- Optional padding for aesthetics -->
+
+        <ImageButton
+            android:id="@+id/back_to_content_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/back_btn"
         android:background="@android:color/transparent"
+        android:contentDescription="Back" />
 
-        android:contentDescription="Back"
-        />
         <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2"></View>
-    <ImageButton
-
-        android:id="@+id/next_content_button"
-        android:scaleX="-1"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_margin="16dp"
-        android:layout_marginStart="290dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/back_btn"
-        android:background="@android:color/transparent"
-
-        android:contentDescription="Back"
-        />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/categoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:text="Category Name"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="30sp"
+        android:autoSizeStepGranularity="2sp" />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="Lesson Progress: "
+            android:text="Lesson Number: "
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -63,65 +79,135 @@
             android:layout_height="30dp"
             android:text=" / "
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
+    </LinearLayout>
     </LinearLayout>
     <!-- ImageView to show content image -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/shape"
+
+
 
         >
-
-        <ImageView
-            android:id="@+id/contentImageView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop"/>
+            android:layout_height="wrap_content">
 
-        <VideoView
-            android:id="@+id/contentVideoView"
+            <!-- VideoView: Full width -->
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/contentVideoView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                app:use_controller="false"/>
+
+
+
+        </FrameLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="wrap_content">
+            <!-- Learn button -->
+            <!-- Left ImageButton (overlapping video) -->
+            <ImageButton
+                android:layout_weight="1"
+                android:id="@+id/previous_content_button"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="16dp"
+                android:layout_gravity="start|center_vertical"
+                android:rotation="180"
+                android:scaleX="-1"
+                android:src="@drawable/less_than"
+                android:background="@android:color/transparent"
+                android:contentDescription="Previous" />
+
+            <ImageView
+
+                android:layout_marginTop="20dp"
+
+                android:id="@+id/contentImageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+
+                />
+
+            <!-- Right ImageButton (overlapping video) -->
+
+
+
+
+            <ImageButton
+                android:id="@+id/next_content_button"
+                android:layout_weight="1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="16dp"
+                android:layout_gravity="end|center_vertical"
+                android:scaleX="-1"
+                android:src="@drawable/less_than"
+                android:background="@android:color/transparent"
+                android:contentDescription="Next" />
+
+        </LinearLayout>
+
+
+
+
 
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/contentName"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:text="Lesson Name"
             android:layout_gravity="center"
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="36sp"
             android:textStyle="bold" />
     </LinearLayout>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
 
-    <!-- Learn button -->
+    >
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/speedToggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.0x Speed"
+        android:backgroundTint="@color/dark_blue"
+
+        android:textColor="@color/white"
+        /> <!-- Initial text can indicate half speed -->
+
     <Button
         android:id="@+id/learnButton"
+        android:layout_gravity="center_horizontal"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
-        android:layout_gravity="center_horizontal"
+        android:text="@string/learn"
+
         android:backgroundTint="@color/dark_blue"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="1dp"
         android:textAllCaps="false"
+        android:textColor="@color/white"
 
         />
-    <Button
-        android:id="@+id/previousContentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_gravity="center_horizontal"
-        android:backgroundTint="@color/dark_blue"
+</LinearLayout>
 
-        android:layout_marginTop="16dp"
-        android:textAllCaps="false"
 
-        />
 
 </LinearLayout>

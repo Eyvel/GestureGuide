@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -44,9 +45,13 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
         holder.categoryTextView.setText(category.getName());
 
         // Load the category image using Glide
-        String fullImageUrl = "http://192.168.100.40/" + category.getImageUrl();
+
+        String fullImageUrl = "http://192.168.100.72/" + category.getImageUrl();
+
         Glide.with(context)
                 .load(fullImageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // Caches both the original and the resized image
+                .skipMemoryCache(false)
                 .into(holder.categoryImageView);
 
         if (position % 2 == 0) {

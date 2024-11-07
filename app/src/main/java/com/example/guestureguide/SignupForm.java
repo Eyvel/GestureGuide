@@ -16,7 +16,9 @@ import com.example.guestureguide.R;
 
 import java.util.HashMap;
 
-public class SignupForm extends AppCompatActivity {
+
+    String url_signup = "http://192.168.100.72/gesture/signup.php";
+
 
     private EditText lastName, firstName, middleName, ext, contactNumber, birthday, address, province, city, barangay, zipcode, lrn, program;
     private RadioGroup genderGroup, spedGroup, pwdGroup;

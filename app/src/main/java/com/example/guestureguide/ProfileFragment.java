@@ -104,7 +104,9 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
             //  cProgressDialog progressDialog = new ProgressDialog(getActivity());
             
-            String url_logout = "http://192.168.100.40/gesture/logout.php";
+
+            String url_logout = "http://192.168.100.72/gesture/logout.php";
+
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url_logout,
                     new Response.Listener<String>() {
                         @Override

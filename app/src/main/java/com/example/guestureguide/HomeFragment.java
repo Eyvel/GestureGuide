@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,6 +106,29 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
                 }
             }
         });
+        ImageView lesson_records = view.findViewById(R.id.lesson_icon);
+        lesson_records.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LessonRecordActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+        ImageView quiz_records = view.findViewById(R.id.quiz_icon);
+        quiz_records.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), QuizRecordActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+
 
         LinearLayout recordsButton = view.findViewById(R.id.bottomSection);
         recordsButton.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +162,9 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
     // Fetch categories from API
     private void fetchCategories() {
-        String url = "http://192.168.100.40/gesture/getCategories.php";  // Your API endpoint
+
+        String url = "http://192.168.100.72/gesture/getCategories.php";  // Your API endpoint
+
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
