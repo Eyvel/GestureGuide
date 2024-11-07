@@ -112,20 +112,20 @@ public class LoginTabFragment extends Fragment {
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject object = jsonArray.getJSONObject(i);
 
-                                        String username = object.getString("username");
-                                        String user_id = object.getString("user_id");
-                                        String userEmail = object.getString("email");
-                                        String userNumber = object.getString("number");
-                                        String userBirthday =object.getString("birthday");
-                                        String userAddress = object.getString("street");
-                                        String userLRN = object.getString("lrn");
-                                        String firstName = object.getString("firstName");
-                                        String lastName = object.getString("lastName");
-                                        String middleName = object.getString("middleName");
-                                        String middleInitial = object.getString("middleInitial");
-                                        String suffix = object.getString("suffix");
-
-                                        String apiKey = object.getString("apiKey");
+                                        String username = object.getString("user_name");
+                                        String user_id = object.getString("id");
+//                                        String userEmail = object.getString("email");
+//                                        String userNumber = object.getString("number");
+//                                        String userBirthday =object.getString("birthday");
+//                                        String userAddress = object.getString("street");
+//                                        String userLRN = object.getString("lrn");
+//                                        String firstName = object.getString("firstName");
+//                                        String lastName = object.getString("lastName");
+//                                        String middleName = object.getString("middleName");
+//                                        String middleInitial = object.getString("middleInitial");
+//                                        String suffix = object.getString("suffix");
+//
+//
                                         String userType = object.getString("user_type");
 
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -134,22 +134,22 @@ public class LoginTabFragment extends Fragment {
                                         editor.putString("username", username);
 
                                         editor.putString("user_id", user_id);
-                                        editor.putString("email", userEmail);
-                                        editor.putString("number", userNumber);
-                                        editor.putString("birthday", userBirthday);
-                                        editor.putString("address", userAddress);
-                                        editor.putString("lrn", userLRN);
-                                        editor.putString("logged", "true");
-                                        editor.putString("firstName", firstName);
-                                        editor.putString("lastName", lastName);
-                                        editor.putString("middleName", middleName);
-                                        editor.putString("middleInitial", middleInitial);
-                                        editor.putString("suffix", suffix);
+//                                        editor.putString("email", userEmail);
+//                                        editor.putString("number", userNumber);
+//                                        editor.putString("birthday", userBirthday);
+//                                        editor.putString("address", userAddress);
+//                                        editor.putString("lrn", userLRN);
+//                                        editor.putString("logged", "true");
+//                                        editor.putString("firstName", firstName);
+//                                        editor.putString("lastName", lastName);
+//                                        editor.putString("middleName", middleName);
+//                                        editor.putString("middleInitial", middleInitial);
+//                                        editor.putString("suffix", suffix);
                                         editor.putString("user_type", userType );
 
 
 
-                                        editor.putString("apiKey", apiKey);
+
                                         editor.apply();//to access anywhere sharedprefence
 
                                         Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();

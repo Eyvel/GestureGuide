@@ -44,6 +44,9 @@
             android:exported="false" />
 
         <activity
+            android:name=".LoginTabFragment"
+            android:exported="false" />
+        <activity
 
             android:name=".QuizSummary"
             android:exported="false" />

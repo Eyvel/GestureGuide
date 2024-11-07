@@ -162,6 +162,13 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
     // Fetch categories from API
     private void fetchCategories() {
+        if (isAdded()) { // Checks if the fragment is still attached
+            RequestQueue requestQueue = Volley.newRequestQueue(requireContext().getApplicationContext());
+            // Continue with the request setup
+        } else {
+            Log.e("HomeFragment", "Fragment not attached, skipping fetchCategories.");
+            return;
+        }
 
         String url = "http://192.168.100.72/gesture/getCategories.php";  // Your API endpoint
 
