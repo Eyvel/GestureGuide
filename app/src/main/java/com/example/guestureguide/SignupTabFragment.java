@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,10 +29,14 @@ import java.util.Map;
 
 public class SignupTabFragment extends Fragment {
 
-    EditText txt_username, txt_email, txt_password, txt_confirm;
-    Button btn_register;
+    private EditText txt_username, txt_email, txt_password, txt_confirm;
+    private Button btn_register;
 
-    String url_signup = "http://192.168.8.20/gesture/signup.php"; // URL for your signup API
+    private String url_signup = "http://192.168.8.20/gesture/signup.php"; // URL for your signup API
+    private static final long DEBOUNCE_TIME = 2000; // 2 seconds debounce time
+    private long lastClickTime = 0;
+    private boolean isRequestPending = false; // Flag to track if a request is pending
+    private RequestQueue requestQueue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,9 +48,22 @@ public class SignupTabFragment extends Fragment {
         txt_confirm = view.findViewById(R.id.signup_confirm);
         btn_register = view.findViewById(R.id.signup_btn);
 
+        // Initialize request queue
+        requestQueue = Volley.newRequestQueue(getActivity());
+
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Check debounce time and if a request is already pending
+                if (System.currentTimeMillis() - lastClickTime < DEBOUNCE_TIME || isRequestPending) {
+                    return; // Ignore the request if clicked too soon or a request is pending
+                }
+
+                // Disable button and update last click time
+                btn_register.setEnabled(false);
+                lastClickTime = System.currentTimeMillis();
+
+                // Register the user
                 registerUser();
             }
         });
@@ -57,79 +76,94 @@ public class SignupTabFragment extends Fragment {
         String email = txt_email.getText().toString().trim();
         String password = txt_password.getText().toString().trim();
         String confirm = txt_confirm.getText().toString().trim();
-        String user_type = "user"; // or any default value you need
+        String user_type = "user";
 
+        // Basic validations
         if (username.isEmpty()) {
             showToast("Insert Username");
-        } else if (email.isEmpty()) {
+            enableButton();
+            return;
+        }
+        if (email.isEmpty()) {
             showToast("Insert Email");
-        } else if (password.isEmpty()) {
+            enableButton();
+            return;
+        }
+        if (password.isEmpty()) {
             showToast("Insert Password");
-        } else if (confirm.isEmpty()) {
+            enableButton();
+            return;
+        }
+        if (confirm.isEmpty()) {
             showToast("Confirm Password");
-        } else if (!password.equals(confirm)) {
+            enableButton();
+            return;
+        }
+        if (!password.equals(confirm)) {
             showToast("Passwords do not match");
-        } else if (!email.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            enableButton();
+            return;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             showToast("Invalid Email Address!");
-        } else {
-            // Proceed with sending data to the server
-            sendSignupRequest(username, email, password, user_type);
+            enableButton();
+            return;
         }
-    }
 
-    private void showToast(String message) {
-        if (isAdded()) {  // Check if the fragment is still attached
-            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-        }
-    }
+        // Log the signup attempt
+        Log.d("SignupRequest", "Sending signup request with email: " + email + ", username: " + username);
 
-    private void sendSignupRequest(final String username, final String email, final String password, final String user_type) {
+        // Cancel any previous signup requests
+        requestQueue.cancelAll("SIGNUP_REQUEST");
+
+        // Create a new signup request
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_signup,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        isRequestPending = false; // Mark request as completed
+                        enableButton();
+
                         try {
-                            // Parse the JSON response
                             JSONObject jsonObject = new JSONObject(response);
-                            String success = jsonObject.getString("success");
+                            String status = jsonObject.getString("status");
+                            String message = jsonObject.getString("message");
 
-                            if (success.equals("1")) {
-                                // Registration successful, get user_id from the response
-                                String user_id = jsonObject.getString("user_id");
+                            if (status.equals("success")) {
+                                String user_id = jsonObject.getString("id");
+                                String email = jsonObject.getString("email");
 
-                                // Store user_id in SharedPreferences
-                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("user_id", user_id);
-                                editor.apply();  // Commit changes to SharedPreferences
+                                if (user_id != null && !user_id.isEmpty()) {
+                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("user_id", user_id);
+                                    editor.putString("email", email);
+                                    editor.apply();
 
-                                // Show a success message
-                                Toast.makeText(getActivity(), "Registration successful!", Toast.LENGTH_LONG).show();
-
-                                // Start the TeacherIDInputActivity after successful registration
-                                Intent intent = new Intent(getActivity(), TeacherIDInputActivity.class);
-                                startActivity(intent);
-                                getActivity().finish();
+                                    showToast("Registration successful!");
+                                    startActivity(new Intent(getActivity(), EmailVerificationActivity.class));
+                                } else {
+                                    showToast("User ID is missing from response.");
+                                }
                             } else {
-                                // Registration failed, get the error message
-                                String message = jsonObject.getString("message");
-                                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                                showToast(message);
                             }
+
                         } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            showToast("Error parsing response: " + e.getMessage());
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "Registration failed!", Toast.LENGTH_LONG).show();
+                        isRequestPending = false; // Mark request as completed
+                        enableButton();
+                        showToast("Registration failed! Please try again.");
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
-                // Prepare parameters to send to PHP
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("user_name", username);
@@ -139,8 +173,28 @@ public class SignupTabFragment extends Fragment {
             }
         };
 
-        // Add the request to the RequestQueue
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        // Set custom retry policy to prevent multiple requests
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0, // Initial timeout in milliseconds
+                0, // No retries
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+
+        // Set tag for cancellation and add request to queue
+        stringRequest.setTag("SIGNUP_REQUEST");
         requestQueue.add(stringRequest);
+        isRequestPending = true;
+    }
+
+
+
+    private void showToast(String message) {
+        if (isAdded()) {  // Ensure fragment is still attached
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void enableButton() {
+        btn_register.setEnabled(true);
     }
 }

@@ -254,6 +254,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Mother's Last Name" />
+            <EditText
+                android:id="@+id/mother_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Mother's First Name" />
 
             <EditText
                 android:id="@+id/mother_occupation"

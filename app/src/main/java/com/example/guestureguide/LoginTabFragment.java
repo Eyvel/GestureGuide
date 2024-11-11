@@ -77,11 +77,15 @@ public class LoginTabFragment extends Fragment {
         String email = txt_email.getText().toString().trim();
         String password = txt_password.getText().toString().trim();
 
+        // Check if email is empty
         if (email.isEmpty()) {
             tv_error.setText("Enter Email");
-        } else if (password.isEmpty()) {
+        }
+        // Check if password is empty
+        else if (password.isEmpty()) {
             tv_error.setText("Enter Password");
         } else {
+            // Show progress dialog while logging in
             ProgressDialog progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("Logging in...");
             progressDialog.show();
@@ -102,53 +106,50 @@ public class LoginTabFragment extends Fragment {
                                     String username = object.getString("user_name");
                                     String user_id = object.getString("id");
                                     String userType = object.getString("user_type");
-//                                        String userEmail = object.getString("email");
-//                                        String userNumber = object.getString("number");
-//                                        String userBirthday =object.getString("birthday");
-//                                        String userAddress = object.getString("street");
-//                                        String userLRN = object.getString("lrn");
-//                                        String firstName = object.getString("firstName");
-//                                        String lastName = object.getString("lastName");
-//                                        String middleName = object.getString("middleName");
-//                                        String middleInitial = object.getString("middleInitial");
-//                                        String suffix = object.getString("suffix");
+                                    String userEmail = object.getString("email");
 
+                                    // Save user data to SharedPreferences
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("username", username);
                                     editor.putString("user_id", user_id);
                                     editor.putString("user_type", userType);
                                     editor.putBoolean("isLoggedIn", true);
-                                    //                                        editor.putString("email", userEmail);
-//                                        editor.putString("number", userNumber);
-//                                        editor.putString("birthday", userBirthday);
-//                                        editor.putString("address", userAddress);
-//                                        editor.putString("lrn", userLRN);
-//                                        editor.putString("logged", "true");
-//                                        editor.putString("firstName", firstName);
-//                                        editor.putString("lastName", lastName);
-//                                        editor.putString("middleName", middleName);
-//                                        editor.putString("middleInitial", middleInitial);
-//                                        editor.putString("suffix", suffix);
+                                    editor.putString("email", userEmail);
                                     editor.apply();
+                                    Log.d("Email", userEmail);
 
+                                    // Show login success toast
                                     Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_LONG).show();
+
+                                    // Navigate to home screen after successful login
                                     navigateToHome();
                                 }
                             } else {
                                 String message = jsonObject.getString("message");
                                 tv_error.setText(message);
+
+                                // If email is not verified, navigate to EmailVerificationActivity
+                                if (message.equals("Email not verified. Please verify your email first.")) {
+                                    // Redirect to EmailVerificationActivity
+                                    Intent intent = new Intent(getActivity(), EmailVerificationActivity.class);
+                                    startActivity(intent);
+                                }
                             }
                         } catch (Exception e) {
+                            // Display error if JSON parsing fails
                             tv_error.setText("Error: " + e.getMessage());
                         }
+                        // Dismiss progress dialog after response is received
                         progressDialog.dismiss();
                     },
                     error -> {
+                        // Handle network error
                         Toast.makeText(getActivity(), "Error: " + error.toString(), Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
                     }) {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
+                    // Pass login credentials to the server
                     Map<String, String> params = new HashMap<>();
                     params.put("email", email);
                     params.put("password", password);
@@ -156,8 +157,10 @@ public class LoginTabFragment extends Fragment {
                 }
             };
 
+            // Add the request to the Volley request queue
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             requestQueue.add(stringRequest);
         }
     }
+
 }

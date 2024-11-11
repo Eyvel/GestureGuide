@@ -34,7 +34,7 @@ public class NavigationActivity extends AppCompatActivity {
             } else if (itemId == R.id.Activity_nav) {
                 replaceFragment(new StudyFragment(), "StudyFragment");
             } else if (itemId == R.id.profile_nav) {
-                //replaceFragment(new ProfileFragment(), "ProfileFragment");
+                replaceFragment(new ProfileFragment(), "ProfileFragment");
             }
             return true;
         });
@@ -49,8 +49,8 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Check which fragment is being replaced and adjust the bottom navigation visibility
 
-        // || fragment instanceof ProfileFragment * add this to condtion
-        if (fragment instanceof HomeFragment || fragment instanceof StudyFragment ) {
+        //  * add this to condtion
+        if (fragment instanceof HomeFragment || fragment instanceof StudyFragment || fragment instanceof ProfileFragment) {
             binding.bottomNavigationView.setVisibility(View.VISIBLE); // Show bottom navigation
         } else if (fragment instanceof ActivityFirstScreenFragment) {
             binding.bottomNavigationView.setVisibility(View.GONE); // Hide bottom navigation

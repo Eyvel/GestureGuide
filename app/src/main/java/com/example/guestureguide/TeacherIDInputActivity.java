@@ -109,6 +109,8 @@ public class TeacherIDInputActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(TeacherIDInputActivity.this, "Teacher ID sent successfully", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(TeacherIDInputActivity.this, SignupForm.class);
+                                startActivity(intent);
                             }
                         });
                     } else {
