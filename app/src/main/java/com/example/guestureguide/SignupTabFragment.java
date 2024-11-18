@@ -10,8 +10,10 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -32,11 +34,12 @@ public class SignupTabFragment extends Fragment {
     private EditText txt_username, txt_email, txt_password, txt_confirm;
     private Button btn_register;
 
-    private String url_signup = "http://192.168.8.20/gesture/signup.php"; // URL for your signup API
+    private String url_signup = "https://gestureguide.com/auth/mobile/signup.php"; // URL for your signup API
     private static final long DEBOUNCE_TIME = 2000; // 2 seconds debounce time
     private long lastClickTime = 0;
     private boolean isRequestPending = false; // Flag to track if a request is pending
     private RequestQueue requestQueue;
+    private Spinner userTypeSpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,9 +50,13 @@ public class SignupTabFragment extends Fragment {
         txt_password = view.findViewById(R.id.signup_password);
         txt_confirm = view.findViewById(R.id.signup_confirm);
         btn_register = view.findViewById(R.id.signup_btn);
+        userTypeSpinner = view.findViewById(R.id.userTypeSpinner);
+
 
         // Initialize request queue
         requestQueue = Volley.newRequestQueue(getActivity());
+
+
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,12 +78,14 @@ public class SignupTabFragment extends Fragment {
         return view;
     }
 
+
+
     private void registerUser() {
         String username = txt_username.getText().toString().trim();
         String email = txt_email.getText().toString().trim();
         String password = txt_password.getText().toString().trim();
         String confirm = txt_confirm.getText().toString().trim();
-        String user_type = "user";
+        String user_type = userTypeSpinner.getSelectedItem().toString();
 
         // Basic validations
         if (username.isEmpty()) {
@@ -110,8 +119,9 @@ public class SignupTabFragment extends Fragment {
             return;
         }
 
+
         // Log the signup attempt
-        Log.d("SignupRequest", "Sending signup request with email: " + email + ", username: " + username);
+        Log.d("SignupRequest", "Sending signup request with email: " + email + ", username: " + username + ", user type: " + user_type);
 
         // Cancel any previous signup requests
         requestQueue.cancelAll("SIGNUP_REQUEST");
@@ -169,6 +179,7 @@ public class SignupTabFragment extends Fragment {
                 params.put("user_name", username);
                 params.put("password", password);
                 params.put("user_type", user_type);
+
                 return params;
             }
         };
@@ -188,13 +199,16 @@ public class SignupTabFragment extends Fragment {
 
 
 
+
     private void showToast(String message) {
         if (isAdded()) {  // Ensure fragment is still attached
             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         }
     }
 
+
     private void enableButton() {
         btn_register.setEnabled(true);
     }
 }
+

@@ -99,13 +99,15 @@
                 android:id="@+id/contact_number"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Contact Number" />
+                android:hint="Contact Number"
+                android:inputType="number"/>
 
             <EditText
                 android:id="@+id/birthday"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Date of Birth (mm/dd/yyyy)" />
+                android:hint="Date of Birth (mm/dd/yyyy)"
+                android:inputType="date"/>
 
             <!-- SPED and PWD Options -->
             <TextView
@@ -199,6 +201,7 @@
                 android:id="@+id/zipcode"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:inputType="number"
                 android:hint="Zip Code" />
 
             <!-- Educational Background Section -->
@@ -212,6 +215,7 @@
 
             <EditText
                 android:id="@+id/lrn"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="LRN" />
@@ -221,6 +225,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Program" />
+            <EditText
+                android:id="@+id/nationality"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Nationality" />
+
+            <EditText
+                android:id="@+id/schoolName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="School Name" />
+
+            <EditText
+                android:id="@+id/schoolAddress"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="School Address" />
+
 
             <!-- Parent / Guardian Background Section -->
             <TextView
@@ -242,6 +264,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Father's First Name" />
+            <EditText
+                android:id="@+id/father_middlename"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Father's Middle Name" />
 
             <EditText
                 android:id="@+id/father_occupation"
@@ -261,16 +288,42 @@
                 android:hint="Mother's First Name" />
 
             <EditText
+                android:id="@+id/mother_middlename"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Mother's Middle Name" />
+
+            <EditText
                 android:id="@+id/mother_occupation"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Mother's Occupation" />
 
             <EditText
-                android:id="@+id/guardian_name"
+                android:id="@+id/guardian_lastName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Guardian's Name" />
+                android:hint="Guardian's Last Name" />
+            <EditText
+                android:id="@+id/guardians_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Guardian's First Name" />
+
+            <EditText
+                android:id="@+id/guardians_middlename"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Guardian's Middle Name" />
+
+            <EditText
+                android:id="@+id/guardians_number"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Guardian's Contact Number"
+                android:inputType="number"/>
+
+
 
             <EditText
                 android:id="@+id/guardian_occupation"

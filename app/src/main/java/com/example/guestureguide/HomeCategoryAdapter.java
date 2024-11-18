@@ -46,7 +46,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
 
         // Load the category image using Glide
 
-        String fullImageUrl = "http://192.168.8.20/" + category.getImageUrl();
+        String fullImageUrl = "http://10.10.50.119/" + category.getImageUrl();
 
         Glide.with(context)
                 .load(fullImageUrl)

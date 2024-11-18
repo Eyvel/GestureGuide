@@ -62,7 +62,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
             public void run() {
                 try {
                     // Construct the URL for the PHP script
-                    URL url = new URL("http://192.168.8.20/gesture/verification_code.php");
+                    URL url = new URL("https://gestureguide.com/auth/mobile/verification_code.php");
 
                     // Prepare the data to send
                     String data = "email=" + URLEncoder.encode(emailAddress, "UTF-8") +
@@ -75,11 +75,13 @@ public class EmailVerificationActivity extends AppCompatActivity {
                     connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
                     // Send the data to the server
-                    connection.getOutputStream().write(data.getBytes("UTF-8"));
+                    OutputStream outputStream = connection.getOutputStream();
+                    outputStream.write(data.getBytes("UTF-8"));
+                    outputStream.close();
 
                     // Get the response from the server
                     int responseCode = connection.getResponseCode();
-                    Log.d("Email", "email "+emailAddress);
+                    Log.d("Email", "email " + emailAddress);
                     Log.d("VerificationRequest", "Response Code: " + responseCode);
 
                     if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -99,15 +101,28 @@ public class EmailVerificationActivity extends AppCompatActivity {
                         String status = jsonResponse.getString("status");
                         String message = jsonResponse.getString("message");
 
+                        // Retrieve user type
+                        String userType = jsonResponse.optString("user_type", "unknown");
+
                         // Handle success or failure based on response
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if ("success".equals(status)) {
                                     Toast.makeText(EmailVerificationActivity.this, message, Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(EmailVerificationActivity.this, TeacherIDInputActivity.class);
-                                    startActivity(intent);
-                                    finish();  // Finish current activity to prevent going back
+
+                                    // Navigate based on user type
+                                    if ("user".equalsIgnoreCase(userType)) {
+                                        Intent intent = new Intent(EmailVerificationActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    } else if ("student".equalsIgnoreCase(userType)) {
+                                        Intent intent = new Intent(EmailVerificationActivity.this, SignupForm.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(EmailVerificationActivity.this, "Invalid user type", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    finish(); // Finish current activity to prevent going back
                                 } else {
                                     Toast.makeText(EmailVerificationActivity.this, message, Toast.LENGTH_SHORT).show();
                                 }
@@ -130,4 +145,5 @@ public class EmailVerificationActivity extends AppCompatActivity {
             }
         }).start();
     }
+
 }

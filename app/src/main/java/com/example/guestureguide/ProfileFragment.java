@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
     }
 
     private void logoutUser() {
-        String url_logout = "http://192.168.8.20/gesture/logout.php";
+        String url_logout = "https://gestureguide.com/auth/mobile/logout.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_logout,
                 new Response.Listener<String>() {

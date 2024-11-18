@@ -3,6 +3,7 @@ package com.example.guestureguide;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -134,7 +135,7 @@ public class Activity extends AppCompatActivity {
 
 
     private void fetchQuestions(String quizId) {
-        String url = "http://192.168.8.20/gesture/getQuestions.php?quiz_id=" + quizId;
+        String url = "https://gestureguide.com/auth/mobile/getQuestions.php?quiz_id=" + quizId;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -203,7 +204,7 @@ public class Activity extends AppCompatActivity {
 
 
     private void loadVideo() {
-        String videoUrl = "http://192.168.8.20/gesture/" + currentQuestion.getQuestionVideo();
+        String videoUrl = "https://gestureguide.com/auth/mobile/" + currentQuestion.getQuestionVideo();
         questionVideoView.setVideoURI(Uri.parse(videoUrl));
 
         // Set a completion listener to loop the video
@@ -214,8 +215,8 @@ public class Activity extends AppCompatActivity {
 
 
     private void loadOptions() {
-        String optionAUrl = "http://192.168.8.20/gesture/" + currentQuestion.getOptionA();
-        String optionBUrl = "http://192.168.8.20/gesture/" + currentQuestion.getOptionB();
+        String optionAUrl = "https://gestureguide.com/auth/mobile/" + currentQuestion.getOptionA();
+        String optionBUrl = "https://gestureguide.com/auth/mobile/" + currentQuestion.getOptionB();
         Glide.with(this).load(optionAUrl).into(option1ImageView);
         Glide.with(this).load(optionBUrl).into(option2ImageView);
 
@@ -268,7 +269,7 @@ public class Activity extends AppCompatActivity {
     }
 
     private void sendUserResponseToDatabase(String userId, String quizId, int questionId, int score, String selectedChoice, int totalPoints, int totalScore) {
-        String url = "http://192.168.8.20/gesture/saveQuizScore.php";
+        String url = "https://gestureguide.com/auth/mobile/saveQuizScore.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         try {
@@ -356,6 +357,9 @@ public class Activity extends AppCompatActivity {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationReport;
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
+        // Play sound effect
+        playSound(R.raw.correct_sound);
+
         ImageButton closeDialog = dialog.findViewById(R.id.closeDialog);
         closeDialog.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
@@ -369,8 +373,19 @@ public class Activity extends AppCompatActivity {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationReport;
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
+        // Play sound effect
+        playSound(R.raw.wrong_sound);
+
         ImageButton closeDialog = dialog.findViewById(R.id.closeDialog);
         closeDialog.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
+    }
+
+    private void playSound(int soundResourceId) {
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, soundResourceId);
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release(); // Release the MediaPlayer once the sound is complete
+        });
+        mediaPlayer.start();
     }
 }
