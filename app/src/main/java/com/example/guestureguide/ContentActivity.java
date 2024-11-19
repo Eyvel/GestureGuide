@@ -102,8 +102,8 @@ public class ContentActivity extends AppCompatActivity {
 
 
 
-                                String imageUrl = "http://10.10.50.119/" + contentImage;
-                                String videoUrl = "http://10.10.50.119/" + contentVideo;
+                                String imageUrl = "https://gestureguide.com/" + contentImage;
+                                String videoUrl = "https://gestureguide.com/" + contentVideo;
 
                                 contentList.add(new Content(contentName, imageUrl, videoUrl, categoryName, contentId));
                             }

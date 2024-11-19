@@ -30,6 +30,8 @@
     <string name="check">Check</string>
     <string name="finish">Finish</string>
 
+    <string name="profilePic">Select Profile Picture</string>
+
 
     <string name="first">First Name</string>
     <string name="last">Last Name</string>

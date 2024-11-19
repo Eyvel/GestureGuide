@@ -1,14 +1,19 @@
 package com.example.guestureguide;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,24 +28,45 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 public class SignupForm extends AppCompatActivity {
 
     private static final String URL_SIGNUP = "https://gestureguide.com/auth/mobile/signUpForm.php";
+    private static final int PROFILE_PICTURE_REQUEST = 101; // Unique request code
+    private String profileImageUri = "default"; // Default profile image
 
     // Declare your UI components
-    private EditText lastName, firstName, middleName, ext, contactNumber, birthday, address, province, city, barangay, zipcode, lrn, program,nationality, schoolName, schoolAddress;
+    private EditText lastName, firstName, middleName, ext, contactNumber, address, province, city, barangay, zipcode, lrn, program,nationality, schoolName, schoolAddress;
     private RadioGroup genderGroup, spedGroup, pwdGroup;
+    private TextView birthday;
     private EditText fatherLastName, fatherFirstName, fatherMiddleName,fatherOccupation, motherLastName, motherFirstName,motherMiddleName, motherOccupation, guardianName, guardianOccupation;
     private EditText guardianLastName,guardianFirstName,guardianMiddleName,guardianContactNumber;
     private Button signupButton;
+    private Spinner civilStatusSpinner;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_form);
+        // Initialize civilStatusSpinner
+        civilStatusSpinner = findViewById(R.id.civilStatusSpinner);
+
+        // Define options for the civil status
+        String[] civilStatusOptions = {"Single", "Married", "Widowed", "Divorced"};
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, civilStatusOptions);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Set the adapter to the spinner
+        civilStatusSpinner.setAdapter(adapter);
+
 
         // Initialize the EditText fields and other views
         lastName = findViewById(R.id.last_name);
@@ -49,6 +75,14 @@ public class SignupForm extends AppCompatActivity {
         ext = findViewById(R.id.ext);
         contactNumber = findViewById(R.id.contact_number);
         birthday = findViewById(R.id.birthday);
+        birthday.setOnClickListener(view -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, dayOfMonth) -> {
+                String formattedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                birthday.setText(formattedDate);
+            }, 2000, 0, 1); // Default date: January 1, 2000
+            datePickerDialog.show();
+        });
+
         address = findViewById(R.id.address);
         province = findViewById(R.id.province);
         city = findViewById(R.id.city);
@@ -89,12 +123,36 @@ public class SignupForm extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+            }
+        });
+        Button selectProfilePictureButton = findViewById(R.id.signup_button);
+        selectProfilePictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SignupForm.this, "Button clicked!", Toast.LENGTH_SHORT).show();
+
+
+
                 signup();
+
+
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PROFILE_PICTURE_REQUEST && resultCode == RESULT_OK && data != null) {
+            profileImageUri = data.getStringExtra("profile_image_uri");
+            Toast.makeText(this, "Profile picture selected: " + profileImageUri, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     private void signup() {
+        Log.d("SignupDebug", "Entered signup method.");
+
         try {
             SharedPreferences sharedPreferences = getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
             String userId = sharedPreferences.getString("user_id",""); // Retrieve the user_id
@@ -121,10 +179,60 @@ public class SignupForm extends AppCompatActivity {
             userData.put("contact_number", contactNumber.getText().toString().trim());
             userData.put("gender", "Male");  // Example static gender, modify this based on UI if needed
             userData.put("birthday", birthday.getText().toString().trim());
-            userData.put("age", "24");  // Example static age, calculate dynamically if needed
-            userData.put("sped", "No");  // Example static value
-            userData.put("pwd", "No");  // Example static value
-            userData.put("address", address.getText().toString().trim());
+
+
+            // Log the HashMap contents before converting it to JSON
+            Log.d("SignupDebug", "User Data: " + userData.toString());
+            String birthdayText = birthday.getText().toString().trim();
+
+// Validate format before proceeding
+            if (birthdayText.isEmpty() || !birthdayText.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                Toast.makeText(this, "Please enter the birthday in yyyy-MM-dd format", Toast.LENGTH_LONG).show();
+                return; // Stop the signup process
+            }
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate birthDate = LocalDate.parse(birthdayText, formatter);
+                LocalDate currentDate = LocalDate.now();
+
+                int age = Period.between(birthDate, currentDate).getYears();
+                userData.put("age", String.valueOf(age)); // Add dynamically calculated age
+                Log.d("SignupDebug", "Calculated Age: " + age);
+            } catch (Exception e) {
+                Log.e("SignupError", "Error parsing birthday or calculating age: " + e.getMessage());
+                userData.put("age", "0"); // Default age in case of error
+            }
+
+
+            // Get Gender
+            RadioGroup genderGroup = findViewById(R.id.gender_group);
+            int selectedGenderId = genderGroup.getCheckedRadioButtonId();
+            if (selectedGenderId != -1) {
+                RadioButton selectedGender = findViewById(selectedGenderId);
+                userData.put("gender", selectedGender.getText().toString());
+            }
+
+// Get SPED
+            RadioGroup spedGroup = findViewById(R.id.sped_group);
+            int selectedSpedId = spedGroup.getCheckedRadioButtonId();
+            if (selectedSpedId != -1) {
+                RadioButton selectedSped = findViewById(selectedSpedId);
+                userData.put("sped", selectedSped.getText().toString());
+            }
+
+// Get PWD
+            RadioGroup pwdGroup = findViewById(R.id.pwd_group);
+            int selectedPwdId = pwdGroup.getCheckedRadioButtonId();
+            if (selectedPwdId != -1) {
+                RadioButton selectedPwd = findViewById(selectedPwdId);
+                userData.put("pwd", selectedPwd.getText().toString());
+            }
+
+            String selectedCivilStatus = civilStatusSpinner.getSelectedItem().toString();
+            userData.put("civilStatus", selectedCivilStatus);
+
+
+            userData.put("address_house", address.getText().toString().trim());
             userData.put("province", province.getText().toString().trim());
             userData.put("city", city.getText().toString().trim());
             userData.put("barangay", barangay.getText().toString().trim());
@@ -149,8 +257,8 @@ public class SignupForm extends AppCompatActivity {
           userData.put("guardian_contact_number", guardianContactNumber.getText().toString().trim());  // Example static guardian contact
             userData.put("mother_occupation", motherOccupation.getText().toString().trim());
             userData.put("father_occupation", fatherOccupation.getText().toString().trim());
-            userData.put("civil_status", "Single");  // Example static civil status
-            userData.put("profile_img", "profile_image.jpg");  // Example static profile image file name
+            userData.put("civil_status",selectedCivilStatus );  // Example static civil status
+            userData.put("profile_img", profileImageUri.equals("default") ? "default_profile.jpg" : profileImageUri);
             userData.put("created_at", "");  // Example static creation date
 
             // Convert HashMap to JSON object
@@ -175,8 +283,9 @@ public class SignupForm extends AppCompatActivity {
                             if ("success".equals(status)) {
                                 // If signup is successful
                                 Toast.makeText(SignupForm.this, "Signup successful: " + message, Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(SignupForm.this, WaitingScreen.class);
-                                startActivity(intent);
+                                Intent intent = new Intent(SignupForm.this, ProfilePictureActivity.class);
+                                startActivityForResult(intent, PROFILE_PICTURE_REQUEST);
+
                             } else {
                                 // If signup fails
                                 Toast.makeText(SignupForm.this, "Signup failed: " + message, Toast.LENGTH_LONG).show();

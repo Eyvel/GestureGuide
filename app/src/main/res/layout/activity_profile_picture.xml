@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="@drawable/img_1"
+    >
+    <TextView
+    android:id="@+id/profileTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/profilePic"
+    android:textStyle="bold"
+    android:textColor="@color/black"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:gravity="start|center_vertical"
+    android:autoSizeTextType="uniform"
+        android:textSize="30dp"
+    android:autoSizeMinTextSize="18sp"
+    android:autoSizeMaxTextSize="30sp"
+    android:autoSizeStepGranularity="2sp"
+        android:layout_marginBottom="10dp"/>
+
+    <ImageView
+        android:id="@+id/profile_image_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:src="@drawable/profile_pic"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/upload_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Image" />
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save and Continue"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

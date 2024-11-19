@@ -102,11 +102,12 @@
                 android:hint="Contact Number"
                 android:inputType="number"/>
 
-            <EditText
+            <TextView
+                android:textSize="20dp"
                 android:id="@+id/birthday"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Date of Birth (mm/dd/yyyy)"
+                android:hint="Date of Birth (Click to set)"
                 android:inputType="date"/>
 
             <!-- SPED and PWD Options -->
@@ -204,6 +205,7 @@
                 android:inputType="number"
                 android:hint="Zip Code" />
 
+
             <!-- Educational Background Section -->
             <TextView
                 android:layout_width="wrap_content"
@@ -298,6 +300,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Mother's Occupation" />
+            <TextView
+                android:id="@+id/civilStatusLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parent Civil Status"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/civilStatusSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:layout_marginBottom="16dp"/>
 
             <EditText
                 android:id="@+id/guardian_lastName"

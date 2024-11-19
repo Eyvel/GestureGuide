@@ -51,7 +51,7 @@ public class ApiClient {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
 
-                    .baseUrl("http://10.10.50.119/")  // Replace with your base URL
+                    .baseUrl("https://gestureguide.com/auth/uploads/category_image//")  // Replace with your base URL
 
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
