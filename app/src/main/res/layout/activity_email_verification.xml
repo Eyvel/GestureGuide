@@ -47,7 +47,7 @@
             <!-- Input for Verification Code, Centered -->
             <EditText
                 android:id="@+id/verifCodeInput"
-                android:layout_width="340dp"
+                android:layout_width="320dp"
                 android:layout_height="50dp"
                 android:hint="Verification Code"
                 android:inputType="number"

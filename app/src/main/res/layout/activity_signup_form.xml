@@ -57,7 +57,7 @@
                 android:id="@+id/ext"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Extension" />
+                android:hint="Extension (Leave Blank if none)" />
 
             <!-- Gender Radio Buttons -->
             <TextView

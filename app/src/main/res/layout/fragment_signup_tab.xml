@@ -80,6 +80,7 @@
 
                 <!-- Spinner for User/Student Selection beside the button -->
                 <Spinner
+
                     android:layout_marginTop="10dp"
                     android:padding="10dp"
                     android:id="@+id/userTypeSpinner"
