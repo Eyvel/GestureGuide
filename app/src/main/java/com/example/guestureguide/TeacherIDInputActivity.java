@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
@@ -24,7 +23,6 @@ public class TeacherIDInputActivity extends AppCompatActivity {
 
     private EditText editTeacherID;
     private Button submitTeacherID;
-    private Spinner userTypeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,48 +30,27 @@ public class TeacherIDInputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_teacher_id_input);
 
         initViews();
-        setupUserTypeSpinner();
+
         setupSubmitButton();
     }
 
     private void initViews() {
         editTeacherID = findViewById(R.id.numberInput);
         submitTeacherID = findViewById(R.id.sendTeacherIdBtn);
-        userTypeSpinner = findViewById(R.id.userTypeSpinner);
     }
 
-    private void setupUserTypeSpinner() {
-        userTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateTeacherIDVisibility();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
-            }
-        });
-    }
 
-    private void updateTeacherIDVisibility() {
-        String selectedUserType = userTypeSpinner.getSelectedItem().toString();
-        editTeacherID.setVisibility(selectedUserType.equals("Student") ? View.VISIBLE : View.GONE);
-    }
+
 
     private void setupSubmitButton() {
         submitTeacherID.setOnClickListener(v -> {
             String teacherID = editTeacherID.getText().toString().trim();
-            String selectedUserType = userTypeSpinner.getSelectedItem().toString();
 
-            if ("Student".equals(selectedUserType)) {
-                if (teacherID.isEmpty()) {
-                    showToast("Please enter your Teacher ID.");
-                } else {
-                    sendTeacherIDToServer(getUserId(), teacherID);
-                }
-            } else if ("User".equals(selectedUserType)) {
-                navigateToMainScreen("Signed in as User.");
+            if (teacherID.isEmpty()) {
+                showToast("Please enter your Teacher ID.");
+            } else {
+                sendTeacherIDToServer(getUserId(), teacherID);
             }
         });
     }
@@ -202,7 +179,7 @@ public class TeacherIDInputActivity extends AppCompatActivity {
             if ("approved".equals(status)) {
                 navigateToMainScreen("Access approved.");
             } else if ("pending".equals(status)) {
-                navigateToScreen(SignupForm.class);
+                navigateToScreen(WaitingScreen.class);
             } else {
                 String message = jsonResponse.optString("message", "Unexpected error occurred");
                 showToast("Error: " + message);

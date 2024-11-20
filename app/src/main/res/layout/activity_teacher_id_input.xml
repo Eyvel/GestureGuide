@@ -38,7 +38,7 @@
                 android:id="@+id/authenticationSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Please enter your Teacher ID and wait\nfor the Teacher to admit you.\nIf no Teacher Id choose user type user. "
+                android:text="Please enter your Teacher ID and wait\nfor the Teacher to admit you."
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="8dp"
@@ -47,7 +47,7 @@
             <!-- Input for Verification Code, Centered -->
             <EditText
                 android:id="@+id/numberInput"
-                android:layout_width="340dp"
+                android:layout_width="320dp"
                 android:layout_height="50dp"
                 android:hint="Teacher ID"
                 android:inputType="number"
@@ -64,13 +64,6 @@
                 android:layout_marginTop="16dp">
 
                 <!-- Spinner for User/Student Selection beside the button -->
-                <Spinner
-                    android:id="@+id/userTypeSpinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:entries="@array/user_type_options" />
 
                 <!-- Resend Code Button -->
                 <Button

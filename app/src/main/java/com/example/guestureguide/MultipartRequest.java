@@ -2,13 +2,19 @@ package com.example.guestureguide;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.Request;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,88 +25,64 @@ import java.util.Map;
 
 public class MultipartRequest extends Request<String> {
 
+    private static final String BOUNDARY = "----WebKitFormBoundary" + System.currentTimeMillis();
+    private static final String LINE_END = "\r\n";
+    private static final String TWO_HYPHENS = "--";
+
     private final File file;
+    private final String studentId;
     private final Response.Listener<String> listener;
     private final Response.ErrorListener errorListener;
-    private SharedPreferences sharedPreferences;
 
-    // Constructor to initialize the request
-    public MultipartRequest(Context context, String url, File file, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    public MultipartRequest(String url, File file, String studentId,
+                            Response.Listener<String> listener,
+                            Response.ErrorListener errorListener) {
         super(Method.POST, url, errorListener);
         this.file = file;
+        this.studentId = studentId;
         this.listener = listener;
         this.errorListener = errorListener;
-        this.sharedPreferences = context.getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
     }
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "multipart/form-data; boundary=*****");
+        headers.put("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
         return headers;
     }
 
     @Override
-    protected Map<String, String> getParams() throws AuthFailureError {
-        // Add additional parameters if needed (e.g., student_id)
-        Map<String, String> params = new HashMap<>();
-        String userId = sharedPreferences.getString("user_id", ""); // Retrieve the user_id
-        params.put("student_id", userId); // Example of adding a student ID parameter
-        return params;
-    }
-
-    @Override
     public byte[] getBody() throws AuthFailureError {
-        // Prepare the body content for file upload in multipart/form-data format
-        String boundary = "*****";
-        String twoHyphens = "--";
-        String lineEnd = "\r\n";
-        StringBuilder body = new StringBuilder();
-
-        // Add file content to the request body
-        body.append(twoHyphens).append(boundary).append(lineEnd);
-        body.append("Content-Disposition: form-data; name=\"profile_pic\"; filename=\"")
-                .append(file.getName()).append("\"").append(lineEnd);
-        body.append("Content-Type: ").append("image/jpeg").append(lineEnd);  // Modify based on the file type
-        body.append(lineEnd);
-
-        // Add the file data (content)
-        byte[] fileBytes = getFileBytes(file);
-        body.append(new String(fileBytes));
-
-        // Closing boundary
-        body.append(lineEnd).append(twoHyphens).append(boundary).append(twoHyphens).append(lineEnd);
-
-        // Combine body and file content
-        byte[] finalBody = new byte[body.length() + fileBytes.length];
-
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byteArrayOutputStream.write(body.toString().getBytes());
-            byteArrayOutputStream.write(fileBytes);
-            finalBody = byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            // Add student_id parameter
+            bos.write((TWO_HYPHENS + BOUNDARY + LINE_END).getBytes());
+            bos.write(("Content-Disposition: form-data; name=\"student_id\"" + LINE_END).getBytes());
+            bos.write((LINE_END + studentId + LINE_END).getBytes());
 
-        return finalBody;
-    }
+            // Add file data
+            bos.write((TWO_HYPHENS + BOUNDARY + LINE_END).getBytes());
+            bos.write(("Content-Disposition: form-data; name=\"profile_pic\"; filename=\"" + file.getName() + "\"" + LINE_END).getBytes());
+            bos.write(("Content-Type: " + "image/jpeg" + LINE_END).getBytes()); // Change MIME type if necessary
+            bos.write(LINE_END.getBytes());
 
-    private byte[] getFileBytes(File file) throws AuthFailureError {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try {
-            FileInputStream fileInputStream = new FileInputStream(file);
-            int bufferSize = 1024;
-            byte[] buffer = new byte[bufferSize];
+            FileInputStream fis = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
             int bytesRead;
-            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, bytesRead);
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                bos.write(buffer, 0, bytesRead);
             }
-            fileInputStream.close();
+            fis.close();
+            bos.write(LINE_END.getBytes());
+
+            // Add closing boundary
+            bos.write((TWO_HYPHENS + BOUNDARY + TWO_HYPHENS + LINE_END).getBytes());
+
         } catch (IOException e) {
-            throw new AuthFailureError("File reading error: " + e.getMessage());
+            throw new AuthFailureError("Error creating request body: " + e.getMessage());
         }
-        return byteArrayOutputStream.toByteArray();
+
+        return bos.toByteArray();
     }
 
     @Override

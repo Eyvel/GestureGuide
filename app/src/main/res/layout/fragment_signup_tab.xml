@@ -27,6 +27,7 @@
                 android:id="@+id/signup_name"
                 android:layout_marginTop="10dp"
                 android:padding="8dp"
+                android:textColor="@color/black"
                 android:hint="Username"
                 android:drawableLeft="@drawable/baseline_person_24"
                 android:drawablePadding="8dp"
@@ -34,6 +35,8 @@
 
             <EditText
                 android:layout_width="300dp"
+                android:textColor="@color/black"
+
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:id="@+id/signup_email"
@@ -46,6 +49,8 @@
 
             <EditText
                 android:layout_width="300dp"
+                android:textColor="@color/black"
+
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:id="@+id/signup_password"
@@ -59,6 +64,8 @@
 
             <EditText
                 android:layout_width="300dp"
+                android:textColor="@color/black"
+
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:id="@+id/signup_confirm"

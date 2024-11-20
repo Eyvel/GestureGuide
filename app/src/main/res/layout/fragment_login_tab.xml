@@ -28,12 +28,16 @@
                 android:layout_marginTop="10dp"
                 android:padding="8dp"
                 android:hint="Email"
+                android:textColor="@color/black"
+
                 android:drawableLeft="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
                 android:background="@drawable/edittext_bkg"/>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="300dp"
+                android:textColor="@color/black"
+
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:id="@+id/login_password"
