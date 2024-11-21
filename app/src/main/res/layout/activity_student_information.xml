@@ -18,7 +18,6 @@
         app:headerLayout="@layout/header"
         app:menu="@menu/side_menu"/>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,21 +56,25 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/et_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Last Name" />
 
                 <EditText
+                    android:id="@+id/et_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="First Name" />
 
                 <EditText
+                    android:id="@+id/et_middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Middle Name" />
 
                 <EditText
+                    android:id="@+id/et_extension"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Extension" />
@@ -83,19 +86,25 @@
                     android:text="Gender" />
 
                 <RadioGroup
+                    android:id="@+id/rg_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:id="@+id/rb_male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Male" />
+
                     <RadioButton
+                        android:id="@+id/rb_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Female" />
+
                     <RadioButton
+                        android:id="@+id/rb_other"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Other" />
@@ -103,13 +112,20 @@
 
                 <!-- Other Fields -->
                 <EditText
+                    android:inputType="number"
+                    android:id="@+id/et_contact_number"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Contact Number" />
 
-                <EditText
+                <TextView
+
+                    android:id="@+id/tv_birth_date"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textColor="@color/black"
                     android:hint="Date of Birth (mm/dd/yyyy)" />
 
                 <!-- SPED and PWD Options -->
@@ -119,16 +135,19 @@
                     android:text="SPED" />
 
                 <RadioGroup
+                    android:id="@+id/rg_sped"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:id="@+id/rb_sped_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YES" />
 
                     <RadioButton
+                        android:id="@+id/rb_sped_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NO" />
@@ -140,16 +159,19 @@
                     android:text="PWD" />
 
                 <RadioGroup
+                    android:id="@+id/rg_pwd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:id="@+id/rb_pwd_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YES" />
 
                     <RadioButton
+                        android:id="@+id/rb_pwd_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NO" />
@@ -164,26 +186,35 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/et_address"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Address (House #/Street/Building)" />
 
                 <EditText
+                    android:id="@+id/et_address_barangay"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Baranggay" />
+
+
+                <EditText
+                    android:id="@+id/et_province"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Province/Region" />
 
                 <EditText
+                    android:id="@+id/et_municipality"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Municipality/City" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="Barangay" />
+
 
                 <EditText
+                    android:inputType="number"
+                    android:id="@+id/et_zip_code"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Zip Code" />
@@ -196,12 +227,10 @@
                     android:textStyle="bold"
                     android:textSize="18sp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="LRN" />
+
 
                 <EditText
+                    android:id="@+id/et_program"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Program" />
@@ -215,39 +244,95 @@
                     android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/et_father_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Father's Last Name" />
 
                 <EditText
+                    android:id="@+id/et_father_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Father's First Name" />
+                <EditText
+                    android:id="@+id/et_father_middle_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Father's Middle Name" />
 
                 <EditText
+                    android:id="@+id/et_father_occupation"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Father's Occupation" />
 
                 <EditText
+                    android:id="@+id/et_mother_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Mother's Last Name" />
+                <EditText
+                    android:id="@+id/et_mother_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Mother's First Name" />
 
                 <EditText
+                    android:id="@+id/et_mother_middle_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Mother's Middle Name" />
+                <EditText
+                    android:id="@+id/et_mother_occupation"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Mother's Occupation" />
 
                 <EditText
+                    android:id="@+id/et_guardian_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="Guardian's Name" />
+                    android:hint="Guardian's Last Name" />
+                <EditText
+                    android:id="@+id/et_guardian_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Guardian's First Name" />
+                <EditText
+                    android:id="@+id/et_guardian_middle_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Guardian's Middle Name" />
 
                 <EditText
+                    android:inputType="number"
+                    android:id="@+id/et_guardian_contact_number"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="Guardian's Occupation" />
+                    android:hint="Guardian's Contact Number" />
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                <Button
+                    android:id="@+id/btn_back"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Back"
+                    android:textColor="@color/white"
+                    ></Button>
+                <Button
+                    android:id="@+id/btn_update"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Update"
+                    android:textColor="@color/white"
+                    ></Button>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

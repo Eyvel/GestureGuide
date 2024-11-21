@@ -95,10 +95,22 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
             logoutUser();
         } else if (id == R.id.stud_info) {
             Toast.makeText(requireContext(), "Student Info Clicked", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(requireContext(), StudentInformation.class);
+            startActivity(intent);
+        } else if(id == R.id.teacher_info){
+            Toast.makeText(requireContext(),"Teacher info clicked",Toast.LENGTH_SHORT).show();
+        }
+
+        else if(id == R.id.acc_settings){
+            Toast.makeText(requireContext(),"Acc settings clicked",Toast.LENGTH_SHORT).show();
+        }else if(id == R.id.change_password){
+            Toast.makeText(requireContext(),"Change password clicked",Toast.LENGTH_SHORT).show();
         }
 
         return true;
     }
+
 
     private void fetchStudentProfile() {
         String studentId = sharedPreferences.getString("user_id", ""); // Assume student_id is saved
