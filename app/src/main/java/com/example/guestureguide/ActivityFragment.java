@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -39,23 +38,30 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     private Handler handler;
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
-
     private String userId;
     private String userType;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
-        String userId = sharedPreferences.getString("user_id",""); // Retrieve the user_id
-        String userType = sharedPreferences.getString("user_type","");
 
+        // Retrieve userId and userType from SharedPreferences
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getString("user_id", "");
+        userType = sharedPreferences.getString("user_type", "");
 
-
+        // Initialize and set up views
         initializeViews(view);
         setupRecyclerView();
         setupBackButton(view);
-        fetchAllQuizzes(userId, userType); // Fetch all quizzes when the view is created
-        startAutoUpdate();
+
+        // Fetch quizzes if userId and userType are valid
+        if (!userId.isEmpty() && !userType.isEmpty()) {
+            fetchAllQuizzes();
+            startAutoUpdate();
+        } else {
+            Toast.makeText(getContext(), "User ID or Type is missing", Toast.LENGTH_SHORT).show();
+        }
 
         return view;
     }
@@ -78,15 +84,13 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
             if (activity != null) {
                 activity.binding.bottomNavigationView.setVisibility(View.VISIBLE);
             }
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.popBackStack();
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
     }
 
-    private void fetchAllQuizzes(String userId, String userType) {
-
-        String url = "https://gestureguide.com/auth/mobile/getAllQuizzes.php?user_type="+ userType+"&student_id="+userId; // Update URL to your endpoint
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+    private void fetchAllQuizzes() {
+        String url = "https://gestureguide.com/auth/mobile/getQuizTitles.php?student_id=" + userId + "&user_type=" + userType;
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -105,115 +109,90 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
             for (int i = 0; i < response.length(); i++) {
                 JSONObject quizObject = response.getJSONObject(i);
                 String id = quizObject.getString("quiz_id");
-                String quizTitle = quizObject.getString("quiz_title").trim(); // Trim whitespace
+                String quizTitle = quizObject.getString("quiz_title").trim();
                 quizzes.add(new Quiz(id, quizTitle));
             }
 
-            // Sort quizzes by the numeric part of the title
+            // Sort quizzes by numeric value in the title
             quizzes.sort((quiz1, quiz2) -> {
-                int num1 = Integer.parseInt(quiz1.getQuizTitle().replaceAll("\\D+", ""));
-                int num2 = Integer.parseInt(quiz2.getQuizTitle().replaceAll("\\D+", ""));
+                String numStr1 = quiz1.getQuizTitle().replaceAll("\\D+", "");
+                String numStr2 = quiz2.getQuizTitle().replaceAll("\\D+", "");
+
+                // Use default value 0 if no number is found
+                int num1 = numStr1.isEmpty() ? 0 : Integer.parseInt(numStr1);
+                int num2 = numStr2.isEmpty() ? 0 : Integer.parseInt(numStr2);
+
                 return Integer.compare(num1, num2);
             });
 
-            // Log the total number of quiz titles fetched
-            for (Quiz quiz : quizzes) {
-                Log.d("QuizTitle", quiz.getQuizTitle()); // Log the titles
-            }
-
-            // Notify adapter about data change
             quizAdapter.notifyDataSetChanged();
-
-
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e("ParseError", "Error parsing JSON: " + e.getMessage());
         }
     }
 
 
     private void handleQuizError(VolleyError error) {
-        error.printStackTrace();
+        Log.e("VolleyError", "Error: " + (error.getMessage() != null ? error.getMessage() : "Unknown error"));
+        Toast.makeText(getContext(), "Failed to fetch quizzes", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onQuizClick(Quiz quiz) {
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
-        String userId = sharedPreferences.getString("user_id",""); // Retrieve the user_id
-        String userType = sharedPreferences.getString("user_type","");
-
-        if (userId != "") {
-            checkUserRecordExists(userId, quiz); // Check if the user already has a record for this quiz
+        if (!userId.isEmpty()) {
+            checkUserRecordExists(quiz);
         } else {
-            // Handle case where user_id is not available
             Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void checkUserRecordExists(String userId, Quiz quiz) {
+    private void checkUserRecordExists(Quiz quiz) {
         String url = "https://gestureguide.com/auth/mobile/checkUserResponse.php?user_id=" + userId + "&quiz_id=" + quiz.getId();
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null,
-
                 response -> {
                     try {
-                        Log.d("ServerResponse", "Response: " + response.toString());
-
                         if (response.has("record_exists")) {
                             boolean recordExists = response.getBoolean("record_exists");
-                            Log.d("RecordExists", "Record exists: " + recordExists);
-
-                            if (recordExists) {
-                                // Navigate to QuizSummary if the record exists
-                                Intent intent = new Intent(getActivity(), QuizSummary.class);
-                                intent.putExtra("quiz_title", quiz.getQuizTitle());
-                                intent.putExtra("quiz_id", quiz.getId());
-                                startActivity(intent);
-                            } else {
-                                // Notify user that there is no data and navigate to Activity.class
-                                Toast.makeText(getContext(), "No previous records found for this quiz.", Toast.LENGTH_SHORT).show();
-
-                                Intent intent = new Intent(getActivity(), Activity.class); // Navigate to Activity.class
-                                intent.putExtra("quiz_title", quiz.getQuizTitle());
-                                intent.putExtra("quiz_id", quiz.getId());
-                                startActivity(intent);
-
-                            }
+                            navigateToNextActivity(recordExists, quiz);
                         } else {
-                            Log.e("ResponseError", "Missing 'record_exists' field in response");
                             Toast.makeText(getContext(), "Invalid server response", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getContext(), "Error parsing response", Toast.LENGTH_SHORT).show();
+                        Log.e("ParseError", "Error parsing response: " + e.getMessage());
                     }
                 },
                 error -> {
                     Log.e("NetworkError", "Error: " + (error.getMessage() != null ? error.getMessage() : "Unknown error"));
-                    error.printStackTrace();
-                    Toast.makeText(getContext(), "Network error: " + (error.getMessage() != null ? error.getMessage() : "Unknown error"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
                 }
         );
 
         requestQueue.add(jsonObjectRequest);
     }
 
-
-
-
+    private void navigateToNextActivity(boolean recordExists, Quiz quiz) {
+        Intent intent;
+        if (recordExists) {
+            intent = new Intent(getActivity(), QuizSummary.class);
+        } else {
+            intent = new Intent(getActivity(), Activity.class);
+            Toast.makeText(getContext(), "No previous records found for this quiz.", Toast.LENGTH_SHORT).show();
+        }
+        intent.putExtra("quiz_title", quiz.getQuizTitle());
+        intent.putExtra("quiz_id", quiz.getId());
+        startActivity(intent);
+    }
 
     private void startAutoUpdate() {
         handler = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                fetchAllQuizzes(userId, userType); // Fetch all quizzes periodically
-                handler.postDelayed(this, UPDATE_INTERVAL);
-            }
+        runnable = () -> {
+            fetchAllQuizzes();
+            handler.postDelayed(runnable, UPDATE_INTERVAL);
         };
         handler.postDelayed(runnable, UPDATE_INTERVAL);
     }
@@ -221,6 +200,8 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        handler.removeCallbacks(runnable);
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
     }
 }

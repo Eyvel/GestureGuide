@@ -215,7 +215,7 @@
                     </FrameLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewCategories"
+                        android:id="@+id/recyclerViewCategoriesHome"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_row="0"

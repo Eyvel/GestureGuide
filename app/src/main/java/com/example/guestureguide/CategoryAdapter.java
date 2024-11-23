@@ -1,6 +1,8 @@
 package com.example.guestureguide;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,23 +47,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.categoryTextView.setText(category.getName());
 
         // Load the category image using Glide
-
         String fullImageUrl = "https://gestureguide.com/" + category.getImageUrl();
-
         Glide.with(context)
                 .load(fullImageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL) // Caches both the original and the resized image
                 .skipMemoryCache(false)
                 .into(holder.categoryImageView);
-/*
-        // Alternate background color for items
-        if (position % 2 == 0) {
-            holder.parentLinearLayout.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.YellowOrange));
-        } else {
-            holder.parentLinearLayout.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.dark_blue));
-        }
 
- */
+        // Define the colors array
+        String[] colors = {
+                "#FF8A8A", "#B1AFFF", "#EF9C66", "#78ABA8",
+                "#B5C0D0", "#D5F0C1", "#AC87C5", "#A1EEBD"
+        };
+
+        // Apply the background color and border with rounded corners
+        String color = colors[position % colors.length]; // Cycle through the colors array
+        int borderRadius = 48; // You can adjust the radius value
+        setBorderRadius(holder, color, borderRadius);  // Set the background color and radius
 
         // Set click listener for the entire item view
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -109,4 +111,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
+    // Method to set background color and corner radius
+    // Method to set background color and corner radius
+    private void setBorderRadius(CategoryViewHolder holder, String color, int radius) {
+        // Create a GradientDrawable to apply background color and rounded corners
+        GradientDrawable backgroundDrawable = new GradientDrawable();
+        backgroundDrawable.setColor(Color.parseColor(color));  // Set background color
+        backgroundDrawable.setCornerRadius(radius);  // Set corner radius
+        holder.parentLinearLayout.setBackground(backgroundDrawable);  // Set the background drawable
+    }
+
 }
+

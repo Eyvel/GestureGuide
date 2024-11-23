@@ -1,0 +1,5 @@
+<!-- res/drawable/orange_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke android:color="@color/dark_orange" android:width="5dp"/>
+    <corners android:radius="50dp"/>
+</shape>

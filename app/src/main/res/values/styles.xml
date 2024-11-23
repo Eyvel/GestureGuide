@@ -36,6 +36,8 @@
         <style name="CircularShape" parent="">
             <item name="cornerFamily">rounded</item>
             <item name="cornerSize">50%</item> <!-- Half of width/height for a circle -->
+            <item name="strokeColor">@color/dark_orange</item> <!-- Orange color for stroke -->
+            <item name="strokeWidth">4dp</item> <!-- Stroke width -->
         </style>
 
 

@@ -69,6 +69,7 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
 
         userId = sharedPreferences.getString("user_id", "").trim();
         userType = sharedPreferences.getString("user_type", "").trim();
+        fetchCategories();
 
 
         Log.d("HomeFragment", "Retrieved username: " + username);
@@ -91,6 +92,13 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
         if ("user".equals(userType)) {
             addTeacherText.setVisibility(View.VISIBLE);
             addTeacherBtn.setVisibility(View.VISIBLE);
+            addTeacherBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(),SignupForm.class);
+                    startActivity(intent);
+                }
+            });
             recyclerView.setVisibility(View.GONE);
         } else {
             addTeacherText.setVisibility(View.GONE);

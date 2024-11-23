@@ -94,10 +94,12 @@
         >
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
 
             <!-- VideoView: Full width -->
             <com.google.android.exoplayer2.ui.PlayerView
+
                 android:id="@+id/contentVideoView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -127,6 +129,7 @@
                 android:contentDescription="Previous" />
 
             <ImageView
+                android:background="@drawable/small_container2"
 
                 android:layout_marginTop="20dp"
 

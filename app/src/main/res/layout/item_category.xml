@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,16 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="110dp"
     android:layout_marginTop="20dp"
-    android:background="@drawable/small_container"
+    android:background="@drawable/small_container2"
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/categoryImageView"
+    <FrameLayout
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/CircularShape"/>
+        android:layout_gravity="center">
+
+        <!-- CircleImageView for category image -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/categoryImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"/>
+
+        <!-- Border drawable for CircleImageView -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/orange_border" /> <!-- Border drawable -->
+    </FrameLayout>
 
     <TextView
         android:id="@+id/categoryTextView"
@@ -32,6 +45,5 @@
         android:textColor="@android:color/white"
         android:textSize="30sp"
         android:textStyle="bold"/>
-
 
 </LinearLayout>

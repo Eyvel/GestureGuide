@@ -204,7 +204,7 @@ public class Activity extends AppCompatActivity {
 
 
     private void loadVideo() {
-        String videoUrl = "https://gestureguide.com/auth/mobile/" + currentQuestion.getQuestionVideo();
+        String videoUrl = "https://gestureguide.com/" + currentQuestion.getQuestionVideo();
         questionVideoView.setVideoURI(Uri.parse(videoUrl));
 
         // Set a completion listener to loop the video
@@ -215,8 +215,8 @@ public class Activity extends AppCompatActivity {
 
 
     private void loadOptions() {
-        String optionAUrl = "https://gestureguide.com/auth/mobile/" + currentQuestion.getOptionA();
-        String optionBUrl = "https://gestureguide.com/auth/mobile/" + currentQuestion.getOptionB();
+        String optionAUrl = "https://gestureguide.com/" + currentQuestion.getOptionA();
+        String optionBUrl = "https://gestureguide.com/" + currentQuestion.getOptionB();
         Glide.with(this).load(optionAUrl).into(option1ImageView);
         Glide.with(this).load(optionBUrl).into(option2ImageView);
 
@@ -251,22 +251,21 @@ public class Activity extends AppCompatActivity {
 
         if (selectedTag.equals(correctAnswer)) {
             totalScore += currentQuestion.getPoints();
-            showGreatJobDialog();
-        } else if (currentQuestionIndex != questionList.size() - 1) {
-            showSorryDialog();
         }
 
+        boolean isCorrect = selectedTag.equals(correctAnswer);
         int totalPoints = calculateCurrentQuestionPoints();
         sendUserResponseToDatabase(userId, quizId, currentQuestion.getQuestionId(), currentQuestionScore, selectedTag, totalPoints, totalScore);
 
         if (currentQuestionIndex == questionList.size() - 1) {
             clearQuizData(quizId);  // Clear quiz data before finishing
-            finishQuiz(quizId);
+            finishQuiz(quizId, isCorrect);
         } else {
             currentQuestionIndex++;
             loadQuestion();
         }
     }
+
 
     private void sendUserResponseToDatabase(String userId, String quizId, int questionId, int score, String selectedChoice, int totalPoints, int totalScore) {
         String url = "https://gestureguide.com/auth/mobile/saveQuizScore.php";
@@ -310,7 +309,7 @@ public class Activity extends AppCompatActivity {
         }
     }
 
-    private void finishQuiz(String quizId) {
+    private void finishQuiz(String quizId, boolean showGreatJobDialog) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("current_question_index_" + quizId);
         editor.remove("total_score_" + quizId);
@@ -324,6 +323,7 @@ public class Activity extends AppCompatActivity {
         intent.putExtra("total_question_items", calculateTotalPoints());
         intent.putExtra("quiz_title", quizTitle);
         intent.putExtra("quiz_id", quizId);
+        intent.putExtra("showGreatJobDialog", showGreatJobDialog);
         intent.putExtra("user_id", userId);
 
         startActivity(intent);

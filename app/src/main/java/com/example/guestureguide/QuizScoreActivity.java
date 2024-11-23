@@ -57,6 +57,7 @@ public class QuizScoreActivity extends AppCompatActivity {
             showSorryDialog();
         }
 
+
         // Log received data for debugging
         /*
         Log.d(TAG, "quizId: " + quizId);

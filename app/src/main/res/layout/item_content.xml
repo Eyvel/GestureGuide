@@ -2,30 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parentLinearLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="200dp"
     android:orientation="vertical"
     android:padding="8dp"
+    android:paddingTop="200dp"
     android:background="@drawable/small_container"
-    android:layout_margin="5dp"
-    >
+    android:layout_margin="5dp">
 
-    <ImageView
+    <!-- Wrap CircleImageView with FrameLayout -->
+<FrameLayout
+android:layout_marginTop="20dp"
+android:layout_width="100dp"
+android:layout_height="100dp"
+android:layout_gravity="center">
 
-        android:id="@+id/imageViewContent"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
+<!-- Add orange border by setting a background with a shape -->
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/imageViewContent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scaleType="centerCrop"
+    android:layout_gravity="center"/>
 
- />
+<!-- Border drawable for CircleImageView -->
+<View
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/orange_border" /> <!-- Border for image -->
+</FrameLayout>
 
-    <TextView
-        android:id="@+id/textViewContentName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@android:color/black"
-        android:paddingTop="8dp" />
-
-
-
-</LinearLayout>
+    <!-- TextView below CircleImageView -->
+<TextView
+android:layout_gravity="center"
+android:gravity="center_horizontal"
+android:id="@+id/textViewContentName"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:textSize="20sp"
+android:textColor="@android:color/black"
+android:paddingTop="8dp"
+android:autoSizeTextType="uniform"
+android:autoSizeMinTextSize="12sp"
+android:autoSizeMaxTextSize="15sp"/>
+    </LinearLayout>
