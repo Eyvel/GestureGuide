@@ -1,32 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center"
-    android:background="@drawable/act_bg"
-    >
+    android:padding="10dp"
+    android:background="@drawable/act_bg">
+
+    <!-- Back Button (Placed outside the main content LinearLayout) -->
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_alignParentTop="true">
+
+        <ImageButton
+            android:id="@+id/back_to_quiz_list"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back_btn"
+            android:background="@android:color/transparent"
+            android:contentDescription="Back" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <!-- Main Content LinearLayout (Date, Score, etc.) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@id/linear_layout"
+        android:layout_marginTop="16dp"     android:padding="16dp">
+
+    <!-- Date TextView -->
     <TextView
-    android:layout_marginStart="80dp"
-    android:id="@+id/dateTaken"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+        android:id="@+id/dateTaken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:autoSizeTextType="uniform"
         android:autoSizeMinTextSize="5sp"
         android:autoSizeMaxTextSize="20sp"
         android:autoSizeStepGranularity="2sp"
-    android:layout_marginEnd="20dp"
-
-    android:text="MM/DD/YYYY"
-    android:textSize="24sp"
-    android:textStyle="bold"
-    android:layout_marginBottom="10dp"
-    android:gravity="center"
-    android:textColor="@android:color/black"/>
-
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="20dp"
+        android:text="MM/DD/YYYY"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:textColor="@android:color/black"/>
 
     <!-- TextView for displaying the score message -->
     <TextView
@@ -39,31 +71,33 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:textColor="@android:color/black"/>
+
+    <!-- LinearLayout for displaying actual score and quiz information -->
     <LinearLayout
         android:background="@drawable/dark_blue_rectangle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        >
-    <!-- TextView for displaying the actual score -->
-    <TextView
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/quiz_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Quiz #"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="24dp"
-        android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="12sp"
-        android:autoSizeMaxTextSize="40sp"
-        android:autoSizeStepGranularity="2sp"/>
+        android:gravity="center">
+
+        <!-- TextView for quiz name -->
         <TextView
-            android:layout_gravity="center_horizontal"
+            android:id="@+id/quiz_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Quiz #"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="24dp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="40sp"
+            android:autoSizeStepGranularity="2sp"/>
+
+        <!-- TextView for quiz score -->
+        <TextView
             android:id="@+id/quiz_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,8 +111,9 @@
             android:autoSizeMinTextSize="12sp"
             android:autoSizeMaxTextSize="40sp"
             android:autoSizeStepGranularity="2sp"/>
+
+        <!-- TextView for correct answers -->
         <TextView
-            android:layout_gravity="center_horizontal"
             android:id="@+id/correctAnswers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,8 +126,9 @@
             android:autoSizeMinTextSize="12sp"
             android:autoSizeMaxTextSize="20sp"
             android:autoSizeStepGranularity="2sp"/>
+
+        <!-- TextView for incorrect answers -->
         <TextView
-            android:layout_gravity="center_horizontal"
             android:id="@+id/incorrectAnswers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,13 +137,13 @@
             android:textSize="30sp"
             android:gravity="center"
             android:textColor="@android:color/white"
-
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="12sp"
             android:autoSizeMaxTextSize="20sp"
             android:autoSizeStepGranularity="2sp"/>
+
+        <!-- TextView for answer percentage -->
         <TextView
-            android:layout_gravity="center_horizontal"
             android:id="@+id/answerPercentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,7 +152,6 @@
             android:textSize="30sp"
             android:gravity="center"
             android:textColor="@android:color/white"
-
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="12sp"
             android:autoSizeMaxTextSize="20sp"
@@ -138,5 +173,6 @@
         android:textColor="@android:color/white"
         android:onClick="onFinishButton"/>
 
-
 </LinearLayout>
+
+    </RelativeLayout>

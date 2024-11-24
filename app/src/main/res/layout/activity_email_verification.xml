@@ -2,14 +2,16 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bginput"
+    android:padding="10dp">
 
     <!-- Main Layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/bginput"
+
         android:padding="16dp"
         android:gravity="center">
 
@@ -46,6 +48,7 @@
 
             <!-- Input for Verification Code, Centered -->
             <EditText
+                android:textColor="@color/black"
                 android:id="@+id/verifCodeInput"
                 android:layout_width="320dp"
                 android:layout_height="50dp"
@@ -78,12 +81,27 @@
     </LinearLayout>
 
     <!-- Back Button in the upper-left corner -->
-    <ImageButton
-        android:id="@+id/teacherID_back_button"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_margin="16dp"
-        android:src="@drawable/back_btn"
-        android:background="@android:color/transparent"
-        android:contentDescription="Back" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">  <!-- Optional padding for aesthetics -->
+
+        <ImageButton
+            android:id="@+id/back_to_sign_up_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back_btn"
+            android:background="@android:color/transparent"
+            android:contentDescription="Back" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 </FrameLayout>

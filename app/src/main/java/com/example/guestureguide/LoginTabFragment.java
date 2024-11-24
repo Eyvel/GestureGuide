@@ -164,6 +164,7 @@ public class LoginTabFragment extends Fragment {
                                         editor.putString("user_type", userType);
                                         editor.putBoolean("isLoggedIn", true);
                                         editor.putString("email", userEmail);
+                                        editor.putString("status", status);
                                         editor.apply();
 
                                         // Navigate to waiting screen if status is 'pending'

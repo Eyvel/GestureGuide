@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,13 @@ public class QuizSummary extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("user_id",""); // Retrieve the user_id
 
+        ImageButton backbutton = findViewById(R.id.back_to_quiz_list);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         // Assume user_id and quiz_id are passed from intent
         //String userId = getIntent().getStringExtra("user_id");
         String quizId = getIntent().getStringExtra("quiz_id");

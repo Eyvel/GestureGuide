@@ -56,24 +56,52 @@
                     android:textSize="18sp" />
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Last Name" />
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="First Name" />
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Middle Name" />
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_extension"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -92,18 +120,23 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:textColor="@color/black"
                         android:id="@+id/rb_male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Male" />
 
                     <RadioButton
+                        android:textColor="@color/black"
+
                         android:id="@+id/rb_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Female" />
 
                     <RadioButton
+                        android:textColor="@color/black"
+
                         android:id="@+id/rb_other"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -112,6 +145,13 @@
 
                 <!-- Other Fields -->
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:inputType="number"
                     android:id="@+id/et_contact_number"
                     android:layout_width="match_parent"
@@ -141,12 +181,16 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:textColor="@color/black"
+
                         android:id="@+id/rb_sped_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YES" />
 
                     <RadioButton
+                        android:textColor="@color/black"
+
                         android:id="@+id/rb_sped_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -165,12 +209,16 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:textColor="@color/black"
+
                         android:id="@+id/rb_pwd_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YES" />
 
                     <RadioButton
+                        android:textColor="@color/black"
+
                         android:id="@+id/rb_pwd_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -186,12 +234,26 @@
                     android:textSize="18sp" />
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_address"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Address (House #/Street/Building)" />
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_address_barangay"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -199,12 +261,26 @@
 
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_province"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Province/Region" />
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_municipality"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -213,6 +289,13 @@
 
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:inputType="number"
                     android:id="@+id/et_zip_code"
                     android:layout_width="match_parent"
@@ -227,13 +310,72 @@
                     android:textStyle="bold"
                     android:textSize="18sp" />
 
+                <EditText
 
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
+                    android:id="@+id/et_lrn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="LRN"
+                    android:inputType="number"
+                    />
 
                 <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_program"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Program" />
+
+                <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
+                    android:id="@+id/et_nationality"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Nationality" />
+
+                <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
+                    android:id="@+id/et_school_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="School Name" />
+
+                <EditText
+
+  android:textColor="@color/black"
+
+
+ android:padding="10dp"
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
+                    android:id="@+id/et_school_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="School Address" />
 
                 <!-- Parent / Guardian Background Section -->
                 <TextView
@@ -244,67 +386,151 @@
                     android:textSize="18sp" />
 
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_father_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Father's Last Name" />
 
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_father_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Father's First Name" />
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_father_middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Father's Middle Name" />
 
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_father_occupation"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Father's Occupation" />
 
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_mother_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Mother's Last Name" />
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_mother_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Mother's First Name" />
 
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_mother_middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Mother's Middle Name" />
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_mother_occupation"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Mother's Occupation" />
 
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_guardian_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Guardian's Last Name" />
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_guardian_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Guardian's First Name" />
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:id="@+id/et_guardian_middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Guardian's Middle Name" />
 
                 <EditText
+
+  android:textColor="@color/black"  
+
+
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                     android:inputType="number"
                     android:id="@+id/et_guardian_contact_number"
                     android:layout_width="match_parent"

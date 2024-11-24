@@ -1,61 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fillViewport="true"
-    android:background="@drawable/act_bg">
+    android:layout_height="match_parent"
+    android:background="@drawable/act_bg"
+    android:padding="10dp"
+    tools:context=".ActivityFragment">
 
-    <RelativeLayout
+    <!-- Back Button (Positioned outside the ScrollView) -->
+
+    <!-- Scrollable Content -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ActivityFragment">
 
-        <!-- Back Button -->
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Title TextView -->
+            <TextView
+                android:id="@+id/Quiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:gravity="center"
+                android:text="@string/quiz"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <!-- ImageView -->
+            <ImageView
+                android:id="@+id/Quiz_pic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Quiz"
+                android:layout_margin="30dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:src="@drawable/quiz_time" />
+
+            <!-- RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerviewQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Quiz_pic"
+                android:layout_marginTop="16dp"
+                android:padding="8dp" />
+        </RelativeLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_alignParentTop="true">
+
         <ImageButton
             android:id="@+id/back_to_first_quiz_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentStart="true"
-            android:layout_margin="16dp"
-            android:layout_marginStart="29dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:src="@drawable/back_btn"
             android:background="@android:color/transparent"
-            android:contentDescription="Back"/>
+            android:contentDescription="Back" />
 
-        <!-- Title TextView -->
-        <TextView
-            android:id="@+id/Quiz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:gravity="center"
-            android:text="@string/quiz"
-            android:textColor="@color/black"
-            android:textSize="40sp"
-            android:textStyle="bold" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 
-        <!-- ImageView -->
-        <ImageView
-            android:id="@+id/Quiz_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Quiz"
-            android:layout_margin="30dp"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:src="@drawable/quiz_time" />
-
-        <!-- RecyclerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerviewQuiz"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Quiz_pic"
-            android:layout_marginTop="16dp"
-            android:padding="8dp" />
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

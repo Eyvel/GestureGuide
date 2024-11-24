@@ -32,7 +32,7 @@ import java.util.Map;
 public class StudentInformation extends AppCompatActivity {
 
     private EditText etLastName, etFirstName, etMiddleName, etSuffix, etContactNumber,  etAddress,etAddressBarangay;
-    private EditText etProvince,etMunicipality,etBarangay,etZipCode,etLrn,etProgram;
+    private EditText etProvince,etMunicipality,etBarangay,etZipCode,etLrn,etProgram,etNationality,etSchoolAddress,etSchoolName;
     private EditText etFatherLastName, etFatherFirstName,etFatherMiddleName,etFatherOccupation,etMotherLastName,etMotherFirstName,etMotherMiddleName,etMotherOccupation;
     private EditText etGuardianLastName,etGuardianFirstName,etGuardianMiddleName,etGuardianContactNumber;
     private RadioGroup rgGender, rgSped, rgPwd;
@@ -63,6 +63,10 @@ public class StudentInformation extends AppCompatActivity {
         etZipCode = findViewById(R.id.et_zip_code);
 
         etProgram = findViewById(R.id.et_program);
+        etLrn = findViewById(R.id.et_lrn);
+        etNationality = findViewById(R.id.et_nationality);
+        etSchoolAddress = findViewById(R.id.et_school_address);
+        etSchoolName = findViewById(R.id.et_school_name);
 
         
         etFatherLastName = findViewById(R.id.et_father_last_name);
@@ -162,6 +166,11 @@ public class StudentInformation extends AppCompatActivity {
                         etProvince.setText(jsonObject.optString("address_province", ""));
                         etZipCode.setText(jsonObject.optString("zip_code",""));
                         etProgram.setText(jsonObject.optString("program",""));
+                        etNationality.setText(jsonObject.optString("nationality",""));
+
+                        etLrn.setText(jsonObject.optString("lrn",""));
+                        etSchoolName.setText(jsonObject.optString("school_name",""));
+                        etSchoolAddress.setText(jsonObject.optString("school_address",""));
 
                         etFatherLastName.setText(jsonObject.optString("fathers_last_name",""));
                         etFatherFirstName.setText(jsonObject.optString("fathers_first_name",""));
@@ -246,6 +255,11 @@ public class StudentInformation extends AppCompatActivity {
             params.put("zip_code", etZipCode.getText().toString());
 
             params.put("program", etProgram.getText().toString());
+            params.put("nationality",etNationality.getText().toString());
+            params.put("lrn",etLrn.getText().toString());
+            params.put("school_name",etSchoolName.getText().toString());
+            params.put("school_address",etSchoolAddress.getText().toString());
+
 
             params.put("fathers_last_name", etFatherLastName.getText().toString());
             params.put("fathers_first_name", etFatherFirstName.getText().toString());

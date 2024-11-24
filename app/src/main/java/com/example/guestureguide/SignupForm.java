@@ -258,7 +258,8 @@ public class SignupForm extends AppCompatActivity {
             userData.put("mother_occupation", motherOccupation.getText().toString().trim());
             userData.put("father_occupation", fatherOccupation.getText().toString().trim());
             userData.put("civil_status",selectedCivilStatus );  // Example static civil status
-            userData.put("profile_img", "https://gestureguide.com/auth/mobile/uploads/profile_images/profile.png");
+            userData.put("profile_img", "" +
+                    "auth/mobile/uploads/profile_images/profile.png");
             userData.put("created_at", "");  // Example static creation date
 
             // Convert HashMap to JSON object

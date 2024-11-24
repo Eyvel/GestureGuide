@@ -35,25 +35,41 @@
                 android:textSize="18sp"
                 android:textColor="#333333" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/last_name"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Last Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/first_name"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="First Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/middle"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Middle Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/ext"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -95,7 +111,11 @@
             </RadioGroup>
 
             <!-- Other Fields -->
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/contact_number"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -174,31 +194,51 @@
                 android:textSize="18sp"
                 android:textColor="#333333" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Address (House #/Street/Building)" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/province"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Province/Region" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/city"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Municipality/City" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/barangay"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Barangay" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/zipcode"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -215,31 +255,51 @@
                 android:textSize="18sp"
                 android:textColor="#333333" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/lrn"
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="LRN" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/program"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Program" />
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/nationality"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Nationality" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/schoolName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="School Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/schoolAddress"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -255,47 +315,80 @@
                 android:textSize="18sp"
                 android:textColor="#333333" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
+                
                 android:id="@+id/father_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Father's Last Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/father_firstname"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Father's First Name" />
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/father_middlename"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Father's Middle Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/father_occupation"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Father's Occupation" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/mother_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Mother's Last Name" />
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/mother_firstname"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Mother's First Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/mother_middlename"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Mother's Middle Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/mother_occupation"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -309,30 +402,48 @@
                 android:layout_marginBottom="8dp"/>
 
             <Spinner
+
                 android:id="@+id/civilStatusSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:layout_marginBottom="16dp"/>
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp" 
+  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/guardian_lastName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Guardian's Last Name" />
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/guardians_firstname"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Guardian's First Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/guardians_middlename"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Guardian's Middle Name" />
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/guardians_number"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -341,7 +452,11 @@
 
 
 
-            <EditText
+            <EditText 
+ android:textColor="@color/black"  
+ android:padding="10dp"  
+android:background="@drawable/edittext_bkg"
+android:layout_margin="5dp"
                 android:id="@+id/guardian_occupation"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"

@@ -20,11 +20,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -32,6 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCategoryClickListener {
 
@@ -40,6 +44,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
     private ArrayList<Category> categories;
     private String username;
     private TextView greeting;
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
         greeting = view.findViewById(R.id.greeting);
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
 
         greeting.setText(username);
@@ -79,20 +84,80 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
         // Handle Lesson and Quiz Records icons
         ImageView lessonRecords = view.findViewById(R.id.lesson_icon);
+        TextView lessonRecordText =view.findViewById(R.id.lesson_record_text);
         lessonRecords.setOnClickListener(v -> startActivity(new Intent(getActivity(), LessonRecordActivity.class)));
+        lessonRecordText.setOnClickListener(v -> startActivity(new Intent(getActivity(), LessonRecordActivity.class)));
 
         ImageView quizRecords = view.findViewById(R.id.quiz_icon);
         quizRecords.setOnClickListener(v -> startActivity(new Intent(getActivity(), QuizRecordActivity.class)));
+        TextView quizRecordText =view.findViewById(R.id.quiz_record_text);
+        quizRecordText.setOnClickListener(v -> startActivity(new Intent(getActivity(), QuizRecordActivity.class)));
+
 
         // Handle records button click
         LinearLayout recordsButton = view.findViewById(R.id.bottomSection);
         recordsButton.setOnClickListener(v -> navigateToRecordsFragment());
 
+        // Retrieve saved status from SharedPreferences
+        String status = sharedPreferences.getString("status", ""); // Default to empty string if not found
+
+        if ("pending".equals(status)) {
+            handlePendingUser(); // Redirect to WaitingScreen and logout
+        } else {
+            Log.d("HomeFragment", "User status: " + status);
+            // Handle other statuses if needed
+        }
+
         return view;
+    }
+
+    private void handlePendingUser() {
+        Log.d("HomeFragment", "User status is pending. Logging out and redirecting to WaitingScreen.");
+        logoutUser(() -> {
+            Intent intent = new Intent(getActivity(), WaitingScreen.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            if (getActivity() != null) {
+                getActivity().finish();
+            }
+        });
+    }
+
+    private void logoutUser(Runnable onSuccess) {
+        String url_logout = "https://gestureguide.com/auth/mobile/logout.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url_logout,
+                response -> {
+                    Log.d("LogoutResponse", response.trim());
+                    if ("1".equals(response.trim())) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.apply();
+                        onSuccess.run();
+                    } else {
+                        Toast.makeText(getContext(), "Logout failed: " + response, Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    Log.e("LogoutError", "Error during logout", error);
+                    Toast.makeText(getContext(), "Logout error. Please try again.", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", sharedPreferences.getString("email", ""));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
     }
 
     // Fetch categories from API
     private void fetchCategories() {
+
+
         if (isAdded()) { // Ensure fragment is attached
             String url = "https://gestureguide.com/auth/mobile/getCategories.php";  // Your API endpoint
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());

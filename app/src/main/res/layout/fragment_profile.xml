@@ -7,7 +7,9 @@
     android:id="@+id/drawer_layout"
     tools:context=".ProfileFragment"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
+    tools:openDrawer=""
+    android:background="@drawable/img"
+
     >
 
     <!-- Side navigation drawer-->
@@ -17,14 +19,19 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header"
-        app:menu="@menu/side_menu" />
+        app:menu="@menu/side_menu"
+
+        />
 
     <!-- Main content layout -->
     <LinearLayout
+        android:id="@+id/profileLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/img">
+        >
+        <!-- Add Teacher Section -->
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -56,6 +63,26 @@
                 android:layout_height="120dp"
 
                 android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/addTeacherTextProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="30dp"
+                android:text="Content only for students, Add teacher to get access:"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/addTeacherButtonProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addTeacherText"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Add Teacher"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/profile_name"

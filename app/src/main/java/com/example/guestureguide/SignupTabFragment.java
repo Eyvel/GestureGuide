@@ -140,21 +140,9 @@ public class SignupTabFragment extends Fragment {
                             String message = jsonObject.getString("message");
 
                             if (status.equals("success")) {
-                                String user_id = jsonObject.getString("id");
-                                String email = jsonObject.getString("email");
-
-                                if (user_id != null && !user_id.isEmpty()) {
-                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("user_id", user_id);
-                                    editor.putString("email", email);
-                                    editor.apply();
-
-                                    showToast("Registration successful!");
-                                    startActivity(new Intent(getActivity(), EmailVerificationActivity.class));
-                                } else {
-                                    showToast("User ID is missing from response.");
-                                }
+                                // Proceed to the next step, such as opening the email verification screen
+                                startActivity(new Intent(getActivity(), EmailVerificationActivity.class));
+                                showToast("Registration successful! Please check your email for the verification code.");
                             } else {
                                 showToast(message);
                             }
@@ -163,6 +151,7 @@ public class SignupTabFragment extends Fragment {
                             showToast("Error parsing response: " + e.getMessage());
                         }
                     }
+
                 },
                 new Response.ErrorListener() {
                     @Override

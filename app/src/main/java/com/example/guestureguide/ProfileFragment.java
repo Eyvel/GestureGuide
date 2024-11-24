@@ -19,6 +19,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,11 +48,13 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    LinearLayout profileLinearLayout;
     Toolbar toolbar;
     SharedPreferences sharedPreferences;
     CircleImageView profileCircleImageView;
     TextView fullNameTextView,lrnTextView,emailTextView,mobileNumTextView, birthdayTextView, addressTextView;
-
+    TextView addTeacherText;
+    Button addTeacherButton;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,6 +73,11 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         birthdayTextView = view.findViewById(R.id.profile_date);
         addressTextView = view.findViewById(R.id.profile_address);
 
+        addTeacherText = view.findViewById(R.id.addTeacherTextProfile);
+        addTeacherButton = view.findViewById(R.id.addTeacherButtonProfile);
+
+        profileLinearLayout= view.findViewById(R.id.profileLinearLayout);
+
 
         if (getActivity() != null) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -83,6 +93,25 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
         // Fetch student profile and save to SharedPreferences
         fetchStudentProfile();
+        String userType = sharedPreferences.getString("user_type","");
+
+
+        if ("user".equals(userType)) {
+            Log.d("usertype", userType);
+//            profileLinearLayout.setVisibility(View.GONE);
+//            addTeacherText.setVisibility(View.VISIBLE);
+//            addTeacherButton.setVisibility(View.VISIBLE);
+
+//            addTeacherBtn.setVisibility(View.VISIBLE);
+//            addTeacherBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(getActivity(),SignupForm.class);
+//                    startActivity(intent);
+//                }
+//            });
+
+        }
 
         return view;
     }

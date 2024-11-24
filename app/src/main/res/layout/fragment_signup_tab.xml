@@ -20,79 +20,119 @@
             android:layout_marginTop="50dp"
             android:padding="20dp">
 
-            <EditText
+            <!-- Username Field -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="300dp"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:id="@+id/signup_name"
                 android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:hint="Username"
-                android:drawableLeft="@drawable/baseline_person_24"
-                android:drawablePadding="8dp"
-                android:background="@drawable/edittext_bkg"/>
+                app:startIconDrawable="@drawable/baseline_person_24"
+                app:startIconTint="@color/black"
+                app:boxStrokeColor="@color/black">
 
-            <EditText
-                android:layout_width="300dp"
-                android:textColor="@color/black"
-
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:id="@+id/signup_email"
-                android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:hint="Email"
-                android:drawableLeft="@drawable/baseline_email_24"
-                android:drawablePadding="8dp"
-                android:background="@drawable/edittext_bkg"/>
-
-            <EditText
-                android:layout_width="300dp"
-                android:textColor="@color/black"
-
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:id="@+id/signup_password"
-                android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:drawableLeft="@drawable/baseline_lock_24"
-                android:drawablePadding="8dp"
-                android:background="@drawable/edittext_bkg"/>
-
-            <EditText
-                android:layout_width="300dp"
-                android:textColor="@color/black"
-
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:id="@+id/signup_confirm"
-                android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:hint="Confirm Password"
-                android:inputType="textPassword"
-                android:drawableLeft="@drawable/baseline_lock_24"
-                android:drawablePadding="8dp"
-                android:background="@drawable/edittext_bkg"/>
-
-
-                <!-- Spinner for User/Student Selection beside the button -->
-                <Spinner
-
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:id="@+id/userTypeSpinner"
-                    android:layout_width="300dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_name"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_gravity="center"
+                    android:hint="Username"
+                    android:textColor="@color/black"
+                    android:padding="8dp"
+                    android:background="@drawable/edittext_bkg"
 
-                    android:entries="@array/user_type_options" />
+                    android:drawablePadding="8dp"
+                    android:textColorHint="@color/black"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Email Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:startIconDrawable="@drawable/baseline_email_24"
+                app:startIconTint="@color/black"
+                app:boxStrokeColor="@color/black">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Email"
+                    android:textColor="@color/black"
+                    android:padding="8dp"
+                    android:background="@drawable/edittext_bkg"
 
+                    android:drawablePadding="8dp"
+                    android:textColorHint="@color/black"
+                    android:inputType="textEmailAddress"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Password Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                app:startIconDrawable="@drawable/baseline_lock_24"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:passwordToggleEnabled="true"
+                app:startIconTint="@color/black"
+                app:boxStrokeColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:drawablePadding="8dp"
+                    android:background="@drawable/edittext_bkg"
+
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:padding="8dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Confirm Password Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:startIconTint="@color/black"
+                app:passwordToggleEnabled="true"
+                app:startIconDrawable="@drawable/baseline_lock_24"
+                app:boxStrokeColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    android:drawableLeft="@drawable/baseline_lock_24"
+                    android:background="@drawable/edittext_bkg"
+
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:padding="8dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Spinner for User/Student Selection -->
+            <Spinner
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:id="@+id/userTypeSpinner"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:entries="@array/user_type_options" />
+
+            <!-- Next Button -->
             <Button
+                android:backgroundTint="@color/dark_blue"
+                android:textColor="@color/white"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -101,7 +141,6 @@
                 android:textSize="15sp"
                 android:text="Next"
                 app:cornerRadius="50dp"/>
-
 
         </LinearLayout>
 

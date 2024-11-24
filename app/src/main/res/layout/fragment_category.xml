@@ -79,7 +79,7 @@
                 android:layout_below="@id/top_view"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="30dp"
-                android:text="Content only for students, Add teacher to get access:"
+                android:text="Content only for students, Add teacher to get access and save your progress:"
                 android:textSize="24sp"
                 android:textColor="@android:color/black"
                 android:visibility="gone" />

@@ -4,7 +4,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/records_bg">
+    android:background="@drawable/records_bg"
+    android:padding="10dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,14 +15,29 @@
         tools:context=".RecordsFragment">
 
         <!-- Back Button -->
-        <ImageButton
-            android:id="@+id/back_to_records_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="16dp"
-            android:src="@drawable/back_btn"
-            android:background="@android:color/transparent"
-            android:contentDescription="Back" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">  <!-- Optional padding for aesthetics -->
+
+            <ImageButton
+                android:id="@+id/back_to_records_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/back_btn"
+                android:background="@android:color/transparent"
+                android:contentDescription="Back" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
 
         <!-- Title -->
         <TextView
@@ -31,7 +48,11 @@
             android:gravity="center"
             android:text="@string/lesson_record"
             android:textColor="@color/black"
-            android:textSize="40sp"
+            android:textSize="35sp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeMaxTextSize="35sp"
+            android:autoSizeStepGranularity="2sp"
             android:textStyle="bold" />
 
         <!-- New LinearLayout to enclose table header and RecyclerView -->
