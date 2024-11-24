@@ -10,6 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,16 +27,21 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TeacherIDInputActivity extends AppCompatActivity {
 
     private EditText editTeacherID;
     private Button submitTeacherID;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_id_input);
+
+        sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE); // Initialize SharedPreferences
 
         initViews();
 
@@ -51,6 +65,8 @@ public class TeacherIDInputActivity extends AppCompatActivity {
                 showToast("Please enter your Teacher ID.");
             } else {
                 sendTeacherIDToServer(getUserId(), teacherID);
+                logoutUser();
+                finish();
             }
         });
     }
@@ -209,5 +225,46 @@ public class TeacherIDInputActivity extends AppCompatActivity {
 
     private void showToast(String message) {
         Toast.makeText(TeacherIDInputActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+    private void logoutUser() {
+        String url_logout = "https://gestureguide.com/auth/mobile/logout.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url_logout,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("SharedPreferences", "Email: " + sharedPreferences.getString("email", ""));
+
+                        Log.d("LogoutResponse", response); // Log the response for debugging
+                        if (response.trim().equals("1")) {  // Use trim() to remove any whitespace
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.apply();
+
+                            Intent intent = new Intent(TeacherIDInputActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(TeacherIDInputActivity.this, "Logout failed: " + response, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", sharedPreferences.getString("email", ""));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }

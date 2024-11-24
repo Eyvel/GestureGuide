@@ -1,84 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/content_bg"
-    android:fillViewport="true">
+    tools:context=".ContentActivity"
+    android:padding="10dp"
+    >
 
-    <RelativeLayout
+
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Top View -->
+            <View
+                android:id="@+id/top_view"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:gravity="center"
+                android:text="@string/content"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <!-- GridLayout with RecyclerView -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/top_view"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="-80dp"
+                android:rowCount="7">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewContents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp" />
+            </GridLayout>
+        </RelativeLayout>
+    </ScrollView>
+    <!-- Fixed Back Button -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">  <!-- Optional padding for aesthetics -->
 
-        tools:context=".ContentActivity">
+        <ImageButton
+            android:id="@+id/back_to_categories_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back_btn"
+            android:background="@android:color/transparent"
+            android:contentDescription="Back" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp">  <!-- Optional padding for aesthetics -->
-
-            <ImageButton
-                android:id="@+id/back_to_content_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="1dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/back_btn"
-                android:background="@android:color/transparent"
-                android:contentDescription="Back" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-        </LinearLayout>
         <View
-            android:id="@+id/top_view"
-            android:layout_width="match_parent"
-            android:layout_height="250dp" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <!-- GridLayout for CardViews -->
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/top_view"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="-80dp"
-            android:layout_marginRight="20dp"
-            android:rowCount="7">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewContents"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:padding="8dp" />
-
-
-
-        </GridLayout>
-
-        <!-- Title TextView -->
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:gravity="center"
-            android:text="@string/content"
-            android:textColor="@color/black"
-            android:textSize="40sp"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-</ScrollView>
+    </LinearLayout>
+</RelativeLayout>

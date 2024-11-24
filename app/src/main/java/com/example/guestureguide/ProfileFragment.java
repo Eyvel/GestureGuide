@@ -94,18 +94,14 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         if (id == R.id.nav_logout) {
             logoutUser();
         } else if (id == R.id.stud_info) {
-            Toast.makeText(requireContext(), "Student Info Clicked", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(requireContext(), StudentInformation.class);
             startActivity(intent);
         } else if(id == R.id.teacher_info){
-            Toast.makeText(requireContext(),"Teacher info clicked",Toast.LENGTH_SHORT).show();
         }
 
         else if(id == R.id.acc_settings){
-            Toast.makeText(requireContext(),"Acc settings clicked",Toast.LENGTH_SHORT).show();
         }else if(id == R.id.change_password){
-            Toast.makeText(requireContext(),"Change password clicked",Toast.LENGTH_SHORT).show();
         }
 
         return true;
@@ -217,7 +213,6 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
                                         .load(profileImageUrl) // URL of the image
                                         .into(profileCircleImageView); // ImageView to load the image into
 
-                                Toast.makeText(requireContext(), "Student profile fetched and saved!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

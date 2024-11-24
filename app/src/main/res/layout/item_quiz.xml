@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:background="@drawable/small_container"
+    android:background="@drawable/small_container2"
     android:backgroundTint="@color/dark_blue"
     android:layout_marginTop="20dp"
 

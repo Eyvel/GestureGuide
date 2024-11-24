@@ -70,6 +70,7 @@ public class LoginTabFragment extends Fragment {
     }
 
     private void navigateToHome() {
+        loadUserProgress();
         Intent intent = new Intent(getActivity(), NavigationActivity.class);
         startActivity(intent);
         getActivity().finish();  // Close current activity or fragment
@@ -132,7 +133,9 @@ public class LoginTabFragment extends Fragment {
                                         // Handle different statuses
                                         if ("approved".equals(status) || "null".equals(status)) {
                                             Log.d("Login", "Navigating to Home due to 'approved' or 'new' status.");
+                                            //fetchUserProgress(user_id);
                                             navigateToHome();
+
                                         } else {
                                             Log.d("Login", "Unknown status encountered.");
                                             tv_error.setText("Unknown status. Please contact support.");
@@ -199,7 +202,78 @@ public class LoginTabFragment extends Fragment {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             requestQueue.add(stringRequest);
         }
+
     }
+//    private void fetchUserProgress(String userId) {
+//        Log.d("FetchUserProgress", "User ID: " + userId);
+//
+//        String url_progress = "https://gestureguide.com/auth/mobile/get_user_progress.php?user_id=" + userId;
+//
+//        StringRequest progressRequest = new StringRequest(Request.Method.GET, url_progress,
+//                response -> {
+//                    Log.d("ProgressResponseLogin", "login"+response);  // Log response for debugging
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(response);
+//                        boolean success = jsonObject.getBoolean("success");
+//
+//                        if (success) {
+//                            JSONArray progressArray = jsonObject.optJSONArray("data");
+//
+//                            if (progressArray != null) {
+//                                // Save progress in SharedPreferences
+//                                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                editor.putString("user_progress", progressArray.toString()); // Save the whole array as JSON
+//                                editor.apply();
+//
+//                                // Optional: Process progress for immediate UI updates
+//                                for (int i = 0; i < progressArray.length(); i++) {
+//                                    JSONObject progressItem = progressArray.getJSONObject(i);
+//                                    String contentId = progressItem.getString("content_id");
+//                                    int status = progressItem.getInt("status");
+//
+//                                    Log.d("Progress", "Content ID: " + contentId + ", Status: " + status);
+//                                }
+//                            }
+//                        } else {
+//                            String message = jsonObject.getString("message");
+//                            Log.e("Progress", "Error: " + message);
+//                        }
+//                    } catch (Exception e) {
+//                        Log.e("Progress", "Error parsing progress: " + e.getMessage());
+//                    }
+//                },
+//                error -> {
+//                    Log.e("Progress", "Error fetching progress: " + error.toString());
+//                });
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+//        requestQueue.add(progressRequest);
+//    }
+
+
+    private void loadUserProgress() {
+        String savedProgress = sharedPreferences.getString("user_progress", null);
+        if (savedProgress != null) {
+            try {
+                JSONArray progressArray = new JSONArray(savedProgress);
+
+                // Iterate and process saved progress
+                for (int i = 0; i < progressArray.length(); i++) {
+                    JSONObject progressItem = progressArray.getJSONObject(i);
+                    String contentId = progressItem.getString("content_id");
+                    int status = progressItem.getInt("status");
+
+                    Log.d("LoadedProgress", "Content ID: " + contentId + ", Status: " + status);
+                    // Update UI or local data based on progress
+                }
+            } catch (Exception e) {
+                Log.e("Progress", "Error loading progress: " + e.getMessage());
+            }
+        } else {
+            Log.d("Progress", "No saved progress found.");
+        }
+    }
+
 
 
 

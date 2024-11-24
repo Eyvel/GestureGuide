@@ -3,6 +3,7 @@ package com.example.guestureguide;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.ui.PlayerView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,11 +58,21 @@ public class ContentDescriptionActivity extends AppCompatActivity {
     private PlayerView contentVideoView; // Change to PlayerView
     private ExoPlayer player; // ExoPlayer instance
     private Button toggleSpeedButton;
+    private MediaPlayer mediaPlayer;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_description);
+        // Initialize the Volley request queue
+        requestQueue = Volley.newRequestQueue(this);
+
+            if (requestQueue == null) {
+
+                Log.e("RequestQueueError", "RequestQueue is null!");
+        }
+
 
         contentVideoView = findViewById(R.id.contentVideoView);
         toggleSpeedButton = findViewById(R.id.speedToggleButton);
@@ -79,6 +91,27 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         contentName = findViewById(R.id.contentName);
         categoryName = findViewById(R.id.categoryName);
 
+        sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("user_id", "");
+        if (sharedPreferences != null) {
+            Log.d("SharedprefVal",userId);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            // your code here
+        } else {
+            Log.e("SharedPreferencesError", "SharedPreferences is null!");
+            // Handle the error gracefully (e.g., initialize SharedPreferences or show a message to the user)
+        }
+
+
+        // Check if the user ID exists before making the network request
+        if (!userId.isEmpty()) {
+            fetchUserProgress(userId); // Fetch user progress if logged in
+        } else {
+            Log.e("User Progress", "User not logged in");
+            // Optionally, handle the case when user is not logged in
+        }
+
         contentList = (ArrayList<Content>) getIntent().getSerializableExtra("content_list");
         currentIndex = getIntent().getIntExtra("current_index", 0);
 
@@ -88,7 +121,7 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         }
 
         // Initialize Volley request queue
-        requestQueue = Volley.newRequestQueue(this);
+
 
         // Set up back button to return to category
         ImageButton backToContentButton = findViewById(R.id.back_to_content_button);
@@ -118,18 +151,72 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         });
 
         // Learn button click listener
-        learnButton.setOnClickListener(view -> {
+        // Learn button click listener
+                learnButton.setOnClickListener(view -> {
             if (currentContent != null) { // Ensure currentContent is assigned
-                isLearned = !isLearned;
-                learnButton.setText(isLearned ? R.string.learned : R.string.learn);
-                updateProgressOnServer(isLearned ? 1 : 0); // Send status as 1 for learned and 0 for unlearned
-                saveLearnedStatus(currentContent.getContentId(), isLearned ? 1 : 0); // Save learned status
+                // Fetch the current content progress from SharedPreferences or database result
+                String contentId = currentContent.getContentId();
+
+                // Check the progress data to find the matching content ID
+                try {
+                    String progressData = sharedPreferences.getString("user_progress", "[]"); // Retrieve saved progress
+                    JSONArray progressArray = new JSONArray(progressData);
+
+                    // Look for the matching content ID in the progress array
+                    for (int i = 0; i < progressArray.length(); i++) {
+                        JSONObject progressItem = progressArray.getJSONObject(i);
+                        if (progressItem.getString("content_id").equals(contentId)) {
+                            int status = progressItem.getInt("status");
+
+                            // Update the button text based on the status
+                            isLearned = (status == 1);
+                            learnButton.setText(isLearned ? R.string.learned : R.string.learn);
+                            break;
+                        }
+                    }
+
+                    // Toggle learned status
+                    isLearned = !isLearned;
+                    learnButton.setText(isLearned ? R.string.learned : R.string.learn);
+
+                    // Save learned status to the server and locally
+                    updateProgressOnServer(isLearned ? 1 : 0);
+                    saveLearnedStatus(contentId, isLearned ? 1 : 0);
+                    logSharedPreferencesAsJson();
+
+                    // Display a message and optionally play sound for "learned"
+                    if (isLearned) {
+                        Toast.makeText(this, "\"" + currentContent.getName() + "\" learned!", Toast.LENGTH_SHORT).show();
+                        playLearnSound();
+                    }
+
+                } catch (JSONException e) {
+                    Log.e("LearnButton", "Error parsing progress data: " + e.getMessage());
+                    Toast.makeText(this, "Error updating progress", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(this, "Content not loaded", Toast.LENGTH_SHORT).show();
             }
         });
+        ;
+        ;
+    }
+    private void playLearnSound() {
+
+        if (mediaPlayer != null) {
+            mediaPlayer.release(); // Release any existing MediaPlayer instance
+        }
+        mediaPlayer = MediaPlayer.create(this, R.raw.clap_sound); // Initialize MediaPlayer
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release(); // Release resources after completion
+            mediaPlayer = null; // Set to null to avoid memory leaks
+        });
+        mediaPlayer.start();
     }
 
+
+
+    // Function to load content based on the current index
     // Function to load content based on the current index
     private void loadContent(int index) {
         currentContent = contentList.get(index);
@@ -137,11 +224,12 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         contentName.setText(currentContent.getName());
         categoryName.setText(currentContent.getCategoryName());
 
-        SharedPreferences prefs = getSharedPreferences("MyAppName", MODE_PRIVATE);
-        isLearned = prefs.getInt("learned_" + currentContent.getContentId(), 0) == 1; // 1 means learned
+        // Retrieve the learned status from SharedPreferences
+        logSharedPreferencesAsJson();
+        isLearned = sharedPreferences.getInt("learned_" + currentContent.getContentId(), 0) == 1; // 1 means learned
         learnButton.setText(isLearned ? R.string.learned : R.string.learn);
 
-
+        // Retrieve content image and video URLs
         String imageUrl = currentContent.getImageUrl();
         String videoUrl = currentContent.getVideoUrl();
         lessonProgress.setText((currentIndex + 1) + "/" + contentList.size());
@@ -159,9 +247,9 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Video URL is missing", Toast.LENGTH_SHORT).show();
         }
-
-        learnButton.setText(isLearned ? R.string.learned : R.string.learn);
     }
+
+
     private float getPlaybackSpeed() {
         SharedPreferences prefs = getSharedPreferences("MyAppName", MODE_PRIVATE); // Use consistent key
         return prefs.getFloat("playback_speed", 1.0f); // Default to normal speed
@@ -224,7 +312,6 @@ public class ContentDescriptionActivity extends AppCompatActivity {
                 response -> {
                     Log.d("Progress Update", "Response: " + response.toString());
 
-                    Toast.makeText(ContentDescriptionActivity.this, "Progress updated!", Toast.LENGTH_SHORT).show();
                 },
                 error -> {
                     Log.e("Progress Update", "Error: " + error.getMessage());
@@ -241,6 +328,54 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         editor.putInt("learned_" + contentId, status);
         editor.apply();
     }
+    private void fetchUserProgress(String userId) {
+        Log.d("FetchUserProgress", "User ID: " + userId);
+
+        String url_progress = "https://gestureguide.com/auth/mobile/get_user_progress.php?user_id=" + userId;
+
+        StringRequest progressRequest = new StringRequest(Request.Method.GET, url_progress,
+                response -> {
+                    Log.d("ProgressResponse", response);  // Log response for debugging
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        boolean success = jsonObject.getBoolean("success");
+
+                        if (success) {
+                            JSONArray progressArray = jsonObject.optJSONArray("data");
+
+                            if (progressArray != null) {
+                                // Save progress in SharedPreferences
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                for (int i = 0; i < progressArray.length(); i++) {
+                                    JSONObject progressItem = progressArray.getJSONObject(i);
+                                    String contentId = progressItem.getString("content_id");
+                                    int status = progressItem.getInt("status");
+
+                                    // Save learned status for each content
+                                    editor.putInt("learned_" + contentId, status);
+                                    Log.d("Progress", "Saved learned_" + contentId + " with status: " + status);
+                                }
+                                editor.apply();
+
+                                // Optionally refresh UI with the updated progress
+                                loadContent(currentIndex);
+                            }
+                        } else {
+                            String message = jsonObject.getString("message");
+                            Log.e("Progress", "Error: " + message);
+                        }
+                    } catch (Exception e) {
+                        Log.e("Progress", "Error parsing progress: " + e.getMessage());
+                    }
+                },
+                error -> {
+                    Log.e("Progress", "Error fetching progress: " + error.toString());
+                });
+
+        requestQueue.add(progressRequest);
+    }
+
 
 
     private void navigateBackToCategory() {
@@ -255,9 +390,12 @@ public class ContentDescriptionActivity extends AppCompatActivity {
         if (currentPlaybackSpeed == 1.0f) {
             currentPlaybackSpeed = 0.5f;
             toggleSpeedButton.setText("0.5x Speed");
+            Toast.makeText(ContentDescriptionActivity.this,"0.5x Speed",Toast.LENGTH_SHORT).show();
         } else {
             currentPlaybackSpeed = 1.0f;
             toggleSpeedButton.setText("1.0x Speed");
+            Toast.makeText(ContentDescriptionActivity.this,"1.0x Speed",Toast.LENGTH_SHORT).show();
+
         }
 
         savePlaybackSpeed(currentPlaybackSpeed);
@@ -281,5 +419,36 @@ public class ContentDescriptionActivity extends AppCompatActivity {
             player.release();
             player = null;
         }
+        if (mediaPlayer != null) {
+            mediaPlayer.release(); // Release the MediaPlayer to stop the sound
+            mediaPlayer = null;
+        }
     }
+    private void logSharedPreferencesAsJson() {
+        SharedPreferences prefs = getSharedPreferences("MyAppName", MODE_PRIVATE);
+        Map<String, ?> allEntries = prefs.getAll();
+
+        // Log all SharedPreferences entries
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Log.d("SharedPrefAll", "Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+
+        JSONObject jsonObject = new JSONObject();
+
+        // Filter keys starting with "learned_"
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            if (entry.getKey().startsWith("learned_")) {
+                try {
+                    jsonObject.put(entry.getKey(), entry.getValue());
+                } catch (JSONException e) {
+                    Log.e("SharedPrefJson", "Error creating JSON: " + e.getMessage());
+                }
+            }
+        }
+
+        // Log the filtered JSON object
+        Log.d("SharedPrefProgressJson", jsonObject.toString());
+    }
+
+
 }

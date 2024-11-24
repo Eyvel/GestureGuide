@@ -177,7 +177,6 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
         Log.d("ContentActivity", "Starting ContentActivity with category: " + category.getName());
 
 
-        Toast.makeText(getContext(), "Clicked: " + category.getName(), Toast.LENGTH_SHORT).show();
     }
 
     // Start auto-update by calling fetchCategories() every X seconds

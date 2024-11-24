@@ -66,7 +66,6 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentV
 
         // Set click listener for each content item
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(context, "Clicked on: " + content.getName(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, ContentDescriptionActivity.class);
             intent.putExtra("content_list", contentList);  // Pass the content list
             intent.putExtra("current_index", position);    // Pass the current index

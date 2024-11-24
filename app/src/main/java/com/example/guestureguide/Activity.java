@@ -247,24 +247,29 @@ public class Activity extends AppCompatActivity {
 
         String selectedTag = selectedOptionIndex == 0 ? (String) option1ImageView.getTag() : (String) option2ImageView.getTag();
         String correctAnswer = currentQuestion.getCorrectAnswer();
-        currentQuestionScore = (selectedTag.equals(correctAnswer)) ? currentQuestion.getPoints() : 0;
+        boolean isCorrect = selectedTag.equals(correctAnswer);
 
-        if (selectedTag.equals(correctAnswer)) {
+        currentQuestionScore = isCorrect ? currentQuestion.getPoints() : 0;
+
+        if (isCorrect) {
             totalScore += currentQuestion.getPoints();
+            showGreatJobDialog(); // Show "Great Job" dialog for correct answers
+        } else {
+            showSorryDialog(); // Show "Sorry" dialog for incorrect answers
         }
 
-        boolean isCorrect = selectedTag.equals(correctAnswer);
         int totalPoints = calculateCurrentQuestionPoints();
         sendUserResponseToDatabase(userId, quizId, currentQuestion.getQuestionId(), currentQuestionScore, selectedTag, totalPoints, totalScore);
 
         if (currentQuestionIndex == questionList.size() - 1) {
-            clearQuizData(quizId);  // Clear quiz data before finishing
+            clearQuizData(quizId); // Clear quiz data before finishing
             finishQuiz(quizId, isCorrect);
         } else {
             currentQuestionIndex++;
             loadQuestion();
         }
     }
+
 
 
     private void sendUserResponseToDatabase(String userId, String quizId, int questionId, int score, String selectedChoice, int totalPoints, int totalScore) {

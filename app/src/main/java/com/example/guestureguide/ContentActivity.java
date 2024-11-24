@@ -42,7 +42,7 @@ public class ContentActivity extends AppCompatActivity {
 
         categoryId = getIntent().getStringExtra("id");
 //back for activity
-        ImageButton backButton = findViewById(R.id.back_to_content_button);
+        ImageButton backButton = findViewById(R.id.back_to_categories_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

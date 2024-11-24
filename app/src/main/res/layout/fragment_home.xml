@@ -167,7 +167,7 @@
                 android:id="@+id/schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Schedule"
+                android:text="Upcoming Events"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:background="@drawable/rounded_corner_orange"/>
@@ -179,7 +179,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_below="@id/schedule"
-                android:text="Monday - Friday : 7:00 - 9:00 AM"
+                android:text="No upcoming events"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white" />
