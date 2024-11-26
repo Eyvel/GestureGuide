@@ -38,7 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/hello"
-            android:text="Mary Jane"
             android:textSize="18sp"
             android:textColor="@android:color/black" />
 
@@ -159,37 +158,58 @@
         <FrameLayout
             android:id="@+id/frame_schedule"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/bottomSection"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical"
-            >
+            android:layout_marginTop="16dp">
 
-            <TextView
-                android:padding="10dp"
-                android:id="@+id/schedule"
-                android:layout_width="wrap_content"
+            <!-- ScrollView to make the contents scrollable -->
+            <ScrollView
+                android:background="@drawable/rounded_corner_orange"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Upcoming Events"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:background="@drawable/rounded_corner_orange"/>
+                android:padding="10dp">
 
-            <TextView
+                <!-- LinearLayout to hold the TextViews -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_below="@id/schedule"
-                android:text="No upcoming events"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white" />
+                    <!-- Title TextView for upcoming events -->
+                    <TextView
+                        android:id="@+id/schedule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Events"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:padding="10dp" />
 
+                    <!-- Events TextView for displaying upcoming events -->
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"> <!-- Fixed height for the ScrollView -->
+
+                        <TextView
+                            android:id="@+id/upcomingEvents"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white"
+                        android:paddingTop="10dp"
+                        android:scrollbars="vertical"
+                        android:layout_gravity="start"
+                        android:ellipsize="end"
+                        android:scrollHorizontally="false" />
+                    </ScrollView>
+
+                </LinearLayout>
+            </ScrollView>
         </FrameLayout>
 
-            <RelativeLayout
+
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/frame_schedule"

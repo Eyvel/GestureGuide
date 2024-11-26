@@ -96,8 +96,8 @@ public class QuizSummary extends AppCompatActivity {
                                 // Update the UI with the fetched data
                                 titleTextView.setText(quizTitle);
                                 scoreTextView.setText("Score: " + totalScore + "/" + totalItems);
-                                correctAnswersTextView.setText("Correct Answers: " + correctCount);
-                                incorrectAnswersTextView.setText("Incorrect Answers: " + incorrectCount);
+                                correctAnswersTextView.setText("Correct: " + correctCount);
+                                incorrectAnswersTextView.setText("Incorrect: " + incorrectCount);
                                 answerPercentTextView.setText("Answer Percentage: " + scoreToPercent + "%");
                                 answeredDateTextView.setText("Answered Date: " + quizAnsweredDate);  // Set answered date
                             } else {

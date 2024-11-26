@@ -89,8 +89,7 @@ public class QuizScoreActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, "Response from server: " + response);
-                        Intent intent = new Intent(QuizScoreActivity.this, MainActivity.class);
-                        startActivity(intent);
+
                         finish();
                     }
                 },

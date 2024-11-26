@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,7 @@ public class ContentActivity extends AppCompatActivity {
     private ContentAdapter contentAdapter;
     private ArrayList<Content> contentList;
     private String categoryId, contentName, categoryName;
+    private TextView content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class ContentActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2); // Use 'this' for Activity context
         recyclerView.setLayoutManager(gridLayoutManager);
 
+        content = findViewById(R.id.contents);
         categoryId = getIntent().getStringExtra("id");
 //back for activity
         ImageButton backButton = findViewById(R.id.back_to_categories_button);
@@ -98,7 +101,7 @@ public class ContentActivity extends AppCompatActivity {
 
 
 
-
+                                content.setText(categoryName);
 
 
 

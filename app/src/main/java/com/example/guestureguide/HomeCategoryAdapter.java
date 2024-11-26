@@ -22,14 +22,13 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     private Context context;
     private ArrayList<Category> categoryList;
     private OnCategoryClickListener onCategoryClickListener;
-    private String username;
 
     // Constructor accepting Context, Category List, and OnCategoryClickListener
-    public HomeCategoryAdapter(Context context, ArrayList<Category> categoryList, OnCategoryClickListener onCategoryClickListener, String username) {
+    public HomeCategoryAdapter(Context context, ArrayList<Category> categoryList, OnCategoryClickListener onCategoryClickListener) {
         this.context = context;
         this.categoryList = categoryList;
         this.onCategoryClickListener = onCategoryClickListener;
-        this.username = username;
+
     }
 
     @NonNull

@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,8 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -42,9 +38,10 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
     private RecyclerView recyclerView;
     private HomeCategoryAdapter homeCategoryAdapter;
     private ArrayList<Category> categories;
-    private String username;
+    private String userId;
     private TextView greeting;
     SharedPreferences sharedPreferences;
+    private TextView upcomingEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,15 +57,18 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categories = new ArrayList<>();
 
+        upcomingEvents = view.findViewById(R.id.upcomingEvents);
+        fetchEventTitles(upcomingEvents);
+        fetchUsername(userId);
         greeting = view.findViewById(R.id.greeting);
 
         sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
-        username = sharedPreferences.getString("username", "");
+        userId = sharedPreferences.getString("user_id","");
 
-        greeting.setText(username);
+
 
         // Initialize adapter and set it to the RecyclerView
-        homeCategoryAdapter = new HomeCategoryAdapter(getContext(), categories, this, username);
+        homeCategoryAdapter = new HomeCategoryAdapter(getContext(), categories, this);
         recyclerView.setAdapter(homeCategoryAdapter);
 
         // Fetch categories immediately
@@ -110,6 +110,76 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
         return view;
     }
+    private void fetchEventTitles(TextView upcomingEvents) {
+        // Check if the user ID is valid
+        if (userId == null || userId.isEmpty()) {
+            Log.d("HomeFragment", "User ID is not set. Cannot fetch events.");
+            upcomingEvents.setText("    No upcoming events");
+            return;
+        }
+
+        // Check cache first
+        String cachedEvents = sharedPreferences.getString("cached_events", null);
+        if (cachedEvents != null) {
+            try {
+                // Use cached data
+                JSONObject jsonResponse = new JSONObject(cachedEvents);
+                updateEventTextView(jsonResponse, upcomingEvents);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Fetch from API
+        String url = "https://gestureguide.com/auth/mobile/getEvent.php?student_id=" + userId;
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                response -> {
+                    try {
+                        // Cache the response
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("cached_events", response);
+                        editor.apply();
+
+                        // Parse and update UI
+                        JSONObject jsonResponse = new JSONObject(response);
+                        updateEventTextView(jsonResponse, upcomingEvents);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        upcomingEvents.setText("Error parsing events.");
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                    upcomingEvents.setText("Error fetching events.");
+                }
+        );
+
+        requestQueue.add(stringRequest);
+    }
+
+    private void updateEventTextView(JSONObject jsonResponse, TextView upcomingEvents) throws JSONException {
+        JSONArray jsonArray = jsonResponse.getJSONArray("events");
+
+        if (jsonArray.length() == 0) {
+            Log.d("response ng event", "No events found for student_id: " + userId);
+            upcomingEvents.setText("No upcoming events");
+        } else {
+            StringBuilder eventsText = new StringBuilder();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject event = jsonArray.getJSONObject(i);
+                String title = event.getString("title");
+                eventsText.append("- ").append(title).append("\n");
+            }
+            upcomingEvents.setText(eventsText.toString());
+        }
+    }
+
+
+
 
     private void handlePendingUser() {
         Log.d("HomeFragment", "User status is pending. Logging out and redirecting to WaitingScreen.");
@@ -122,6 +192,42 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
             }
         });
     }
+    private void fetchUsername(String userId) {
+        String url = "https://gestureguide.com/auth/mobile/getUsername.php?user_id=" + userId;
+
+        // Creating a StringRequest
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    try {
+                        // Parsing the JSON response
+                        JSONObject jsonResponse = new JSONObject(response);
+
+                        // Check if the request was successful
+                        if (jsonResponse.getBoolean("success")) {
+                            String userName = jsonResponse.getString("user_name");
+
+                            // Update the greeting TextView with the fetched username
+                            greeting.setText(userName);
+                        } else {
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    // Handle error here
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "Error fetching username", Toast.LENGTH_SHORT).show();
+                }
+        );
+
+        // Creating a request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        // Adding the request to the queue
+        requestQueue.add(stringRequest);
+    }
+
 
     private void logoutUser(Runnable onSuccess) {
         String url_logout = "https://gestureguide.com/auth/mobile/logout.php";
@@ -234,5 +340,20 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
         // Start the ContentActivity
         startActivity(intent);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Update username dynamically
+        fetchUsername(userId);
+
+
+
+
+        // Update events dynamically
+        fetchEventTitles(upcomingEvents);
+    }
+
 }
 

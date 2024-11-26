@@ -22,14 +22,14 @@
 
         <TextView
             android:layout_marginTop="-40dp"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
 
             android:gravity="center"
-            android:text="@string/study"
+            android:text="@string/learningMaterials"
             android:textColor="@color/black"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
 
