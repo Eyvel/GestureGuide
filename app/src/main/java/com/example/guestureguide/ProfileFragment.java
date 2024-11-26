@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
@@ -21,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -131,6 +129,8 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
         else if(id == R.id.acc_settings){
         }else if(id == R.id.change_password){
+            Intent intent = new Intent(requireContext(), ChangePassword.class);
+            startActivity(intent);
         }
 
         return true;

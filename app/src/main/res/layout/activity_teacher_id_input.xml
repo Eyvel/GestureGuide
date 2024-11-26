@@ -50,7 +50,7 @@
             <EditText
                 android:textColor="@color/black"
                 android:id="@+id/numberInput"
-                android:layout_width="320dp"
+                android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:hint="Teacher ID"
                 android:inputType="number"

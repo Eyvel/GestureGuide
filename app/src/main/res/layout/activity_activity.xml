@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="10dp"
     android:background="@drawable/act_bg">
@@ -28,6 +29,17 @@
             android:layout_weight="1" />
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/title_quiz_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quiz #"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"/>
+
 
     <TextView
         android:id="@+id/questionTextView"
@@ -40,7 +52,8 @@
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"/>
 
-    <VideoView
+    <com.google.android.exoplayer2.ui.PlayerView
+        app:use_controller="false"
         android:layout_gravity="center_horizontal"
         android:id="@+id/questionVideoView"
         android:layout_width="match_parent"
@@ -55,7 +68,6 @@
 
     <ImageView
         android:background="@drawable/custom_radio_button_icon"
-        android:src="@drawable/quiz"
         android:id="@+id/option1ImageView"
         android:layout_weight="1"
         android:layout_width="0dp"
@@ -68,7 +80,6 @@
     <ImageView
         android:background="@drawable/custom_radio_button_icon"
 
-        android:src="@drawable/quiz"
 
         android:layout_weight="1"
         android:id="@+id/option2ImageView"
@@ -88,4 +99,14 @@
         android:text="@string/check"
         android:layout_marginTop="16dp"
         android:textAllCaps="false"/>
+    <TextView
+        android:id="@+id/questionIndexTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_margin="16dp"
+        android:layout_gravity="center_horizontal"
+        android:text="1/10" />
+
 </LinearLayout>

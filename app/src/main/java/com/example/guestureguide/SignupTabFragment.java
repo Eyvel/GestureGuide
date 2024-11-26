@@ -52,11 +52,8 @@ public class SignupTabFragment extends Fragment {
         btn_register = view.findViewById(R.id.signup_btn);
         userTypeSpinner = view.findViewById(R.id.userTypeSpinner);
 
-
         // Initialize request queue
         requestQueue = Volley.newRequestQueue(getActivity());
-
-
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +74,6 @@ public class SignupTabFragment extends Fragment {
 
         return view;
     }
-
-
 
     private void registerUser() {
         String username = txt_username.getText().toString().trim();
@@ -118,7 +113,11 @@ public class SignupTabFragment extends Fragment {
             enableButton();
             return;
         }
-
+        if (!isValidPassword(password)) {
+            showToast("Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, and one symbol");
+            enableButton();
+            return;
+        }
 
         // Log the signup attempt
         Log.d("SignupRequest", "Sending signup request with email: " + email + ", username: " + username + ", user type: " + user_type);
@@ -136,20 +135,33 @@ public class SignupTabFragment extends Fragment {
 
                         try {
                             JSONObject jsonObject = new JSONObject(response);
+                            Log.d("SignupResponse", "Response: " + response);
+
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
 
                             if (status.equals("success")) {
-                                // Proceed to the next step, such as opening the email verification screen
+                                String userId = jsonObject.optString("id", ""); // Use optString to avoid exceptions
+                                if (userId.isEmpty()) {
+                                    showToast("Registration successful but user ID is missing!");
+                                    return;
+                                }
+
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("email", email);
+                                editor.putString("user_id", userId);
+                                editor.apply();
+
                                 startActivity(new Intent(getActivity(), EmailVerificationActivity.class));
                                 showToast("Registration successful! Please check your email for the verification code.");
                             } else {
                                 showToast(message);
                             }
-
                         } catch (Exception e) {
                             showToast("Error parsing response: " + e.getMessage());
                         }
+
                     }
 
                 },
@@ -186,8 +198,11 @@ public class SignupTabFragment extends Fragment {
         isRequestPending = true;
     }
 
-
-
+    private boolean isValidPassword(String password) {
+        // Check if the password matches the required pattern
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$";
+        return password.matches(passwordPattern);
+    }
 
     private void showToast(String message) {
         if (isAdded()) {  // Ensure fragment is still attached
@@ -195,9 +210,7 @@ public class SignupTabFragment extends Fragment {
         }
     }
 
-
     private void enableButton() {
         btn_register.setEnabled(true);
     }
 }
-

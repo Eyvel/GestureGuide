@@ -1,7 +1,5 @@
 package com.example.guestureguide;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,8 +17,6 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
@@ -62,7 +58,7 @@ public class LoginTabFragment extends Fragment {
         // Set OnClickListener for the "Forgot Password?" TextView
         TextView tv_forgot_password = view.findViewById(R.id.tv_forgot_password);
         tv_forgot_password.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ForgetPassword.class);
+            Intent intent = new Intent(getActivity(), ForgotPassword.class);
             startActivity(intent);
         });
 
@@ -99,7 +95,18 @@ public class LoginTabFragment extends Fragment {
                             // Log the success to check if the login response was successful
                             Log.d("Login", "Success: " + success);
 
-                            if ("1".equals(success)) {
+                            if ("0".equals(success)) {
+                                String message = jsonObject.getString("message");
+                                if ("Email not verified. Please verify your email first.".equals(message)) {
+                                    // Navigate to the Email Verification Activity
+                                    Intent intent = new Intent(getActivity(), EmailVerificationActivity.class);
+                                    intent.putExtra("email", txt_email.getText().toString().trim()); // Pass the email to the next activity
+                                    startActivity(intent);
+                                    getActivity().finish(); // Close the current activity
+                                } else {
+                                    tv_error.setText(message); // Display other error messages if any
+                                }
+                            }else if ("1".equals(success)) {
                                 JSONArray jsonArray = jsonObject.optJSONArray("login");
                                 JSONArray jsonPendingArray = jsonObject.optJSONArray("login_pending");
 

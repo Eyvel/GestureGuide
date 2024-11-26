@@ -50,7 +50,7 @@
             android:name=".WaitingScreen"
             android:exported="false" />
         <activity
-            android:name=".ForgetPassword"
+            android:name=".ForgotPassword"
             android:exported="false" />
         <activity
             android:name=".TeacherIDInputActivity"

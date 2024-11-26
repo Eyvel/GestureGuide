@@ -48,9 +48,10 @@
 
             <!-- Input for Verification Code, Centered -->
             <EditText
+
                 android:textColor="@color/black"
                 android:id="@+id/verifCodeInput"
-                android:layout_width="320dp"
+                android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:hint="Verification Code"
                 android:inputType="number"
@@ -60,16 +61,31 @@
 
             <!-- Horizontal Layout for Spinner and Button -->
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+
+
+                >
+                <Button
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/dark_blue"
+                    android:layout_marginEnd="5dp"
+                    android:id="@+id/resendVerificationButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Resend Code"
+                   />
 
 
 
                 <!-- Resend Code Button -->
                 <Button
+                    android:backgroundTint="@color/dark_blue"
                     android:id="@+id/submitVerificationButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

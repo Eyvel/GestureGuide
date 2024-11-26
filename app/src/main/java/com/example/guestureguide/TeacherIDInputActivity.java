@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,11 +36,21 @@ public class TeacherIDInputActivity extends AppCompatActivity {
     private EditText editTeacherID;
     private Button submitTeacherID;
     private SharedPreferences sharedPreferences;
+    private ImageButton backbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_id_input);
+
+        backbutton = findViewById(R.id.signup_form_back_button);
+
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE); // Initialize SharedPreferences
 

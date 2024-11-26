@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Score: 10/10"
+            android:text="Score: /"
             android:textSize="40sp"
             android:gravity="center"
             android:textColor="@android:color/white"
@@ -113,34 +113,7 @@
             android:autoSizeStepGranularity="2sp"/>
 
         <!-- TextView for correct answers -->
-        <TextView
-            android:id="@+id/correctAnswers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Correct Answers: 5"
-            android:textSize="30sp"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeStepGranularity="2sp"/>
 
-        <!-- TextView for incorrect answers -->
-        <TextView
-            android:id="@+id/incorrectAnswers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Incorrect Answers: 5"
-            android:textSize="30sp"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeStepGranularity="2sp"/>
 
         <!-- TextView for answer percentage -->
         <TextView
@@ -158,6 +131,43 @@
             android:autoSizeStepGranularity="2sp"/>
 
     </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:background="@drawable/correct_rectangle"
+                android:id="@+id/correctAnswers"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:textStyle="bold"
+                android:text="Correct Answers: 15"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeStepGranularity="2sp" android:layout_width="0dp"/>
+
+            <!-- TextView for incorrect answers -->
+            <TextView
+                android:layout_width="0dp"
+                android:background="@drawable/incorrect_rectangle"
+                android:id="@+id/incorrectAnswers"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:textStyle="bold"
+                android:text="Incorrect Answers: 15"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeStepGranularity="2sp"/>
+
+        </LinearLayout>
 
     <!-- Button to exit or go back -->
     <Button

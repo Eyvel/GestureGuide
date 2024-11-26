@@ -181,7 +181,6 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
             intent = new Intent(getActivity(), QuizSummary.class);
         } else {
             intent = new Intent(getActivity(), Activity.class);
-            Toast.makeText(getContext(), "No previous records found for this quiz.", Toast.LENGTH_SHORT).show();
         }
         intent.putExtra("quiz_title", quiz.getQuizTitle());
         intent.putExtra("quiz_id", quiz.getId());
