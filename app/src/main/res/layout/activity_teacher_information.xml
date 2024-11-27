@@ -7,44 +7,34 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".TeacherInformation"
-    tools:openDrawer="">
+    android:background="@drawable/img"
+    android:padding="10dp"
+  >
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/header"
-        app:menu="@menu/side_menu" />
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/img">
+        >
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/menu_menu" />
+
 
         <!-- Teacher's Information Title -->
         <TextView
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/teachers_info_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="60dp"
             android:text="TEACHER'S INFORMATION"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+             />
 
         <!-- Teacher's Name -->
         <TextView
@@ -66,7 +56,6 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/edittext_bkg"
             android:padding="10dp"
-            android:text="RUBY SANTOS"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,12 +68,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
-            android:text="TEACHER'S EMAIL"
+            android:text="TEACHER'S ID"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/teachers_name" />
 
         <TextView
-            android:id="@+id/teachers_email"
+            android:id="@+id/teachers_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -92,7 +81,6 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/edittext_bkg"
             android:padding="10dp"
-            android:text="RUBY@gmail.com"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +95,7 @@
             android:layout_marginTop="16dp"
             android:text="TEACHER'S CONTACT NUMBER"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/teachers_email" />
+            app:layout_constraintTop_toBottomOf="@id/teachers_id" />
 
         <TextView
             android:id="@+id/teachers_contact"
@@ -118,7 +106,6 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/edittext_bkg"
             android:padding="10dp"
-            android:text="2356-556-2323"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -150,7 +137,7 @@
             app:layout_constraintTop_toBottomOf="@id/school_info_title" />
 
         <TextView
-            android:id="@+id/school_name"
+            android:id="@+id/teacherSchoolName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -158,7 +145,6 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/edittext_bkg"
             android:padding="10dp"
-            android:text="STA. MONICA ELEMENTARY SCHOOL"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -173,10 +159,10 @@
             android:layout_marginTop="16dp"
             android:text="SCHOOL ADDRESS"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/school_name" />
+            app:layout_constraintTop_toBottomOf="@id/teacherSchoolName" />
 
         <TextView
-            android:id="@+id/school_address"
+            android:id="@+id/teacherSchoolAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -184,11 +170,40 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/edittext_bkg"
             android:padding="10dp"
-            android:text="STA. MONICA HAGONOY, BULACAN"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/school_address_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linear_teacher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/back_to_profile_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back_btn"
+            android:background="@android:color/transparent"
+            android:contentDescription="Back" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
 </androidx.drawerlayout.widget.DrawerLayout>

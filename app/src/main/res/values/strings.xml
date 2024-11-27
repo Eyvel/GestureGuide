@@ -7,6 +7,8 @@
     <string name="stud_info">Student\'s Information</string>
     <string name="teacher_info">Teacher\'s Information</string>
     <string name="security">Security Settings</string>
+    <string name="home">Home</string>
+
     <string name="account">Information Settings</string>
     <string name="acc_settings">Account Settings</string>
     <string name="change_pass">Change Password</string>

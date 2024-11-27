@@ -2,8 +2,10 @@ package com.example.guestureguide;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
@@ -15,6 +17,7 @@ public class ChangePassword extends AppCompatActivity {
     private EditText changePasswordNew, changePasswordOld, changePasswordConfirm;
     private Button changePasswordButton;
     private SharedPreferences sharedPreferences;
+    private ImageButton backbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,13 @@ public class ChangePassword extends AppCompatActivity {
         changePasswordNew = findViewById(R.id.change_password_new);
         changePasswordConfirm = findViewById(R.id.change_password_confirm);
         changePasswordButton = findViewById(R.id.update_button);
+        backbutton = findViewById(R.id.back_to_profile_button);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE);

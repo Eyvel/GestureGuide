@@ -33,12 +33,16 @@
         android:layout_marginBottom="16dp" />
 
     <Button
+        android:backgroundTint="@color/dark_blue"
+        android:textColor="@color/white"
         android:id="@+id/upload_image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Upload Image" />
 
     <Button
+        android:backgroundTint="@color/dark_blue"
+        android:textColor="@color/white"
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

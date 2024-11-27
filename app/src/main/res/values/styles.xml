@@ -9,6 +9,17 @@
 
     </style>
 
+        <style name="SpinnerStyle">
+            <item name="android:textColor">#000000</item> <!-- Set text color to black -->
+        </style>
+
+    <style name="SpinnerDropDownStyle">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">#FFFFFF</item>
+    </style>
+
+
+
     <style name="CategoryCardLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -30,10 +41,15 @@
         <item name="android:layout_height">80dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
+    <style name="CustomRadioButton">
+        <item name="android:buttonTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 
 
-        <style name="CircularShape" parent="">
+
+    <style name="CircularShape" parent="">
             <item name="cornerFamily">rounded</item>
             <item name="cornerSize">50%</item> <!-- Half of width/height for a circle -->
             <item name="strokeColor">@color/dark_orange</item> <!-- Orange color for stroke -->

@@ -33,7 +33,7 @@
                 android:text="Personal Information"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:textColor="#333333" />
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -80,7 +80,7 @@ android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Gender"
-                android:textColor="#333333" />
+                android:textColor="@color/black" />
 
             <RadioGroup
                 android:id="@+id/gender_group"
@@ -89,25 +89,31 @@ android:layout_margin="5dp"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    style="@style/CustomRadioButton"
+
                     android:id="@+id/male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Male"
-                    android:textColor="#333333" />
+                    android:textColor="@color/black" />
 
                 <RadioButton
+                    style="@style/CustomRadioButton"
+
                     android:id="@+id/female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Female"
-                    android:textColor="#333333" />
+                    android:textColor="@color/black" />
 
                 <RadioButton
+                    style="@style/CustomRadioButton"
+
                     android:id="@+id/other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Other"
-                    android:textColor="#333333" />
+                    android:textColor="@color/black" />
             </RadioGroup>
 
             <!-- Other Fields -->
@@ -123,7 +129,12 @@ android:layout_margin="5dp"
                 android:inputType="number"/>
 
             <TextView
-                android:textSize="20dp"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:background="@drawable/edittext_bkg"
+
+                android:textSize="19dp"
                 android:id="@+id/birthday"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -135,7 +146,7 @@ android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SPED"
-                android:textColor="#333333" />
+                android:textColor="@color/black" />
 
             <RadioGroup
                 android:id="@+id/sped_group"
@@ -144,25 +155,29 @@ android:layout_margin="5dp"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    style="@style/CustomRadioButton"
+
                     android:id="@+id/sped_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="YES"
-                    android:textColor="#333333" />
+                    android:textColor="@color/black" />
 
                 <RadioButton
+                    style="@style/CustomRadioButton"
+
                     android:id="@+id/sped_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="NO"
-                    android:textColor="#333333" />
+                    android:textColor="@color/black" />
             </RadioGroup>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PWD"
-                android:textColor="#333333" />
+                android:textColor="@color/black" />
 
             <RadioGroup
                 android:id="@+id/pwd_group"
@@ -171,18 +186,22 @@ android:layout_margin="5dp"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    style="@style/CustomRadioButton"
+
                     android:id="@+id/pwd_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="YES"
-                    android:textColor="#333333" />
+                    android:textColor="@color/black" />
 
                 <RadioButton
+                    style="@style/CustomRadioButton"
+
                     android:id="@+id/pwd_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="NO"
-                    android:textColor="#333333" />
+                    android:textColor="@color/black" />
             </RadioGroup>
 
             <!-- Permanent Address Section -->
@@ -192,7 +211,7 @@ android:layout_margin="5dp"
                 android:text="Permanent Address"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:textColor="#333333" />
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -202,7 +221,7 @@ android:layout_margin="5dp"
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Address (House #/Street/Building)" />
+                android:hint="Address (House #)" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -253,7 +272,7 @@ android:layout_margin="5dp"
                 android:text="Educational Background"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:textColor="#333333" />
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -313,7 +332,7 @@ android:layout_margin="5dp"
                 android:text="Parents/Guardian Background"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:textColor="#333333" />
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -398,6 +417,7 @@ android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Parent Civil Status"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:layout_marginBottom="8dp"/>
 
@@ -470,7 +490,7 @@ android:layout_margin="5dp"
                 android:layout_gravity="center"
                 android:text="Sign Up"
                 android:textColor="#FFFFFF"
-                android:backgroundTint="#007AFF"
+                android:backgroundTint="@color/dark_blue"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp" />
         </LinearLayout>

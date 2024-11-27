@@ -1,18 +1,23 @@
 package com.example.guestureguide;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -37,12 +42,15 @@ import com.google.android.material.navigation.NavigationView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -53,6 +61,7 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
     TextView fullNameTextView,lrnTextView,emailTextView,mobileNumTextView, birthdayTextView, addressTextView;
     TextView addTeacherText;
     Button addTeacherButton;
+    private String studentId;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +85,16 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
         profileLinearLayout= view.findViewById(R.id.profileLinearLayout);
 
+        profileCircleImageView = view.findViewById(R.id.profile_circle_image_view);
+
+        // Set OnClickListener on the CircleImageView
+        profileCircleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChangeImageDialog();
+            }
+        });
+
 
         if (getActivity() != null) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -96,23 +115,183 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
         if ("user".equals(userType)) {
             Log.d("usertype", userType);
-//            profileLinearLayout.setVisibility(View.GONE);
-//            addTeacherText.setVisibility(View.VISIBLE);
-//            addTeacherButton.setVisibility(View.VISIBLE);
-
-//            addTeacherBtn.setVisibility(View.VISIBLE);
-//            addTeacherBtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(getActivity(),SignupForm.class);
-//                    startActivity(intent);
-//                }
-//            });
 
         }
 
         return view;
     }
+    private void showChangeImageDialog() {
+        // Create an AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Profile Picture")
+                .setItems(new CharSequence[]{"Change Image","Remove Image", "Back"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            // "Change Image" button clicked
+                            // Implement your image change logic here (e.g., open gallery or camera)
+                            Toast.makeText(requireContext(), "Change Image clicked", Toast.LENGTH_SHORT).show();
+                            openImagePicker();
+
+                        } if (which == 1) { // "Remove Image" clicked
+
+                            // Default image URL
+                            String defaultImageUrl = "https://gestureguide.com/auth/mobile/uploads/profile_images/profile.png";
+
+                            // Update the database with the default image
+                            updateProfileImageInDatabase(defaultImageUrl);
+
+                            // Load the default profile image using Glide
+                            Glide.with(requireContext())
+                                    .load(defaultImageUrl)
+                                   // Optional placeholder
+                                    .into(profileCircleImageView); // Replace with your ImageView ID
+                        }
+                        else {
+                            // "Back" button clicked
+                            dialog.dismiss();  // Dismiss the dialog
+                        }
+                    }
+                });
+
+        // Show the dialog
+        builder.create().show();
+    }
+
+    private void updateProfileImageInDatabase(String imageUrl) {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+        String studentId = sharedPreferences.getString("user_id", "");
+
+        String url = "https://gestureguide.com/auth/mobile/remove_profile_img.php"; // Your PHP script URL
+
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    try {
+                        Log.d("id stud", studentId);
+                        JSONObject jsonResponse = new JSONObject(response);
+
+                        Log.d("response ng server", response);
+                        if (jsonResponse.getString("status").equals("success")) {
+                            Toast.makeText(requireContext(), "Profile image set to default.", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(requireContext(), "JSON error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> Toast.makeText(requireContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show()) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("student_id", studentId);
+                params.put("profile_img", imageUrl);
+                return params;
+            }
+        };
+
+        Volley.newRequestQueue(requireContext()).add(stringRequest);
+    }
+
+    // Opens the image picker to select an image from the gallery
+    private void openImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK && data != null && data.getData() != null) {
+            Uri fileUri = data.getData();  // Get the URI of the selected image
+            uploadProfilePicture(fileUri); // Call uploadProfilePicture to upload the image
+        }
+    }
+
+
+
+    private void uploadProfilePicture(Uri fileUri) {
+        // Convert Uri to File object
+        File file = new File(getRealPathFromURI(fileUri));
+
+        // Retrieve student ID from SharedPreferences
+        SharedPreferences preferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+         studentId = preferences.getString("user_id", "");
+        Log.d("id ng user", studentId);
+
+        if (file.exists()) {
+            MultipartRequest request = new MultipartRequest(
+                    "https://gestureguide.com/auth/mobile/upload_profile_pic.php",
+                    file,
+                    studentId,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                // Parse the JSON response from the server
+                                JSONObject jsonResponse = new JSONObject(response);
+                                String status = jsonResponse.getString("status");
+                                String message = jsonResponse.getString("message");
+                                String profileImgUrl = jsonResponse.getString("profile_img");
+
+                                if (status.equals("success")) {
+                                    // Show success message
+                                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+
+                                    // Load the new profile image using Glide
+                                    Glide.with(requireContext())
+                                            .load(profileImgUrl)  // Use the URL from the response
+                                            .into(profileCircleImageView);  // Update the ImageView
+                                } else {
+                                    // Show failure message if status is not "success"
+                                    Toast.makeText(requireContext(), "Failed to upload profile picture", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(requireContext(), "Error parsing server response", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(requireContext(), "Error uploading image", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+
+            // Add the request to the Volley queue
+            RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+            requestQueue.add(request);
+        } else {
+            Toast.makeText(requireContext(), "File not found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    // Convert URI to File path
+    public String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = requireContext().getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String filePath = cursor.getString(columnIndex);
+            cursor.close();
+            return filePath;
+        } else {
+            return contentUri.getPath(); // Fall back if the cursor is null
+        }
+    }
+
+
+
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -125,16 +304,18 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
             Intent intent = new Intent(requireContext(), StudentInformation.class);
             startActivity(intent);
         } else if(id == R.id.teacher_info){
+            Intent intent = new Intent(requireContext(), TeacherInformation.class);
+            startActivity(intent);
         }
 
-        else if(id == R.id.acc_settings){
-        }else if(id == R.id.change_password){
+       else if(id == R.id.change_password){
             Intent intent = new Intent(requireContext(), ChangePassword.class);
             startActivity(intent);
         }
 
         return true;
     }
+
 
 
     private void fetchStudentProfile() {

@@ -127,7 +127,11 @@
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:entries="@array/user_type_options" />
+                android:entries="@array/user_type_options"
+                android:background="@drawable/edittext_bkg"
+
+
+/>
 
             <!-- Next Button -->
             <Button

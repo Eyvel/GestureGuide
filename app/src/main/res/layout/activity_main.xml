@@ -33,12 +33,19 @@
             android:background="@drawable/viewpager_bkg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:tabTextColor="@color/Gray"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:outlineAmbientShadowColor="@color/black"
+            app:tabSelectedTextColor="@color/colorPrimary"
+
             app:layout_constraintVertical_bias=".6" />
 
         <com.google.android.material.tabs.TabLayout
+            app:tabTextColor="@color/Gray"
+            app:tabSelectedTextColor="@color/colorPrimary"
+
             android:layout_width="350dp"
             android:layout_height="60dp"
             android:id="@+id/tab_layout"

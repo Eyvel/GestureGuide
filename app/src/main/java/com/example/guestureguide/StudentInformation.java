@@ -5,8 +5,10 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StudentInformation extends AppCompatActivity {
+    private ImageButton backButton;
 
     private EditText etLastName, etFirstName, etMiddleName, etSuffix, etContactNumber,  etAddress,etAddressBarangay;
     private EditText etProvince,etMunicipality,etBarangay,etZipCode,etLrn,etProgram,etNationality,etSchoolAddress,etSchoolName;
@@ -49,6 +52,14 @@ public class StudentInformation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_information);
+
+        backButton = findViewById(R.id.back_to_profile_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         sharedPreferences = getSharedPreferences("MyAppName", MODE_PRIVATE);
         user_id = sharedPreferences.getString("user_id", "").trim();

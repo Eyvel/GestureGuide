@@ -21,6 +21,7 @@
 
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -34,82 +35,143 @@
         tools:targetApi="31">
 
         <activity
+
+android:screenOrientation="portrait"
+
             android:name=".ProfilePictureActivity"
             android:exported="false" />
 
         <activity
+
+android:screenOrientation="portrait"
+
             android:name=".EmailVerificationActivity"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
+
             android:name=".TeacherID_input"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".FailedScreen"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".WaitingScreen"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".ForgotPassword"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".TeacherIDInputActivity"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".TeacherInformation"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".AccountSettings"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".LessonRecordActivity"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".QuizSummary"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".QuizRecordActivity"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".QuizFirstScreenFragment"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".CategoryFragment"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".RecordsFragment"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".ActivityFirstScreenFragment"
             android:exported="false" />
-        <activity android:name=".ContentActivity" />
-        <activity android:name=".HomeFragment" />
-        <activity android:name=".ContentDescriptionActivity" />
-        <activity android:name=".Activity" />
-        <activity android:name=".ActivityFragment" />
         <activity
+
+android:screenOrientation="portrait" android:name=".ContentActivity" />
+        <activity
+
+android:screenOrientation="portrait" android:name=".HomeFragment" />
+        <activity
+
+android:screenOrientation="portrait" android:name=".ContentDescriptionActivity" />
+        <activity
+
+android:screenOrientation="portrait" android:name=".Activity" />
+        <activity
+
+android:screenOrientation="portrait" android:name=".ActivityFragment" />
+        <activity
+
+android:screenOrientation="portrait"
             android:name=".Content"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".QuizScoreActivity"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".Category"
             android:exported="false" />
 
         <activity
+
+android:screenOrientation="portrait"
             android:name=".ChangePassword"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".StudentInformation"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".SignupForm"
             android:exported="false" />
         <activity
+
+android:screenOrientation="portrait"
             android:name=".NavigationActivity"
             android:exported="false" /> <!-- Updated MainActivity with windowSoftInputMode -->
         <activity
+
+android:screenOrientation="portrait"
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
