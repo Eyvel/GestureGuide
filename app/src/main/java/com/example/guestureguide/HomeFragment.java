@@ -29,9 +29,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCategoryClickListener {
 
@@ -41,7 +44,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
     private String userId;
     private TextView greeting;
     SharedPreferences sharedPreferences;
-    private TextView upcomingEvents;
+    private TextView upcomingEvents, description;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +61,18 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
         categories = new ArrayList<>();
 
         upcomingEvents = view.findViewById(R.id.upcomingEvents);
-        fetchEventTitles(upcomingEvents);
+        description = view.findViewById(R.id.description);
+        fetchEventTitles(upcomingEvents,description);
         fetchUsername(userId);
         greeting = view.findViewById(R.id.greeting);
+
+        TextView currentDateTextView = view.findViewById(R.id.currentDate);
+
+// Get the current date in Manila
+        String currentDate = getCurrentDateManila();
+
+// Set the date in the TextView
+        currentDateTextView.setText(currentDate);
 
         sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("user_id","");
@@ -110,11 +122,12 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
         return view;
     }
-    private void fetchEventTitles(TextView upcomingEvents) {
+    private void fetchEventTitles(TextView upcomingEvents, TextView descriptionTextView) {
         // Check if the user ID is valid
         if (userId == null || userId.isEmpty()) {
             Log.d("HomeFragment", "User ID is not set. Cannot fetch events.");
             upcomingEvents.setText("    No upcoming events");
+            descriptionTextView.setText(""); // Clear description
             return;
         }
 
@@ -124,7 +137,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
             try {
                 // Use cached data
                 JSONObject jsonResponse = new JSONObject(cachedEvents);
-                updateEventTextView(jsonResponse, upcomingEvents);
+                updateEventTextView(jsonResponse, upcomingEvents, descriptionTextView);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -146,36 +159,64 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
                         // Parse and update UI
                         JSONObject jsonResponse = new JSONObject(response);
-                        updateEventTextView(jsonResponse, upcomingEvents);
+                        updateEventTextView(jsonResponse, upcomingEvents, descriptionTextView);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         upcomingEvents.setText("Error parsing events.");
+                        descriptionTextView.setText("");
                     }
                 },
                 error -> {
                     error.printStackTrace();
                     upcomingEvents.setText("Error fetching events.");
+                    descriptionTextView.setText("");
                 }
         );
 
         requestQueue.add(stringRequest);
     }
 
-    private void updateEventTextView(JSONObject jsonResponse, TextView upcomingEvents) throws JSONException {
+
+    private void updateEventTextView(JSONObject jsonResponse, TextView upcomingEvents, TextView descriptionTextView) throws JSONException {
         JSONArray jsonArray = jsonResponse.getJSONArray("events");
 
         if (jsonArray.length() == 0) {
             Log.d("response ng event", "No events found for student_id: " + userId);
             upcomingEvents.setText("No upcoming events");
+            descriptionTextView.setText(""); // Clear description if no events
         } else {
-            StringBuilder eventsText = new StringBuilder();
+            StringBuilder titlesText = new StringBuilder();
+            StringBuilder descriptionsText = new StringBuilder();
+
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject event = jsonArray.getJSONObject(i);
                 String title = event.getString("title");
-                eventsText.append("- ").append(title).append("\n");
+                String description = event.getString("description");
+
+                // Append title and description separately
+                titlesText.append(" ").append(title).append("\n");
+                descriptionsText.append("- ").append(description).append("\n");
             }
-            upcomingEvents.setText(eventsText.toString());
+
+            // Set text for both TextViews
+            upcomingEvents.setText(titlesText.toString());
+            descriptionTextView.setText(descriptionsText.toString());
         }
+    }
+
+    public String getCurrentDateManila() {
+        // Set the time zone to Manila
+        TimeZone manilaTimeZone = TimeZone.getTimeZone("Asia/Manila");
+
+        // Create a SimpleDateFormat instance to format the date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY");  // You can change the pattern based on your needs
+        dateFormat.setTimeZone(manilaTimeZone);
+
+        // Get the current date in Manila
+        Calendar calendar = Calendar.getInstance(manilaTimeZone);
+        String currentDate = dateFormat.format(calendar.getTime());
+
+        return currentDate;
     }
 
 
@@ -352,7 +393,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
 
         // Update events dynamically
-        fetchEventTitles(upcomingEvents);
+        fetchEventTitles(upcomingEvents,description);
     }
 
 }

@@ -54,7 +54,15 @@
                     android:textStyle="bold"
                     android:textSize="18sp" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -67,7 +75,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Last Name" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="First Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -80,7 +96,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="First Name" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Middle Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -93,7 +117,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Middle Name" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Extension"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -146,7 +178,15 @@ android:layout_margin="5dp"
                 </RadioGroup>
 
                 <!-- Other Fields -->
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Number"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -159,6 +199,15 @@ android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Contact Number" />
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date of Birth"
+
+                    android:textSize="15sp"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:textSize="19dp"
@@ -249,7 +298,15 @@ android:layout_margin="5dp"
                     android:textStyle="bold"
                     android:textSize="18sp" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address(House No./Street)"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -260,9 +317,17 @@ android:layout_margin="5dp"
                     android:id="@+id/et_address"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="Address (House #/Street/Building)" />
+                    android:hint="Address (House No./Street/Building)" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Baranggay"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -276,7 +341,15 @@ android:layout_margin="5dp"
                     android:hint="Baranggay" />
 
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Province/Region"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -289,7 +362,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Province/Region" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Municipality/City"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -304,7 +385,15 @@ android:layout_margin="5dp"
 
 
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zip Code"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -326,7 +415,15 @@ android:layout_margin="5dp"
                     android:textStyle="bold"
                     android:textSize="18sp" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LRN"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -341,7 +438,15 @@ android:layout_margin="5dp"
                     android:inputType="number"
                     />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Program"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -354,7 +459,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Program" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nationality"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -367,7 +480,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Nationality" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="School Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -380,7 +501,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="School Name" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="School Address"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"
 
@@ -401,7 +530,15 @@ android:layout_margin="5dp"
                     android:textStyle="bold"
                     android:textSize="18sp" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Father's Last Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -414,7 +551,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Father's Last Name" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Father's First Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -426,7 +571,15 @@ android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Father's First Name" />
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Father's Middle Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -439,7 +592,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Father's Middle Name" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Father's Occupation"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -452,7 +613,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Father's Occupation" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mother's Last Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -464,7 +633,15 @@ android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Mother's Last Name" />
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mother's First Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -477,7 +654,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Mother's First Name" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mother's Middle Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -489,7 +674,15 @@ android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Mother's Middle Name" />
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mother's Occupation"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -502,7 +695,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Mother's Occupation" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian's Last Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -514,7 +715,15 @@ android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Guardian's Last Name" />
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian's First Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -526,7 +735,15 @@ android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Guardian's First Name" />
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian's Middle Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 
@@ -539,7 +756,15 @@ android:layout_margin="5dp"
                     android:layout_height="48dp"
                     android:hint="Guardian's Middle Name" />
 
-                <EditText
+                <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian's Contact Number"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+ <EditText
 
   android:textColor="@color/black"  
 

@@ -163,7 +163,7 @@
             android:layout_marginTop="16dp">
 
             <!-- ScrollView to make the contents scrollable -->
-            <ScrollView
+            <LinearLayout
                 android:background="@drawable/rounded_corner_orange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -174,26 +174,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
                     <!-- Title TextView for upcoming events -->
                     <TextView
                         android:id="@+id/schedule"
+                        android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Events"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
                         android:padding="10dp" />
+                    <TextView
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:paddingRight="10dp"
+                        android:layout_marginEnd="5dp"
+                    android:id="@+id/currentDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:padding="10dp" />
+</LinearLayout>
 
                     <!-- Events TextView for displaying upcoming events -->
-                    <ScrollView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"> <!-- Fixed height for the ScrollView -->
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        > <!-- Fixed height for the ScrollView -->
 
                         <TextView
+                            android:paddingLeft="10dp"
                             android:id="@+id/upcomingEvents"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
@@ -202,10 +221,25 @@
                         android:layout_gravity="start"
                         android:ellipsize="end"
                         android:scrollHorizontally="false" />
-                    </ScrollView>
+                        <TextView
+                            android:id="@+id/description"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:paddingTop="10dp"
+                            android:scrollbars="vertical"
+                            android:layout_gravity="start"
+                            android:ellipsize="end"
+                            android:scrollHorizontally="false"
+                            ></TextView>
+
+                    </LinearLayout>
 
                 </LinearLayout>
-            </ScrollView>
+            </LinearLayout>
         </FrameLayout>
 
 

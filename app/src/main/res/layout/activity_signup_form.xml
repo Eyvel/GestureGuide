@@ -34,6 +34,15 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
 
             <EditText 
  android:textColor="@color/black"  
@@ -44,6 +53,15 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Last Name" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="First Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
 
             <EditText 
  android:textColor="@color/black"  
@@ -54,6 +72,14 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="First Name" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Middle Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -64,6 +90,15 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Middle Name" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Extension"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
 
             <EditText 
  android:textColor="@color/black"  
@@ -117,6 +152,14 @@ android:layout_margin="5dp"
             </RadioGroup>
 
             <!-- Other Fields -->
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Number"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -127,6 +170,15 @@ android:layout_margin="5dp"
                 android:layout_height="48dp"
                 android:hint="Contact Number"
                 android:inputType="number"/>
+
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date of Birth"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_margin="5dp"
@@ -213,6 +265,15 @@ android:layout_margin="5dp"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address(House No/Street)"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -223,6 +284,15 @@ android:layout_margin="5dp"
                 android:layout_height="48dp"
                 android:hint="Address (House #)" />
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Province/Region"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -232,6 +302,14 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Province/Region" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Municipality/City"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -242,6 +320,14 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Municipality/City" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Baranggay"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -251,7 +337,15 @@ android:layout_margin="5dp"
                 android:id="@+id/barangay"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Barangay" />
+                android:hint="Baranggay" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zip Code"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -265,6 +359,7 @@ android:layout_margin="5dp"
                 android:hint="Zip Code" />
 
 
+
             <!-- Educational Background Section -->
             <TextView
                 android:layout_width="wrap_content"
@@ -272,6 +367,14 @@ android:layout_margin="5dp"
                 android:text="Educational Background"
                 android:textStyle="bold"
                 android:textSize="18sp"
+                android:textColor="@color/black" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LRN"
+
+                android:textSize="15sp"
                 android:textColor="@color/black" />
 
             <EditText 
@@ -285,6 +388,15 @@ android:layout_margin="5dp"
                 android:layout_height="48dp"
                 android:hint="LRN" />
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Program"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -294,6 +406,15 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Program" />
+
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nationality"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -304,6 +425,15 @@ android:layout_margin="5dp"
                 android:layout_height="48dp"
                 android:hint="Nationality" />
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="School Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -313,7 +443,14 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="School Name" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="School Address"
 
+                android:textSize="15sp"
+                android:textColor="@color/black" />
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -334,6 +471,14 @@ android:layout_margin="5dp"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Father'sLast Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -345,6 +490,15 @@ android:layout_margin="5dp"
                 android:layout_height="48dp"
                 android:hint="Father's Last Name" />
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Father's First Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -354,6 +508,15 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Father's First Name" />
+
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Father's Middle Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -364,6 +527,15 @@ android:layout_margin="5dp"
                 android:layout_height="48dp"
                 android:hint="Father's Middle Name" />
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Father's Occupation"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -373,7 +545,14 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Father's Occupation" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mother's Last Name"
 
+                android:textSize="15sp"
+                android:textColor="@color/black" />
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -383,6 +562,15 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Mother's Last Name" />
+
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mother's First Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -392,6 +580,15 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Mother's First Name" />
+
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mother's Middle Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -403,6 +600,15 @@ android:layout_margin="5dp"
                 android:layout_height="48dp"
                 android:hint="Mother's Middle Name" />
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mother's Occupation"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -412,6 +618,8 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Mother's Occupation" />
+
+
             <TextView
                 android:id="@+id/civilStatusLabel"
                 android:layout_width="wrap_content"
@@ -423,11 +631,21 @@ android:layout_margin="5dp"
 
             <Spinner
 
+
                 android:id="@+id/civilStatusSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian's Last Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -439,6 +657,14 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Guardian's Last Name" />
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian's First Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -449,6 +675,15 @@ android:layout_margin="5dp"
                 android:layout_height="48dp"
                 android:hint="Guardian's First Name" />
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian's Middle Name"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
@@ -458,6 +693,15 @@ android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Guardian's Middle Name" />
+
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian's Contact Number"
+
+                android:textSize="15sp"
+                android:textColor="@color/black" />
 
             <EditText 
  android:textColor="@color/black"  
@@ -471,7 +715,14 @@ android:layout_margin="5dp"
                 android:inputType="number"/>
 
 
+            <TextView
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian's Occupation"
 
+                android:textSize="15sp"
+                android:textColor="@color/black" />
             <EditText 
  android:textColor="@color/black"  
  android:padding="10dp"  
