@@ -77,6 +77,8 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
         sharedPreferences = getActivity().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("user_id","");
 
+        fetchUserType(userId);
+
 
 
         // Initialize adapter and set it to the RecyclerView
@@ -368,6 +370,51 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
                     .commit();
         }
     }
+    private void fetchUserType(String userId) {
+        // Check if user ID is valid
+        if (userId == null || userId.isEmpty()) {
+            Log.d("HomeFragment", "User ID is not set. Cannot fetch user type.");
+            return;
+        }
+
+        String url = "https://gestureguide.com/auth/mobile/getUserType.php?user_id=" + userId;
+
+        // Make a GET request to fetch user_type
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                response -> {
+                    try {
+                        // Parse the JSON response
+                        JSONObject jsonResponse = new JSONObject(response);
+
+                        if (jsonResponse.getBoolean("success")) {
+                            String userType = jsonResponse.getString("user_type");
+                            Log.d("HomeFragment", "User type: " + userType);
+
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("user_type", userType);
+                            editor.apply();
+
+
+
+                        } else {
+                            Log.e("HomeFragment", "Failed to fetch user type.");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    Log.e("HomeFragment", "Error fetching user type.", error);
+                }
+        );
+
+        // Add request to the queue
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
+    }
+
 
     @Override
     public void onCategoryClick(Category category) {

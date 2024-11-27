@@ -85,6 +85,7 @@
                 android:visibility="gone" />
 
             <Button
+                android:textColor="@color/white"
                 android:id="@+id/addTeacherButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
