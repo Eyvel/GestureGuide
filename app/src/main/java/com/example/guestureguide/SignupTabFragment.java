@@ -154,7 +154,7 @@ public class SignupTabFragment extends Fragment {
                                 editor.apply();
 
                                 startActivity(new Intent(getActivity(), EmailVerificationActivity.class));
-                                showToast("Registration successful! Please check your email for the verification code.");
+                                showToast("Registration successful! Please check your email for code");
                             } else {
                                 showToast(message);
                             }
