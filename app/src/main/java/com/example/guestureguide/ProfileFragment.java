@@ -51,7 +51,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-
+    private TextView profileNameTextView, profileLRNTextView;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     LinearLayout profileLinearLayout;
@@ -70,7 +70,9 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         drawerLayout = view.findViewById(R.id.drawer_layout);
         navigationView = view.findViewById(R.id.nav_view);
         toolbar = view.findViewById(R.id.toolbar);
+
         sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+        studentId = sharedPreferences.getString("user_id","");
         profileCircleImageView = view.findViewById(R.id.profile_circle_image_view);
         // Initialize the TextView here
         fullNameTextView = view.findViewById(R.id.profile_name);
@@ -86,6 +88,26 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         profileLinearLayout= view.findViewById(R.id.profileLinearLayout);
 
         profileCircleImageView = view.findViewById(R.id.profile_circle_image_view);
+        // Initialize DrawerLayout and NavigationView
+        drawerLayout = view.findViewById(R.id.drawer_layout);
+        navigationView = view.findViewById(R.id.nav_view);
+
+        if (navigationView != null) {
+            Log.d("navview", "navview not nutll");
+            // Access the header view inside the NavigationView
+            android.view.View headerView = navigationView.getHeaderView(0);
+
+            // Find views in the header layout
+            profileNameTextView = headerView.findViewById(R.id.profile_name_header);
+            profileLRNTextView = headerView.findViewById(R.id.profile_LRN_header);
+
+            // Fetch and display profile details
+            fetchProfileDetails(studentId);
+        } else {
+            Log.e("ProfileFragment", "NavigationView is null.");
+        }
+
+
 
         // Set OnClickListener on the CircleImageView
         profileCircleImageView.setOnClickListener(new View.OnClickListener() {
@@ -314,6 +336,43 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         }
 
         return true;
+    }
+    private void fetchProfileDetails(String studentId) {
+        if (studentId == null || studentId.isEmpty()) {
+            Log.e("ProfileFragment", "Student ID is missing.");
+            return;
+        }
+        Log.e("ProfileFragment", "Student ID is not missing.");
+        String url = "https://gestureguide.com/auth/mobile/getProfile.php?student_id=" + studentId;
+        Log.d("ProfileFragment", "Fetching profile from: " + url);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+
+                        if (jsonObject.has("fullname") && jsonObject.has("lrn")) {
+                            String fullname = jsonObject.getString("fullname");
+                            String lrn = jsonObject.getString("lrn");
+
+                            // Update header TextViews
+                            profileNameTextView.setText(fullname);
+                            profileLRNTextView.setText(lrn);
+                        } else if (jsonObject.has("error")) {
+                            Log.e("ProfileError", "Error: " + jsonObject.getString("error"));
+                        }
+                    } catch (JSONException e) {
+                        Log.e("ProfileFragment", "JSON parsing error.", e);
+                    }
+                },
+                error -> Log.e("ProfileFragment", "Volley error.", error)
+        );
+
+        requestQueue.add(stringRequest);
     }
 
 

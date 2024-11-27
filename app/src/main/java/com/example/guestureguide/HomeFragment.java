@@ -126,8 +126,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
         // Check if the user ID is valid
         if (userId == null || userId.isEmpty()) {
             Log.d("HomeFragment", "User ID is not set. Cannot fetch events.");
-            upcomingEvents.setText("    No upcoming events");
-            descriptionTextView.setText(""); // Clear description
+            upcomingEvents.setText(""); // Clear description
             return;
         }
 
@@ -182,8 +181,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
 
         if (jsonArray.length() == 0) {
             Log.d("response ng event", "No events found for student_id: " + userId);
-            upcomingEvents.setText("No upcoming events");
-            descriptionTextView.setText(""); // Clear description if no events
+            upcomingEvents.setText(""); // Clear description if no events
         } else {
             StringBuilder titlesText = new StringBuilder();
             StringBuilder descriptionsText = new StringBuilder();
