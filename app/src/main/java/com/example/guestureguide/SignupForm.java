@@ -130,7 +130,6 @@ public class SignupForm extends AppCompatActivity {
         selectProfilePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SignupForm.this, "Button clicked!", Toast.LENGTH_SHORT).show();
 
 
 
@@ -252,7 +251,7 @@ public class SignupForm extends AppCompatActivity {
             userData.put("guardian_lastname", guardianLastName.getText().toString().trim());
             userData.put("guardian_firstname", guardianFirstName.getText().toString().trim());
 
-            userData.put("guardian_middlename", guardianLastName.getText().toString().trim());
+            userData.put("guardian_middlename", guardianMiddleName.getText().toString().trim());
 
           userData.put("guardian_contact_number", guardianContactNumber.getText().toString().trim());  // Example static guardian contact
             userData.put("mother_occupation", motherOccupation.getText().toString().trim());
