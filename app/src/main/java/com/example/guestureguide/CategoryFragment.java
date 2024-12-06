@@ -25,6 +25,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -70,6 +71,7 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
         userId = sharedPreferences.getString("user_id", "").trim();
         userType = sharedPreferences.getString("user_type", "").trim();
         fetchCategories();
+        // Check if the user exists
 
 
         Log.d("HomeFragment", "Retrieved username: " + username);
@@ -95,8 +97,9 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
             addTeacherBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(),SignupForm.class);
-                    startActivity(intent);
+                    checkUserExists(userId);
+
+
                 }
             });
             recyclerView.setVisibility(View.GONE);
@@ -203,4 +206,68 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.OnCate
             handler.removeCallbacks(runnable);
         }
     }
+
+
+    // Check if the user exists (you can replace this with an actual network request if needed)
+    private void checkUserExists(final String userId) {
+        String url = "https://gestureguide.com/auth/mobile/checkUserId.php?user_id=" + userId;  // Replace with actual API endpoint
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        // Use JsonObjectRequest since the response is a JSONObject
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Log the entire response from the server
+                        Log.d("ServerResponse", "Response: " + response.toString());
+
+                        try {
+                            // Check if the response contains an "error" field
+                            if (response.has("status") && "error".equals(response.getString("status"))) {
+                                String errorMessage = response.getString("message");
+                                Log.d("Error", errorMessage);
+
+                                // Proceed to SignupForm activity if error is present
+                                Intent intent = new Intent(getActivity(), SignupForm.class);
+                                startActivity(intent);
+                            } else {
+                                // If no error, the user exists, so proceed to TeacherIDInputActivity
+                                Intent intent = new Intent(getActivity(), TeacherIDInputActivity.class);
+                                startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            // Handle error, proceed to signup if error occurs
+                            Intent intent = new Intent(getActivity(), SignupForm.class);
+                            startActivity(intent);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("UserExistsError", "Error: " + error.getMessage());
+                        error.printStackTrace();
+                        Toast.makeText(getActivity(), "Error checking user existence.", Toast.LENGTH_SHORT).show();
+
+                        // Proceed to SignupForm in case of request error
+                        Intent intent = new Intent(getActivity(), SignupForm.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        // Add the request to the queue
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
+
+
+
+
 }

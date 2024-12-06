@@ -1,5 +1,6 @@
 package com.example.guestureguide;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,9 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.core.view.GravityCompat;
 
 import com.example.guestureguide.databinding.ActivityNavigationBinding;
-import androidx.core.view.GravityCompat;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -38,6 +39,40 @@ public class NavigationActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        // Handle back press using OnBackPressedDispatcher
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+
+                // Handle drawer close if open
+                if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return;
+                }
+
+                int backStackEntryCount = fragmentManager.getBackStackEntryCount();
+
+                if (backStackEntryCount > 1) {
+                    // Pop the back stack
+                    fragmentManager.popBackStack();
+                    fragmentManager.executePendingTransactions();
+
+                    // Find the current fragment and update UI
+                    Fragment fragment = fragmentManager.findFragmentById(R.id.frame_layout);
+                    if (fragment != null) {
+                        updateBottomNavigationView(fragment);
+                        showOrHideBottomNav(fragment);
+                    }
+                } else {
+                    // Allow default back press behavior
+                    setEnabled(false); // Disable the callback to allow default behavior
+                    NavigationActivity.super.onBackPressed();
+                }
+            }
+        });
     }
 
     public void replaceFragment(Fragment fragment, String tag) {
@@ -47,61 +82,26 @@ public class NavigationActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();
 
-        // Check which fragment is being replaced and adjust the bottom navigation visibility
-
-        //  * add this to condtion
+        // Adjust bottom navigation visibility
         if (fragment instanceof HomeFragment || fragment instanceof StudyFragment || fragment instanceof ProfileFragment) {
             binding.bottomNavigationView.setVisibility(View.VISIBLE); // Show bottom navigation
-        } else if (fragment instanceof ActivityFirstScreenFragment) {
+        } else {
             binding.bottomNavigationView.setVisibility(View.GONE); // Hide bottom navigation
-        } else {
-            binding.bottomNavigationView.setVisibility(View.GONE); // Default behavior
-        }
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // Access the DrawerLayout directly
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-
-        // Check if the drawer is open and close it
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-            return; // Exit onBackPressed() so it doesn't process further
-        }
-
-        int backStackEntryCount = fragmentManager.getBackStackEntryCount();
-
-        if (backStackEntryCount > 1) {
-            // Pop the back stack
-            fragmentManager.popBackStack();
-            fragmentManager.executePendingTransactions(); // Ensure transaction is finished
-            Fragment fragment = fragmentManager.findFragmentById(R.id.frame_layout);
-            if (fragment != null) {
-                updateBottomNavigationView(fragment);
-                // Show or hide bottom navigation after back press
-                showOrHideBottomNav(fragment);
-            }
-        } else {
-            super.onBackPressed(); // Handle back press normally if back stack is empty
         }
     }
 
     private void updateBottomNavigationView(Fragment fragment) {
         if (fragment instanceof HomeFragment) {
             binding.bottomNavigationView.setSelectedItemId(R.id.home_nav);
+        } else if (fragment instanceof StudyFragment) {
+            binding.bottomNavigationView.setSelectedItemId(R.id.Activity_nav);
+        } else if (fragment instanceof ProfileFragment) {
+            binding.bottomNavigationView.setSelectedItemId(R.id.profile_nav);
         }
-//        else if (fragment instanceof ProfileFragment) {
-//            binding.bottomNavigationView.setSelectedItemId(R.id.profile_nav);
-//        }
     }
 
     private void showOrHideBottomNav(Fragment fragment) {
-        //|| fragment instanceof ProfileFragment
-        if (fragment instanceof HomeFragment || fragment instanceof StudyFragment) {
+        if (fragment instanceof HomeFragment || fragment instanceof StudyFragment || fragment instanceof ProfileFragment) {
             binding.bottomNavigationView.setVisibility(View.VISIBLE);  // Show bottom navigation
         } else {
             binding.bottomNavigationView.setVisibility(View.GONE);  // Hide bottom navigation
