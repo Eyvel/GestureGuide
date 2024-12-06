@@ -54,7 +54,8 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
     private TextView profileNameTextView, profileLRNTextView;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    LinearLayout profileLinearLayout;
+    LinearLayout profileLinearLayout,otherContent;
+
     Toolbar toolbar;
     SharedPreferences sharedPreferences;
     CircleImageView profileCircleImageView;
@@ -86,6 +87,7 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         addTeacherButton = view.findViewById(R.id.addTeacherButtonProfile);
 
         profileLinearLayout= view.findViewById(R.id.profileLinearLayout);
+        otherContent = view.findViewById(R.id.otherContent);
 
         profileCircleImageView = view.findViewById(R.id.profile_circle_image_view);
         // Initialize DrawerLayout and NavigationView
@@ -132,11 +134,33 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
         // Fetch student profile and save to SharedPreferences
         fetchStudentProfile();
-        String userType = sharedPreferences.getString("user_type","");
+        SharedPreferences sharedPreferencesUserType = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+
+        String userType = sharedPreferencesUserType.getString("user_type","");
 
 
         if ("user".equals(userType)) {
-            Log.d("usertype", userType);
+            Log.d("usertypeNgProfile", userType);
+            addTeacherText.setVisibility(View.VISIBLE);
+            addTeacherButton.setVisibility(View.VISIBLE);
+            addTeacherButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkUserExists(studentId); // Assuming you meant to use `studentId` here
+                }
+            });
+            profileCircleImageView.setVisibility(View.GONE);
+            otherContent.setVisibility(View.GONE);
+
+        } else {
+            profileCircleImageView.setVisibility(View.VISIBLE);
+
+            addTeacherText.setVisibility(View.GONE);
+            addTeacherButton.setVisibility(View.GONE);
+            otherContent.setVisibility(View.VISIBLE);
+
+
+
 
         }
 
@@ -243,6 +267,9 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
         // Retrieve student ID from SharedPreferences
         SharedPreferences preferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
          studentId = preferences.getString("user_id", "");
+
+
+
         Log.d("id ng user", studentId);
 
         if (file.exists()) {
@@ -542,5 +569,61 @@ public class ProfileFragment extends Fragment implements NavigationView.OnNaviga
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
+    }
+
+    private void checkUserExists(final String userId) {
+        String url = "https://gestureguide.com/auth/mobile/checkUserId.php?user_id=" + userId;  // Replace with actual API endpoint
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        // Use JsonObjectRequest since the response is a JSONObject
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Log the entire response from the server
+                        Log.d("ServerResponse", "Response: " + response.toString());
+
+                        try {
+                            // Check if the response contains an "error" field
+                            if (response.has("status") && "error".equals(response.getString("status"))) {
+                                String errorMessage = response.getString("message");
+                                Log.d("Error", errorMessage);
+
+                                // Proceed to SignupForm activity if error is present
+                                Intent intent = new Intent(getActivity(), SignupForm.class);
+                                startActivity(intent);
+                            } else {
+                                // If no error, the user exists, so proceed to TeacherIDInputActivity
+                                Intent intent = new Intent(getActivity(), TeacherIDInputActivity.class);
+                                startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            // Handle error, proceed to signup if error occurs
+                            Intent intent = new Intent(getActivity(), SignupForm.class);
+                            startActivity(intent);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("UserExistsError", "Error: " + error.getMessage());
+                        error.printStackTrace();
+                        Toast.makeText(getActivity(), "Error checking user existence.", Toast.LENGTH_SHORT).show();
+
+                        // Proceed to SignupForm in case of request error
+                        Intent intent = new Intent(getActivity(), SignupForm.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        // Add the request to the queue
+        requestQueue.add(jsonObjectRequest);
     }
 }

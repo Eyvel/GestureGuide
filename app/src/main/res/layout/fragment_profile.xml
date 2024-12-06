@@ -24,10 +24,13 @@
         android:id="@+id/profileLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+
+        >
 
         <!-- Toolbar Section -->
         <androidx.constraintlayout.widget.ConstraintLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -40,10 +43,52 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navigationIcon="@drawable/menu_menu" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <!-- Add Teacher Section -->
+    <TextView
+        android:id="@+id/addTeacherTextProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_view"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="30dp"
+        android:text="Content only for students, Add teacher to get access:"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
+
+    <Button
+        android:textColor="@color/white"
+        android:id="@+id/addTeacherButtonProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:layout_marginTop="10dp"
+        android:text="Add Teacher"
+        android:visibility="gone" />
+</LinearLayout>
+    <!-- Content below ConstraintLayout -->
+    <LinearLayout
+
+        android:id="@+id/otherContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <!-- Profile Section -->
         <LinearLayout
+
+
+            android:id="@+id/linearLayoutProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -57,23 +102,8 @@
                 android:layout_height="120dp"
                 android:layout_margin="10dp" />
 
-            <TextView
-                android:id="@+id/addTeacherTextProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:text="Content only for students, Add teacher to get access:"
-                android:textSize="24sp"
-                android:textColor="@android:color/black"
-                android:visibility="gone" />
 
-            <Button
-                android:id="@+id/addTeacherButtonProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Add Teacher"
-                android:visibility="gone" />
+
 
             <TextView
                 android:id="@+id/profile_name"
@@ -267,8 +297,11 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
+
         </LinearLayout>
+    </LinearLayout>
 
     </LinearLayout>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
