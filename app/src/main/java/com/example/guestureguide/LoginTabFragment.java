@@ -58,7 +58,7 @@ public class LoginTabFragment extends Fragment {
         // Set OnClickListener for the "Forgot Password?" TextView
         TextView tv_forgot_password = view.findViewById(R.id.tv_forgot_password);
         tv_forgot_password.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ForgotPassword.class);
+            Intent intent = new Intent(getActivity(), ForgotPasswordActivity.class);
             startActivity(intent);
         });
 

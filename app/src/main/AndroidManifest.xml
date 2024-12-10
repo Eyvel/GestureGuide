@@ -58,6 +58,18 @@ android:screenOrientation="portrait"
 android:screenOrientation="portrait"
             android:name=".FailedScreen"
             android:exported="false" />
+
+        <activity
+
+            android:screenOrientation="portrait"
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+
+        <activity
+
+            android:screenOrientation="portrait"
+            android:name=".VerifyCodeActivity"
+            android:exported="false" />
         <activity
 
 android:screenOrientation="portrait"

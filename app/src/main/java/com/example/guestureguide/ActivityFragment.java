@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -34,20 +37,27 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
 
     private RecyclerView recyclerView;
     private QuizAdapter quizAdapter;
+    private RecyclerView quizRecyclerView;
     private ArrayList<Quiz> quizzes;
     private Handler handler;
     private Runnable runnable;
     private final int UPDATE_INTERVAL = 5000; // 5 seconds
     private String userId;
     private String userType;
-
-    @Override
+    private TextView addTeacherText;
+    private Button addTeacherButton;    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
+
+        quizRecyclerView = view.findViewById(R.id.recyclerviewQuiz);
+
+        addTeacherText = view.findViewById(R.id.addTeacherTextQuiz);
+        addTeacherButton = view.findViewById(R.id.addTeacherButtonQuiz);
 
         // Retrieve userId and userType from SharedPreferences
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("user_id", "");
+
         userType = sharedPreferences.getString("user_type", "");
 
         // Initialize and set up views
@@ -61,6 +71,33 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
             startAutoUpdate();
         } else {
             Toast.makeText(getContext(), "User ID or Type is missing", Toast.LENGTH_SHORT).show();
+        }
+        SharedPreferences sharedPreferencesUserType = requireContext().getSharedPreferences("MyAppName", Context.MODE_PRIVATE);
+
+        String userType = sharedPreferencesUserType.getString("user_type","");
+
+
+        if ("user".equals(userType)) {
+            Log.d("usertypeNgProfile", userType);
+            addTeacherText.setVisibility(View.VISIBLE);
+            addTeacherButton.setVisibility(View.VISIBLE);
+            addTeacherButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkUserExists(userId); // Assuming you meant to use `studentId` here
+                }
+            });
+            quizRecyclerView.setVisibility(View.GONE);
+
+        } else {
+
+            addTeacherText.setVisibility(View.GONE);
+            addTeacherButton.setVisibility(View.GONE);
+            quizRecyclerView.setVisibility(View.VISIBLE);
+
+
+
+
         }
 
         return view;
@@ -202,5 +239,60 @@ public class ActivityFragment extends Fragment implements QuizAdapter.OnQuizClic
         if (handler != null) {
             handler.removeCallbacks(runnable);
         }
+    }
+    private void checkUserExists(final String userId) {
+        String url = "https://gestureguide.com/auth/mobile/checkUserId.php?user_id=" + userId;  // Replace with actual API endpoint
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        // Use JsonObjectRequest since the response is a JSONObject
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Log the entire response from the server
+                        Log.d("ServerResponse", "Response: " + response.toString());
+
+                        try {
+                            // Check if the response contains an "error" field
+                            if (response.has("status") && "error".equals(response.getString("status"))) {
+                                String errorMessage = response.getString("message");
+                                Log.d("Error", errorMessage);
+
+                                // Proceed to SignupForm activity if error is present
+                                Intent intent = new Intent(getActivity(), SignupForm.class);
+                                startActivity(intent);
+                            } else {
+                                // If no error, the user exists, so proceed to TeacherIDInputActivity
+                                Intent intent = new Intent(getActivity(), TeacherIDInputActivity.class);
+                                startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            // Handle error, proceed to signup if error occurs
+                            Intent intent = new Intent(getActivity(), SignupForm.class);
+                            startActivity(intent);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("UserExistsError", "Error: " + error.getMessage());
+                        error.printStackTrace();
+                        Toast.makeText(getActivity(), "Error checking user existence.", Toast.LENGTH_SHORT).show();
+
+                        // Proceed to SignupForm in case of request error
+                        Intent intent = new Intent(getActivity(), SignupForm.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        // Add the request to the queue
+        requestQueue.add(jsonObjectRequest);
     }
 }

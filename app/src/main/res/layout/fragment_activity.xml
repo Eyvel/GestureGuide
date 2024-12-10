@@ -45,6 +45,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/quiz_time" />
 
+
             <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerviewQuiz"
@@ -53,6 +54,40 @@
                 android:layout_below="@id/Quiz_pic"
                 android:layout_marginTop="16dp"
                 android:padding="8dp" />
+
+            <LinearLayout
+                android:layout_below="@id/Quiz_pic"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+            <!-- Add Teacher Section -->
+            <TextView
+                android:id="@+id/addTeacherTextQuiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="30dp"
+                android:text="Content only for students, Add teacher to get access:"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
+
+            <Button
+                android:textColor="@color/white"
+                android:id="@+id/addTeacherButtonQuiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@id/addTeacherTextQuiz"
+                android:layout_marginTop="10dp"
+                android:text="Add Teacher"
+                android:visibility="gone" />
+            </LinearLayout>
+
+
+
         </RelativeLayout>
     </ScrollView>
     <LinearLayout
