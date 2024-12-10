@@ -2,8 +2,10 @@ package com.example.guestureguide;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import java.util.Map;
 public class ForgotPasswordActivity extends AppCompatActivity {
     private EditText emailField;
     private Button sendCodeButton;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         emailField = findViewById(R.id.emailField);
         sendCodeButton = findViewById(R.id.sendVerificationCodeButton);
+
+        backButton = findViewById(R.id.back_to_login_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         sendCodeButton.setOnClickListener(v -> {
             String email = emailField.getText().toString().trim();
