@@ -166,7 +166,11 @@
             android:textColor="@color/black"
             android:textSize="15sp"
             android:scrollHorizontally="false"
-            android:singleLine="false" />
+            android:singleLine="false"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="8sp"
+                android:autoSizeMaxTextSize="15sp"
+                android:autoSizeStepGranularity="2sp"/>
 
         </LinearLayout>
 

@@ -48,6 +48,6 @@
         android:textSize="16sp"
         android:autoSizeTextType="uniform"
         android:autoSizeMinTextSize="2sp"
-        android:autoSizeMaxTextSize="16sp"
+        android:autoSizeMaxTextSize="10sp"
         android:autoSizeStepGranularity="2sp"/>
 </LinearLayout>

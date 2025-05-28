@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment implements HomeCategoryAdapter.OnCate
         fetchCategories();
 
         // Handle "See All" button click
-        TextView seeAll = view.findViewById(R.id.seeAll);
+        LinearLayout seeAll = view.findViewById(R.id.seeAll);
         seeAll.setOnClickListener(v -> navigateToCategoryFragment());
 
         // Handle "Learn More" button click
